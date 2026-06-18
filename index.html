@@ -4,211 +4,1382 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CAMPUS PORTAL</title>
+  <title>Campus Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+    rel="stylesheet">
   <style>
-    /* デザイン */
+    /* ベース設定 */
+    :root {
+      /* Material Design 3 Cyan/Light Blue themed Color Scheme */
+      --md-sys-color-primary: #006685;
+      --md-sys-color-on-primary: #FFFFFF;
+      --md-sys-color-primary-container: #BFE9FF;
+      --md-sys-color-on-primary-container: #001F2C;
+      --md-sys-color-secondary: #4D616C;
+      --md-sys-color-on-secondary: #FFFFFF;
+      --md-sys-color-secondary-container: #D0E6F2;
+      --md-sys-color-on-secondary-container: #081E27;
+      --md-sys-color-tertiary: #5D5B7D;
+      --md-sys-color-on-tertiary: #FFFFFF;
+      --md-sys-color-tertiary-container: #E3DFFF;
+      --md-sys-color-on-tertiary-container: #191836;
+      --md-sys-color-error: #BA1A1A;
+      --md-sys-color-on-error: #FFFFFF;
+      --md-sys-color-background: #F5FAFD;
+      --md-sys-color-on-background: #171C1F;
+      --md-sys-color-surface: #F5FAFD;
+      --md-sys-color-on-surface: #171C1F;
+      --md-sys-color-surface-variant: #DCE3E8;
+      --md-sys-color-on-surface-variant: #41484D;
+      --md-sys-color-outline: #71787D;
+      --md-sys-color-outline-variant: #C0C7CD;
+      --md-sys-color-surface-container-low: #EFF5F8;
+      --md-sys-color-surface-container: #E9EFF2;
+      --md-sys-color-surface-container-high: #E3E9EC;
+      --md-sys-color-surface-container-highest: #DDE3E6;
+
+      --md-transition-duration: 0.25s;
+      --md-transition-easing: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+      /* リサイズ可能なサイドバーの幅 (初期値) */
+      --sidebar-width: 320px;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: 'Outfit', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       margin: 0;
-      padding: 40px 20px;
-      background-color: #f8f9fa;
-      color: #212529;
+      background-color: var(--md-sys-color-background);
+      color: var(--md-sys-color-on-background);
+      overflow-x: hidden;
+      line-height: 1.5;
+      transition: background-color var(--md-transition-duration) var(--md-transition-easing);
     }
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
+    /* === 上部ヘッダー (画面最上部・全幅固定) === */
+    .app-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background-color: var(--md-sys-color-surface-container);
+      border-bottom: 1px solid var(--md-sys-color-surface-variant);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      z-index: 300;
+      /* 最前面 */
+      box-sizing: border-box;
     }
 
-    h1 {
-      font-size: 24px;
+    .icon-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--md-sys-color-on-surface-variant);
+      width: 48px;
+      height: 48px;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color var(--md-transition-duration) var(--md-transition-easing);
+    }
+
+    .icon-button:hover {
+      background-color: var(--md-sys-color-surface-container-highest);
+    }
+
+    .icon-button:active {
+      background-color: var(--md-sys-color-surface-variant);
+    }
+
+    .app-title {
+      font-size: 20px;
       font-weight: 600;
-      margin-bottom: 24px;
-      letter-spacing: 0.05em;
+      margin-left: 8px;
+      color: var(--md-sys-color-on-surface);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    /* フィルターバー（トグル部分） */
+    /* === サイドバー (ヘッダーの下に配置) === */
+    .sidebar {
+      position: fixed;
+      top: 64px;
+      /* ヘッダーの高さ分下げる */
+      left: calc(-1 * var(--sidebar-width));
+      width: var(--sidebar-width);
+      height: calc(100% - 64px);
+      /* ヘッダーを除いた残りの高さ */
+      background-color: var(--md-sys-color-surface-container-low);
+      border-radius: 0 0 28px 0;
+      /* 右下のみ丸める */
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      z-index: 200;
+      transition: left var(--md-transition-duration) var(--md-transition-easing), width 0.05s ease-out;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      padding: 12px;
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar-header {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px 0 24px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--md-sys-color-on-surface-variant);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .close-sidebar-btn {
+      margin-left: auto;
+    }
+
+    .nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      overflow: hidden;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      height: 56px;
+      padding: 0 24px;
+      cursor: pointer;
+      color: var(--md-sys-color-on-surface-variant);
+      font-weight: 500;
+      border-radius: 100px;
+      transition: background-color var(--md-transition-duration) var(--md-transition-easing),
+        color var(--md-transition-duration) var(--md-transition-easing);
+      box-sizing: border-box;
+      white-space: nowrap;
+    }
+
+    .nav-item:hover {
+      background-color: var(--md-sys-color-surface-container-highest);
+      color: var(--md-sys-color-on-surface);
+    }
+
+    .nav-item.active {
+      background-color: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-on-primary-container);
+      font-weight: 700;
+    }
+
+    .nav-item .material-symbols-outlined {
+      margin-right: 12px;
+      font-size: 24px;
+      color: inherit;
+    }
+
+    /* リサイズハンドル */
+    .resize-handle {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 8px;
+      height: 100%;
+      cursor: col-resize;
+      background-color: transparent;
+      transition: background-color 0.2s;
+      z-index: 210;
+    }
+
+    .resize-handle:hover,
+    .resize-handle.active {
+      background-color: var(--md-sys-color-primary-container);
+    }
+
+    /* サイドバーを開いた時の背景を暗くする幕 */
+    .overlay {
+      position: fixed;
+      top: 64px;
+      /* ヘッダーの下から */
+      left: 0;
+      width: 100%;
+      height: calc(100% - 64px);
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 150;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--md-transition-duration) var(--md-transition-easing);
+    }
+
+    .overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* === メインコンテンツ領域 === */
+    .main-content {
+      margin-top: 88px;
+      padding: 0 24px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 40px;
+      transition: margin-left var(--md-transition-duration) var(--md-transition-easing);
+    }
+
+    /* 各画面の切り替え */
+    .view-section {
+      display: none;
+      animation: fadeIn var(--md-transition-duration) var(--md-transition-easing);
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* === カードとテーブル === */
+    .material-card {
+      background: var(--md-sys-color-surface-container);
+      border-radius: 24px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    }
+
     .filter-bar {
       display: flex;
-      gap: 16px;
-      margin-bottom: 20px;
-      background: #fff;
-      padding: 16px;
-      border-radius: 8px;
-      border: 1px solid #dee2e6;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     select {
-      padding: 8px 12px;
-      border: 1px solid #ced4da;
-      border-radius: 4px;
+      padding: 10px 40px 10px 16px;
+      border: 1px solid var(--md-sys-color-outline);
+      border-radius: 100px;
       font-size: 14px;
-      outline: none;
+      font-weight: 500;
+      font-family: inherit;
+      color: var(--md-sys-color-on-surface);
+      background-color: var(--md-sys-color-surface);
       cursor: pointer;
-      background: #fff;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%2341484D'><path d='M7 10l5 5 5-5z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 20px;
+      transition: border var(--md-transition-duration), box-shadow var(--md-transition-duration);
     }
 
     select:focus {
-      border-color: #4CAF50;
+      outline: none;
+      border: 2px solid var(--md-sys-color-primary);
+      box-shadow: 0 0 0 4px rgba(0, 102, 133, 0.1);
+      padding: 9px 39px 9px 15px;
     }
 
-    /* テーブルデザイン */
-    .table-wrapper {
-      background: #fff;
-      border-radius: 8px;
-      border: 1px solid #dee2e6;
-      overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    /* 価格フィルター用グループ */
+    .price-filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #priceInput {
+      width: 90px;
+      padding: 10px 16px;
+      border: 1px solid var(--md-sys-color-outline);
+      border-radius: 100px;
+      font-family: inherit;
+      font-size: 14px;
+      background-color: var(--md-sys-color-surface);
+      color: var(--md-sys-color-on-surface);
+      outline: none;
+      box-sizing: border-box;
+      transition: border var(--md-transition-duration), box-shadow var(--md-transition-duration);
+    }
+
+    #priceInput:focus {
+      border: 2px solid var(--md-sys-color-primary);
+      box-shadow: 0 0 0 4px rgba(0, 102, 133, 0.1);
+      padding: 9px 15px;
+    }
+
+    #priceInput::-webkit-outer-spin-button,
+    #priceInput::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    #priceInput[type=number] {
+      -moz-appearance: textfield;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 16px;
     }
 
     th,
     td {
-      padding: 16px;
+      padding: 18px 16px;
       text-align: left;
-      font-size: 14px;
-      border-bottom: 1px solid #dee2e6;
+      border-bottom: 1px solid var(--md-sys-color-surface-variant);
+      font-size: 15px;
     }
 
     th {
+      color: var(--md-sys-color-on-surface-variant);
       font-weight: 600;
-      background-color: #f1f3f5;
-      color: #495057;
+      font-size: 14px;
+      letter-spacing: 0.05em;
     }
 
     tr:last-child td {
       border-bottom: none;
     }
 
+    tr {
+      transition: background-color var(--md-transition-duration);
+    }
+
     tr:hover {
-      background-color: #f8f9fa;
+      background-color: var(--md-sys-color-surface-container-high);
     }
 
-    td:last-child,
-    th:last-child {
-      text-align: right;
-      font-weight: bold;
+    .text-right {
+      text-align: right !important;
     }
 
-    /* ローディング表示 */
+    /* バッジ基本設定 */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    /* 曜日ごとのカスタム配色（M3のパステルカラートーンと調和する配色） */
+    .badge-day-mon,
+    .badge-day-tue,
+    .badge-day-thu,
+    .badge-day-fri {
+      background-color: #FEF3C7;
+      /* パステルイエロー */
+      color: #92400E;
+      /* ダークアンバー */
+    }
+
+    .badge-day-wed {
+      background-color: #FFEDD5;
+      /* パステルオレンジ */
+      color: #9A3412;
+      /* ダークオレンジ */
+    }
+
+    .badge-day-sat {
+      background-color: #E0F2FE;
+      /* パステルブルー */
+      color: #0369A1;
+    }
+
+    .badge-day-sun {
+      background-color: #FEE2E2;
+      /* パステルレッド */
+      color: #B91C1C;
+    }
+
+    .badge-shop {
+      background-color: var(--md-sys-color-secondary-container);
+      color: var(--md-sys-color-on-secondary-container);
+    }
+
+    .price-text {
+      color: var(--md-sys-color-primary);
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    /* 営業時間ステータスカード */
+    .status-card {
+      background-color: var(--md-sys-color-surface-container-low);
+      border-radius: 20px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--md-sys-color-outline);
+      display: inline-block;
+    }
+
+    .status-card.open .status-dot {
+      background-color: #34A853;
+      /* Google Green */
+      box-shadow: 0 0 8px rgba(52, 168, 83, 0.4);
+    }
+
+    .status-card.closed .status-dot {
+      background-color: #EA4335;
+      /* Google Red */
+      box-shadow: 0 0 8px rgba(234, 67, 53, 0.4);
+    }
+
+    .status-label {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--md-sys-color-on-surface);
+    }
+
+    .status-details {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .time-slot {
+      font-size: 13px;
+      color: var(--md-sys-color-on-surface-variant);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .time-slot .slot-name {
+      font-weight: 600;
+      color: var(--md-sys-color-on-surface);
+    }
+
+    .time-slot.active-slot {
+      background-color: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-on-primary-container);
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--md-sys-color-primary);
+    }
+
+    .time-slot.active-slot .slot-name {
+      color: var(--md-sys-color-on-primary-container);
+    }
+
+    /* グレーアウト・無効化のスタイル */
+    tr.unavailable,
+    tr.unavailable:hover {
+      opacity: 0.5;
+      filter: grayscale(100%);
+      background-color: var(--md-sys-color-surface-container-low) !important;
+      pointer-events: none;
+    }
+
+    .unavailable-reason {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--md-sys-color-error);
+      background-color: var(--md-sys-color-tertiary-container);
+      color: var(--md-sys-color-on-tertiary-container);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    /* Googleスタイル・ローディング */
     #loading {
       text-align: center;
-      padding: 40px;
-      color: #868e96;
+      padding: 60px 40px;
+      color: var(--md-sys-color-on-surface-variant);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      font-weight: 500;
+    }
+
+    .google-spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid transparent;
+      border-radius: 50%;
+      border-top-color: #4285F4;
+      animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+        border-top-color: #4285F4;
+      }
+
+      25% {
+        border-top-color: #EA4335;
+      }
+
+      50% {
+        border-top-color: #FBBC05;
+      }
+
+      75% {
+        border-top-color: #34A853;
+      }
+
+      100% {
+        transform: rotate(360deg);
+        border-top-color: #4285F4;
+      }
+    }
+
+    /* === シャトルバス画面 (プロ風UI) === */
+    .bus-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .bus-hero-card {
+      background: linear-gradient(135deg, var(--md-sys-color-primary-container), #E0F2FE);
+      border-radius: 28px;
+      padding: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      box-shadow: 0 4px 12px rgba(0, 102, 133, 0.05);
+    }
+
+    .bus-hero-info h3 {
+      margin: 8px 0;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--md-sys-color-on-primary-container);
+    }
+
+    .badge-bus-active {
+      background-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+    }
+
+    .bus-countdown {
+      margin: 16px 0;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .time-num {
+      font-size: 48px;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      color: var(--md-sys-color-on-primary-container);
+      line-height: 1;
+    }
+
+    .time-unit {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--md-sys-color-on-primary-container);
+      margin-right: 12px;
+    }
+
+    .bus-route {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--md-sys-color-on-primary-container);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bus-route .station {
+      background: rgba(255, 255, 255, 0.6);
+      padding: 4px 12px;
+      border-radius: 100px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .bus-hero-icon {
+      padding: 16px;
+      background: white;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .bus-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .bus-card {
+      margin-bottom: 0;
+    }
+
+    .bus-card h4 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--md-sys-color-on-surface);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bus-card h4 .material-symbols-outlined {
+      color: var(--md-sys-color-primary);
+      font-size: 20px;
+    }
+
+    .bus-schedule-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bus-schedule-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background-color: var(--md-sys-color-surface);
+      border: 1px solid var(--md-sys-color-outline-variant);
       font-size: 14px;
+    }
+
+    .bus-schedule-item.active-bus {
+      background-color: var(--md-sys-color-secondary-container);
+      border-color: var(--md-sys-color-secondary-container);
+      font-weight: 700;
+      color: var(--md-sys-color-on-secondary-container);
+    }
+
+    .bus-time {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+    }
+
+    /* === レスポンシブ対応 === */
+    @media (min-width: 1024px) {
+
+      /* デフォルトでサイドバーを固定 */
+      .sidebar {
+        left: 0 !important;
+        border-radius: 0;
+        box-shadow: none;
+        border-right: 1px solid var(--md-sys-color-outline-variant);
+      }
+
+      .main-content {
+        margin-left: calc(var(--sidebar-width) + 24px);
+      }
+
+      /* サイドバーが折りたたまれた状態 */
+      body.sidebar-collapsed .sidebar {
+        left: calc(-1 * var(--sidebar-width)) !important;
+      }
+
+      body.sidebar-collapsed .main-content {
+        margin-left: auto;
+      }
+
+      .overlay {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 1023px) {
+      .close-sidebar-btn {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .bus-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bus-hero-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+      }
+
+      .bus-hero-icon {
+        align-self: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .main-content {
+        padding: 0 16px;
+        margin-top: 80px;
+      }
+
+      .material-card {
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      .status-card {
+        padding: 16px;
+      }
+
+      /* テーブルをカード風に変更 */
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+      }
+
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+
+      tr {
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: 16px;
+        margin-bottom: 16px;
+        padding: 16px;
+        background-color: var(--md-sys-color-surface);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      }
+
+      td {
+        border: none;
+        border-bottom: 1px solid var(--md-sys-color-surface-variant);
+        position: relative;
+        padding: 12px 16px 12px 40%;
+        text-align: right !important;
+        font-size: 14px;
+      }
+
+      td:last-child {
+        border-bottom: none;
+      }
+
+      td::before {
+        position: absolute;
+        left: 16px;
+        width: 35%;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: 600;
+        color: var(--md-sys-color-on-surface-variant);
+        content: attr(data-label);
+      }
+
+      .price-text {
+        font-size: 15px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
-    <h1>CAMPUS PORTAL</h1>
-
-    <div class="filter-bar">
-      <select id="dayFilter" onchange="filterTable()">
-        <option value="ALL">すべての曜日</option>
-      </select>
-      <select id="shopFilter" onchange="filterTable()">
-        <option value="ALL">すべての店舗</option>
-      </select>
+  <header class="app-bar">
+    <button class="icon-button" onclick="toggleSidebar()">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+    <div class="app-title">
+      <span class="material-symbols-outlined" style="font-size: 28px; color: var(--md-sys-color-primary);">school</span>
+      Campus Portal
     </div>
+  </header>
 
-    <div class="table-wrapper">
-      <div id="loading">学食データを読み込み中...</div>
-      <table id="menuTable" style="display: none;">
-        <thead>
-          <tr>
-            <th>曜日</th>
-            <th>飲食店</th>
-            <th>カウンター</th>
-            <th>メニュー</th>
-            <th>価格</th>
-          </tr>
-        </thead>
-        <tbody id="menuBody">
-        </tbody>
-      </table>
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span>MENU</span>
+      <button class="icon-button close-sidebar-btn" onclick="toggleSidebar()">
+        <span class="material-symbols-outlined">menu_open</span>
+      </button>
     </div>
-  </div>
+    <ul class="nav-list">
+      <li class="nav-item active" onclick="switchView('cafeteria', this)">
+        <span class="material-symbols-outlined">restaurant</span>学食メニュー
+      </li>
+      <li class="nav-item" onclick="switchView('bus', this)">
+        <span class="material-symbols-outlined">directions_bus</span>シャトルバス案内
+      </li>
+    </ul>
+
+    <!-- ドラッグハンドル -->
+    <div class="resize-handle" id="resizeHandle"></div>
+  </nav>
+
+  <main class="main-content">
+
+    <section id="view-cafeteria" class="view-section active">
+      <h2
+        style="margin-top:0; font-weight:600; font-size:20px; color: var(--md-sys-color-on-background); display: flex; align-items: center; gap: 8px;">
+        <span class="material-symbols-outlined" style="font-size: 24px;">restaurant</span>学食メニュー
+      </h2>
+
+      <!-- 営業時間 & ステータス表示 -->
+      <div id="cafeteriaStatusCard" class="status-card">
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          <span id="statusText" class="status-label">判定中...</span>
+        </div>
+        <div class="status-details">
+          <div id="slot-breakfast" class="time-slot">
+            <span class="slot-name">朝食 (月-金)</span>
+            <span>08:30 - 10:00</span>
+          </div>
+          <div id="slot-lunch" class="time-slot">
+            <span class="slot-name">昼食 (月-土)</span>
+            <span>11:00 - 14:00 <small style="opacity: 0.8;">(※コスパ丼は13:30〜)</small></span>
+          </div>
+          <div id="slot-dinner" class="time-slot">
+            <span class="slot-name">夕食 (月-金)</span>
+            <span>17:00 - 19:20</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="filter-bar">
+          <select id="dayFilter" onchange="filterTable()">
+            <option value="ALL">すべての曜日</option>
+          </select>
+          <select id="shopFilter" onchange="filterTable()">
+            <option value="ALL">すべての店舗</option>
+          </select>
+
+          <!-- 価格フィルター (数値入力 + 以上以下条件) -->
+          <div class="price-filter-group">
+            <input type="number" id="priceInput" placeholder="価格" oninput="filterTable()" />
+            <span style="font-size: 14px; font-weight: 500; color: var(--md-sys-color-on-background);">円</span>
+            <select id="priceCondition" onchange="filterTable()" style="padding: 10px 32px 10px 16px; min-width: 90px;">
+              <option value="ALL">指定なし</option>
+              <option value="LE">以下</option>
+              <option value="GE">以上</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="loading">
+          <div class="google-spinner"></div>
+          <div>データを読み込み中...</div>
+        </div>
+
+        <!-- 土曜日専用案内メッセージカード -->
+        <div id="satMessageCard"
+          style="display: none; text-align: center; padding: 48px 32px; border: 1px solid var(--md-sys-color-outline-variant); background-color: var(--md-sys-color-surface-container-low); border-radius: 24px; margin: 16px 0;">
+          <span class="material-symbols-outlined"
+            style="font-size: 56px; color: var(--md-sys-color-primary); margin-bottom: 16px;">storefront</span>
+          <h3 style="font-size: 18px; font-weight: 600; color: var(--md-sys-color-on-surface); margin: 0 0 12px 0;">
+            土曜日のメニューについて</h3>
+          <p
+            style="font-size: 14px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant); margin: 0; max-width: 500px; margin-left: auto; margin-right: auto;">
+            土曜日のメニューの情報は、食堂運営からは提供されておりません。<br>
+            ショーケースでご確認ください。(丼とカレーで選択、550円？)
+          </p>
+        </div>
+
+        <table id="menuTable" style="display: none;">
+          <thead>
+            <tr>
+              <th>曜日</th>
+              <th>飲食店</th>
+              <th>カウンター</th>
+              <th>メニュー</th>
+              <th class="text-right">価格</th>
+              <th class="text-right">カロリー</th>
+            </tr>
+          </thead>
+          <tbody id="menuBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="view-bus" class="view-section">
+      <div class="bus-container">
+        <h2
+          style="margin-top:0; font-weight:600; font-size:20px; color: var(--md-sys-color-on-background); display: flex; align-items: center; gap: 8px;">
+          <span class="material-symbols-outlined" style="font-size: 24px;">directions_bus</span>シャトルバス案内
+        </h2>
+
+        <div class="bus-hero-card">
+          <div class="bus-hero-info">
+            <span class="badge badge-bus-active">運行中</span>
+            <h3>次のシャトルバス発車まで</h3>
+            <div class="bus-countdown">
+              <span class="time-num">12</span><span class="time-unit">分</span>
+              <span class="time-num">45</span><span class="time-unit">秒</span>
+            </div>
+            <p class="bus-route">
+              <span class="station">学内中央</span>
+              <span style="color: var(--md-sys-color-primary); font-weight: bold;">&rarr;</span>
+              <span class="station">大学前駅</span>
+            </p>
+          </div>
+          <div class="bus-hero-icon">
+            <span class="material-symbols-outlined"
+              style="font-size: 64px; color: var(--md-sys-color-primary);">departure_board</span>
+          </div>
+        </div>
+
+        <div class="bus-grid">
+          <div class="material-card bus-card">
+            <h4><span class="material-symbols-outlined">schedule</span>本日の運行スケジュール</h4>
+            <div class="bus-schedule-list">
+              <div class="bus-schedule-item active-bus">
+                <span class="bus-time">15:15</span>
+                <span class="bus-desc">直行便 (乗車中...)</span>
+              </div>
+              <div class="bus-schedule-item">
+                <span class="bus-time">15:30</span>
+                <span class="bus-desc">各停便</span>
+              </div>
+              <div class="bus-schedule-item">
+                <span class="bus-time">15:45</span>
+                <span class="bus-desc">直行便</span>
+              </div>
+              <div class="bus-schedule-item">
+                <span class="bus-time">16:00</span>
+                <span class="bus-desc">各停便</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="material-card bus-card">
+            <h4><span class="material-symbols-outlined">info</span>運行情報・お知らせ</h4>
+            <p style="font-size: 14px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant); margin: 0;">
+              現在、道路混雑等による遅延情報はありません。ほぼ定刻通り運行しています。<br>
+              雨天時は乗降口が混雑する場合がありますので余裕を持ってお越しください。
+              <span style="font-size:12px; color: var(--md-sys-color-outline); display:block; margin-top:12px;">最終更新:
+                15:10</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <script>
-    // 先ほど取得した「オリジナルAPIのURL」をここに貼り付けます
-    const API_URL = "https://script.google.com/macros/s/AKfycbzBz_zXkjkq9AwmJFlQzbTSiUsFpVzb8fJ8RBuqz8Q0R7hx2hxECbCBxaJtbsVxeo8Wdg/exec";
-    let allData = []; // 取得した全データを保持する変数
+    // ==========================================
+    // 曜日の表示バグ修正用パーサー (ISO日付を曜日文字へ変換)
+    // ==========================================
+    function formatDayCell(dayStr) {
+      if (!dayStr) return "";
 
-    // 画面が開かれたときに実行される処理
+      const trimmed = dayStr.toString().trim();
+
+      // すでに「月」「火」「水」「木」「金」「土」「日」等の曜日である場合はそのまま返す
+      if (/^[月火水木金土日]$/.test(trimmed)) {
+        return trimmed;
+      }
+
+      // ISO 8601形式 (2026-06-14T15:00:00.000Z等) か確認してDateオブジェクトにパース
+      const parsedDate = new Date(trimmed);
+      if (!isNaN(parsedDate.getTime())) {
+        // スプレッドシート側のUTC日付(JST+9h)を考慮してブラウザ実行環境(JST)で曜日を取得
+        const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
+        return dayNames[parsedDate.getDay()];
+      }
+
+      // それ以外の場合、部分一致で曜日を探す
+      const match = trimmed.match(/[月火水木金土日]/);
+      if (match) {
+        return match[0];
+      }
+
+      return trimmed;
+    }
+
+    // ==========================================
+    // UI制御（サイドバーとビュー切り替え）
+    // ==========================================
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    function toggleSidebar() {
+      if (window.innerWidth >= 1024) {
+        document.body.classList.toggle('sidebar-collapsed');
+      } else {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('show');
+      }
+    }
+
+    function switchView(viewId, element) {
+      document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+      document.getElementById('view-' + viewId).classList.add('active');
+
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+
+      if (window.innerWidth < 1024) {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+      }
+    }
+
+    // ==========================================
+    // サイドバーのドラッグによるリサイズ機能
+    // ==========================================
+    const resizeHandle = document.getElementById('resizeHandle');
+    let isResizing = false;
+
+    resizeHandle.addEventListener('mousedown', (e) => {
+      isResizing = true;
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none'; // ドラッグ中の文字選択を防ぐ
+      resizeHandle.classList.add('active');
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+
+      let newWidth = e.clientX;
+
+      // 最小幅と最大幅の制限
+      if (newWidth < 240) newWidth = 240;
+      if (newWidth > 600) newWidth = 600;
+
+      document.documentElement.style.setProperty('--sidebar-width', `${newWidth}px`);
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isResizing) {
+        isResizing = false;
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+        resizeHandle.classList.remove('active');
+      }
+    });
+
+    // ==========================================
+    // 営業時間・ステータス制御
+    // ==========================================
+    function getCafeteriaStatus() {
+      const now = new Date();
+      const day = now.getDay(); // 0:日, 1:月, ... 6:土
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const timeInMinutes = hours * 60 + minutes;
+
+      // 営業枠の定義 (分換算)
+      const slots = {
+        breakfast: { start: 8 * 60 + 30, end: 10 * 60, days: [1, 2, 3, 4, 5] }, // 月-金
+        lunch: { start: 11 * 60, end: 14 * 60, days: [1, 2, 3, 4, 5, 6] },     // 月-土
+        dinner: { start: 17 * 60, end: 19 * 60 + 20, days: [1, 2, 3, 4, 5] }    // 月-金
+      };
+
+      // 曜日チェック
+      if (day === 0) {
+        return { open: false, mealType: null, message: "本日は営業しておりません (日曜日)" };
+      }
+
+      // 朝食
+      if (slots.breakfast.days.includes(day) && timeInMinutes >= slots.breakfast.start && timeInMinutes < slots.breakfast.end) {
+        return { open: true, mealType: 'breakfast', message: "朝食(100円) 営業中" };
+      }
+      // 昼食
+      if (slots.lunch.days.includes(day) && timeInMinutes >= slots.lunch.start && timeInMinutes < slots.lunch.end) {
+        return { open: true, mealType: 'lunch', message: "昼食 営業中" };
+      }
+      // 夕食
+      if (slots.dinner.days.includes(day) && timeInMinutes >= slots.dinner.start && timeInMinutes < slots.dinner.end) {
+        return { open: true, mealType: 'dinner', message: "夕食 営業中" };
+      }
+
+      return { open: false, mealType: null, message: "ただいま 営業時間外です" };
+    }
+
+    function updateCafeteriaStatusUI() {
+      const status = getCafeteriaStatus();
+      const card = document.getElementById('cafeteriaStatusCard');
+      const label = document.getElementById('statusText');
+
+      card.classList.remove('open', 'closed');
+
+      if (status.open) {
+        card.classList.add('open');
+        label.textContent = status.message;
+      } else {
+        card.classList.add('closed');
+        label.textContent = status.message;
+      }
+
+      document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('active-slot'));
+      if (status.mealType) {
+        const activeEl = document.getElementById('slot-' + status.mealType);
+        if (activeEl) activeEl.classList.add('active-slot');
+      }
+    }
+
+    // ==========================================
+    // 学食メニューのデータ取得と表示
+    // ==========================================
+    const API_URL = "https://script.google.com/macros/s/AKfycbzBz_zXkjkq9AwmJFlQzbTSiUsFpVzb8fJ8RBuqz8Q0R7hx2hxECbCBxaJtbsVxeo8Wdg/exec";
+    let allData = [];
+
     window.onload = async function () {
+      updateCafeteriaStatusUI();
+      setInterval(updateCafeteriaStatusUI, 60000);
+
       try {
         const response = await fetch(API_URL);
         const data = await response.json();
+        allData = data.slice(1); // ヘッダーをスキップ
 
-        // 1行目はヘッダーなので、2行目以降をデータとして保持
-        allData = data.slice(1);
-
-        // プルダウンの選択肢を自動生成
         populateFilters();
-        // 表を描画
-        renderTable(allData);
+        filterTable();
 
-        // ローディングを消して表を表示
         document.getElementById('loading').style.display = 'none';
-        document.getElementById('menuTable').style.display = 'table';
+
+        // onloadの表示制御は、現在の曜日が土曜の場合を考慮してfilterTable()内の表示に合わせる
+        const selectedDay = document.getElementById('dayFilter').value;
+        if (selectedDay !== "土") {
+          document.getElementById('menuTable').style.display = 'table';
+        }
       } catch (error) {
         document.getElementById('loading').innerText = "データの読み込みに失敗しました。";
         console.error(error);
       }
     };
 
-    // プルダウンに曜日と店舗をセットする関数
     function populateFilters() {
       const days = new Set();
       const shops = new Set();
 
       allData.forEach(row => {
-        if (row[0]) days.add(row[0]);
+        if (row[0]) {
+          const formattedDay = formatDayCell(row[0]);
+          days.add(formattedDay);
+        }
         if (row[1]) shops.add(row[1]);
       });
 
+      // 土曜日を強制追加
+      days.add("土");
+
+      // 曜日をソート（月〜日の順）
+      const dayOrder = ["月", "火", "水", "木", "金", "土", "日"];
+      const sortedDays = Array.from(days).sort((a, b) => {
+        return dayOrder.indexOf(a) - dayOrder.indexOf(b);
+      });
+
       const dayFilter = document.getElementById('dayFilter');
-      days.forEach(day => dayFilter.innerHTML += `<option value="${day}">${day}</option>`);
+      sortedDays.forEach(day => dayFilter.innerHTML += `<option value="${day}">${day}</option>`);
 
       const shopFilter = document.getElementById('shopFilter');
       shops.forEach(shop => shopFilter.innerHTML += `<option value="${shop}">${shop}</option>`);
+
+      const currentDay = ["日", "月", "火", "水", "木", "金", "土"][new Date().getDay()];
+      if (days.has(currentDay)) {
+        dayFilter.value = currentDay;
+      } else {
+        dayFilter.value = "ALL";
+      }
     }
 
-    // 選択された条件で表を絞り込む関数
+    function parsePrice(priceStr) {
+      if (!priceStr) return 0;
+      const num = parseInt(priceStr.toString().replace(/[^0-9]/g, ''), 10);
+      return isNaN(num) ? 0 : num;
+    }
+
     function filterTable() {
       const selectedDay = document.getElementById('dayFilter').value;
       const selectedShop = document.getElementById('shopFilter').value;
 
+      const priceLimit = parseInt(document.getElementById('priceInput').value, 10);
+      const priceCondition = document.getElementById('priceCondition').value;
+
+      const satCard = document.getElementById('satMessageCard');
+      const menuTable = document.getElementById('menuTable');
+      const loadingDiv = document.getElementById('loading');
+
+      // 土曜日の特別表示処理
+      if (selectedDay === "土") {
+        if (loadingDiv) loadingDiv.style.display = 'none';
+        if (menuTable) menuTable.style.display = 'none';
+        if (satCard) satCard.style.display = 'block';
+        return;
+      } else {
+        if (satCard) satCard.style.display = 'none';
+        if (loadingDiv && loadingDiv.style.display === 'none') {
+          if (menuTable) menuTable.style.display = 'table';
+        }
+      }
+
       const filteredData = allData.filter(row => {
-        const matchDay = (selectedDay === "ALL" || row[0] === selectedDay);
+        const rowDayFormatted = formatDayCell(row[0]);
+        const matchDay = (selectedDay === "ALL" || rowDayFormatted === selectedDay);
         const matchShop = (selectedShop === "ALL" || row[1] === selectedShop);
-        return matchDay && matchShop;
+
+        let matchPrice = true;
+        if (!isNaN(priceLimit) && priceCondition !== "ALL") {
+          const priceVal = parsePrice(row[4]);
+          if (priceCondition === "LE") {
+            matchPrice = (priceVal <= priceLimit);
+          } else if (priceCondition === "GE") {
+            matchPrice = (priceVal >= priceLimit);
+          }
+        }
+
+        return matchDay && matchShop && matchPrice;
       });
 
       renderTable(filteredData);
     }
 
-    // 表にデータを流し込む関数
     function renderTable(dataArray) {
       const tbody = document.getElementById('menuBody');
-      tbody.innerHTML = ""; // 一旦リセット
+      tbody.innerHTML = "";
+
+      const headers = ["曜日", "飲食店", "カウンター", "メニュー", "価格", "カロリー"];
+      const status = getCafeteriaStatus();
+
+      const now = new Date();
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
       dataArray.forEach(row => {
-        if (!row[0]) return; // 空行はスキップ
+        if (!row[0]) return;
         const tr = document.createElement('tr');
-        row.forEach(cell => {
+
+        const calorieVal = row[5] ? row[5].toString().trim() : "";
+
+        let isUnavailable = false;
+        let reason = "";
+
+        if (!status.open) {
+          isUnavailable = true;
+          reason = "時間外";
+        } else {
+          const menuName = row[3] || "";
+          if (menuName.includes("コスパ丼")) {
+            const isLunchTime = (status.mealType === 'lunch');
+            const isCospaTime = (currentMinutes >= 13 * 60 + 30 && currentMinutes < 14 * 60);
+            if (!isLunchTime || !isCospaTime) {
+              isUnavailable = true;
+              reason = "13:30〜提供";
+            }
+          }
+        }
+
+        if (isUnavailable) {
+          tr.classList.add('unavailable');
+        }
+
+        row.forEach((cell, index) => {
+          let cellText = cell;
+          if (index === 5 && !cellText) cellText = "-";
+
           const td = document.createElement('td');
-          td.textContent = cell;
+
+          if (index === 0) {
+            cellText = formatDayCell(cellText);
+          }
+
+          td.setAttribute('data-label', headers[index]);
+
+          if (index === 0) {
+            // 曜日ごとにバッジ配色クラスを分岐
+            let badgeClass = "badge-day";
+            if (cellText === "月" || cellText === "火" || cellText === "木" || cellText === "金") {
+              badgeClass = "badge-day-mon";
+            } else if (cellText === "水") {
+              badgeClass = "badge-day-wed";
+            } else if (cellText === "土") {
+              badgeClass = "badge-day-sat";
+            } else if (cellText === "日") {
+              badgeClass = "badge-day-sun";
+            }
+            td.innerHTML = `<span class="badge ${badgeClass}">${cellText}</span>`;
+          } else if (index === 1) {
+            td.innerHTML = `<span class="badge badge-shop">${cellText}</span>`;
+          } else if (index === 4) {
+            td.innerHTML = `<strong class="price-text">${cellText}</strong>`;
+            td.classList.add('text-right');
+          } else if (index === 5) {
+            const calDisplay = cellText !== "-" ? `${cellText} kcal` : "-";
+            td.innerHTML = `<span style="font-family:'Outfit',sans-serif; font-weight:500;">${calDisplay}</span>`;
+            td.classList.add('text-right');
+          } else if (index === 3) {
+            if (isUnavailable && reason) {
+              td.innerHTML = `<span>${cellText}</span><span class="unavailable-reason">${reason}</span>`;
+            } else {
+              td.textContent = cellText;
+            }
+          } else {
+            td.textContent = cellText;
+          }
+
           tr.appendChild(td);
         });
+
+        if (row.length < 6) {
+          const tdCal = document.createElement('td');
+          tdCal.setAttribute('data-label', headers[5]);
+          tdCal.innerHTML = `<span style="font-family:'Outfit',sans-serif; font-weight:500;">-</span>`;
+          tdCal.classList.add('text-right');
+          tr.appendChild(tdCal);
+        }
+
         tbody.appendChild(tr);
       });
     }
