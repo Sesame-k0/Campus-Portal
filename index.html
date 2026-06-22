@@ -880,7 +880,7 @@
           <span class="status-dot"></span>
           <span id="statusText" class="status-label">判定中...</span>
         </div>
-        <div class="status-details">
+        <div class="status-details" id="statusDetails">
           <div id="slot-breakfast" class="time-slot">
             <span class="slot-name">朝食 (月-金)</span>
             <span>08:30 - 10:00</span>
@@ -893,6 +893,15 @@
             <span class="slot-name">夕食 (月-金)</span>
             <span>17:00 - 19:20</span>
           </div>
+        </div>
+      </div>
+
+      <!-- インフォメーションカード (土曜日・平日夕食・朝食時の案内用) -->
+      <div id="infoMessageCard" class="material-card" style="display: none; text-align: center; border: 1px solid var(--md-sys-color-outline-variant); background-color: var(--md-sys-color-surface-container-low); padding: 24px; margin-bottom: 24px;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <span id="infoIcon" class="material-symbols-outlined" style="font-size: 48px; color: var(--md-sys-color-primary);">info</span>
+          <h3 id="infoTitle" style="font-size: 18px; font-weight: 600; color: var(--md-sys-color-on-surface); margin: 0;">タイトル</h3>
+          <p id="infoText" style="font-size: 14px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant); margin: 0; max-width: 600px;">本文</p>
         </div>
       </div>
 
@@ -920,20 +929,6 @@
         <div id="loading">
           <div class="google-spinner"></div>
           <div>データを読み込み中...</div>
-        </div>
-
-        <!-- 土曜日専用案内メッセージカード -->
-        <div id="satMessageCard"
-          style="display: none; text-align: center; padding: 48px 32px; border: 1px solid var(--md-sys-color-outline-variant); background-color: var(--md-sys-color-surface-container-low); border-radius: 24px; margin: 16px 0;">
-          <span class="material-symbols-outlined"
-            style="font-size: 56px; color: var(--md-sys-color-primary); margin-bottom: 16px;">storefront</span>
-          <h3 style="font-size: 18px; font-weight: 600; color: var(--md-sys-color-on-surface); margin: 0 0 12px 0;">
-            土曜日のメニューについて</h3>
-          <p
-            style="font-size: 14px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant); margin: 0; max-width: 500px; margin-left: auto; margin-right: auto;">
-            土曜日のメニューの情報は、食堂からは提供されておりません。<br>
-            ショーケースでご確認ください。
-          </p>
         </div>
 
         <table id="menuTable" style="display: none;">
@@ -1114,49 +1109,152 @@
     // ==========================================
     // 営業時間・ステータス制御
     // ==========================================
+    // 店舗ごとの設定マッピング（名称変更等の管理セクション）
+    const SHOP_CONFIG = {
+      "ALL": {
+        displayName: "すべての店舗",
+        slots: [],
+        checkStatus: (day, timeInMinutes) => {
+          return { open: false, isNeutral: true, mealType: null, message: "営業時間は各店舗によって異なります。" };
+        }
+      },
+      "SC 学生食堂": {
+        displayName: "SC 学生食堂",
+        slots: [
+          { id: "breakfast", name: "朝食 (月-金)", start: "08:30", end: "10:00", startMin: 8*60+30, endMin: 10*60, days: [1, 2, 3, 4, 5] },
+          { id: "lunch", name: "昼食 (月-土)", start: "11:00", end: "14:00", startMin: 11*60, endMin: 14*60, days: [1, 2, 3, 4, 5, 6], note: "(※コスパ丼は13:30〜)" },
+          { id: "dinner", name: "夕食 (月-金)", start: "17:00", end: "19:20", startMin: 17*60, endMin: 19*60+20, days: [1, 2, 3, 4, 5] }
+        ],
+        checkStatus: (day, timeInMinutes) => {
+          if (day === 0) {
+            return { open: false, mealType: null, message: "本日は営業しておりません (日曜日)" };
+          }
+          // 朝食
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (8*60+30) && timeInMinutes < (10*60)) {
+            return { open: true, mealType: 'breakfast', message: "朝食(100円) 営業中" };
+          }
+          // 昼食
+          if ([1, 2, 3, 4, 5, 6].includes(day) && timeInMinutes >= (11*60) && timeInMinutes < (14*60)) {
+            return { open: true, mealType: 'lunch', message: "昼食 営業中" };
+          }
+          // 夕食
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (17*60) && timeInMinutes < (19*60+20)) {
+            return { open: true, mealType: 'dinner', message: "夕食 営業中" };
+          }
+          return { open: false, mealType: null, message: "ただいま 営業時間外です" };
+        }
+      },
+      "ラウンジオーク": {
+        displayName: "ラウンジオーク",
+        slots: [
+          { id: "lunch", name: "営業 (月-金)", start: "11:00", end: "14:00", startMin: 11*60, endMin: 14*60, days: [1, 2, 3, 4, 5], note: "※学生は12:40まで使用不可" }
+        ],
+        checkStatus: (day, timeInMinutes) => {
+          if (day === 0 || day === 6) {
+            return { open: false, mealType: null, message: "本日は営業しておりません" };
+          }
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (11*60) && timeInMinutes < (14*60)) {
+            return { open: true, mealType: 'lunch', message: "営業中 (※学生は12:40まで使用不可)" };
+          }
+          return { open: false, mealType: null, message: "ただいま 営業時間外です" };
+        }
+      },
+      "nana cafe": {
+        displayName: "nana cafe",
+        slots: [
+          { id: "all-day", name: "営業 (月-金)", start: "10:00", end: "17:00", startMin: 10*60, endMin: 17*60, days: [1, 2, 3, 4, 5] }
+        ],
+        checkStatus: (day, timeInMinutes) => {
+          if (day === 0 || day === 6) {
+            return { open: false, mealType: null, message: "本日は営業しておりません" };
+          }
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (10*60) && timeInMinutes < (17*60)) {
+            return { open: true, mealType: 'all-day', message: "営業中" };
+          }
+          return { open: false, mealType: null, message: "ただいま 営業時間外です" };
+        }
+      },
+      "cafe sora": {
+        displayName: "cafe sora",
+        slots: [
+          { id: "all-day", name: "営業 (月-金)", start: "11:00", end: "14:00", startMin: 11*60, endMin: 14*60, days: [1, 2, 3, 4, 5] }
+        ],
+        checkStatus: (day, timeInMinutes) => {
+          if (day === 0 || day === 6) {
+            return { open: false, mealType: null, message: "本日は営業しておりません" };
+          }
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (11*60) && timeInMinutes < (14*60)) {
+            return { open: true, mealType: 'all-day', message: "営業中" };
+          }
+          return { open: false, mealType: null, message: "ただいま 営業時間外です" };
+        }
+      },
+      "YC 学生食堂": {
+        displayName: "YC 学生食堂",
+        slots: [
+          { id: "breakfast", name: "朝食 (月-金)", start: "08:30", end: "10:00", startMin: 8*60+30, endMin: 10*60, days: [1, 2, 3, 4, 5] },
+          { id: "lunch", name: "昼食 (月-土)", start: "11:00", end: "15:00", startMin: 11*60, endMin: 15*60, days: [1, 2, 3, 4, 5, 6], note: "(※コスパ丼は13:30〜)" }
+        ],
+        checkStatus: (day, timeInMinutes) => {
+          if (day === 0) {
+            return { open: false, mealType: null, message: "本日は営業しておりません (日曜日)" };
+          }
+          // 朝食
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (8*60+30) && timeInMinutes < (10*60)) {
+            return { open: true, mealType: 'breakfast', message: "朝食 営業中" };
+          }
+          // 昼食
+          if ([1, 2, 3, 4, 5, 6].includes(day) && timeInMinutes >= (11*60) && timeInMinutes < (15*60)) {
+            return { open: true, mealType: 'lunch', message: "昼食 営業中" };
+          }
+          return { open: false, mealType: null, message: "ただいま 営業時間外です" };
+        }
+      },
+      "YC 7号館カフェ": {
+        displayName: "YC 7号館カフェ",
+        slots: [
+          { id: "all-day", name: "営業 (月-金)", start: "11:00", end: "17:20", startMin: 11*60, endMin: 17*60+20, days: [1, 2, 3, 4, 5] }
+        ],
+        checkStatus: (day, timeInMinutes) => {
+          if (day === 0 || day === 6) {
+            return { open: false, mealType: null, message: "本日は営業しておりません" };
+          }
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (11*60) && timeInMinutes < (17*60+20)) {
+            return { open: true, mealType: 'all-day', message: "営業中" };
+          }
+          return { open: false, mealType: null, message: "ただいま 営業時間外です" };
+        }
+      }
+    };
+
     function getCafeteriaStatus() {
+      const selectedShop = document.getElementById('shopFilter') ? document.getElementById('shopFilter').value : "ALL";
+      const config = SHOP_CONFIG[selectedShop] || SHOP_CONFIG["ALL"];
+
       const now = new Date();
       const day = now.getDay(); // 0:日, 1:月, ... 6:土
       const hours = now.getHours();
       const minutes = now.getMinutes();
       const timeInMinutes = hours * 60 + minutes;
 
-      // 営業枠の定義 (分換算)
-      const slots = {
-        breakfast: { start: 8 * 60 + 30, end: 10 * 60, days: [1, 2, 3, 4, 5] }, // 月-金
-        lunch: { start: 11 * 60, end: 14 * 60, days: [1, 2, 3, 4, 5, 6] },     // 月-土
-        dinner: { start: 17 * 60, end: 19 * 60 + 20, days: [1, 2, 3, 4, 5] }    // 月-金
-      };
-
-      // 曜日チェック
-      if (day === 0) {
-        return { open: false, mealType: null, message: "本日は営業しておりません (日曜日)" };
-      }
-
-      // 朝食
-      if (slots.breakfast.days.includes(day) && timeInMinutes >= slots.breakfast.start && timeInMinutes < slots.breakfast.end) {
-        return { open: true, mealType: 'breakfast', message: "朝食(100円) 営業中" };
-      }
-      // 昼食
-      if (slots.lunch.days.includes(day) && timeInMinutes >= slots.lunch.start && timeInMinutes < slots.lunch.end) {
-        return { open: true, mealType: 'lunch', message: "昼食 営業中" };
-      }
-      // 夕食
-      if (slots.dinner.days.includes(day) && timeInMinutes >= slots.dinner.start && timeInMinutes < slots.dinner.end) {
-        return { open: true, mealType: 'dinner', message: "夕食 営業中" };
-      }
-
-      return { open: false, mealType: null, message: "ただいま 営業時間外です" };
+      return config.checkStatus(day, timeInMinutes);
     }
 
     function updateCafeteriaStatusUI() {
+      const selectedShop = document.getElementById('shopFilter') ? document.getElementById('shopFilter').value : "ALL";
+      const config = SHOP_CONFIG[selectedShop] || SHOP_CONFIG["ALL"];
+
       const status = getCafeteriaStatus();
       const card = document.getElementById('cafeteriaStatusCard');
       const label = document.getElementById('statusText');
+      const detailsContainer = document.getElementById('statusDetails');
 
       card.classList.remove('open', 'closed');
 
-      if (status.open) {
+      if (status.isNeutral) {
+        // すべての店舗などの中立状態
+        label.textContent = status.message;
+      } else if (status.open) {
         card.classList.add('open');
         label.textContent = status.message;
       } else {
@@ -1164,6 +1262,34 @@
         label.textContent = status.message;
       }
 
+      // 営業スロット情報の動的生成
+      if (detailsContainer) {
+        detailsContainer.innerHTML = "";
+        if (config.slots && config.slots.length > 0) {
+          config.slots.forEach(slot => {
+            const slotDiv = document.createElement('div');
+            slotDiv.id = `slot-${slot.id}`;
+            slotDiv.className = 'time-slot';
+
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'slot-name';
+            nameSpan.textContent = slot.name;
+
+            const timeSpan = document.createElement('span');
+            let timeText = `${slot.start} - ${slot.end}`;
+            if (slot.note) {
+              timeText += ` <small style="opacity: 0.8;">${slot.note}</small>`;
+            }
+            timeSpan.innerHTML = timeText;
+
+            slotDiv.appendChild(nameSpan);
+            slotDiv.appendChild(timeSpan);
+            detailsContainer.appendChild(slotDiv);
+          });
+        }
+      }
+
+      // アクティブ状態の表示切り替え
       document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('active-slot'));
       if (status.mealType) {
         const activeEl = document.getElementById('slot-' + status.mealType);
@@ -1191,12 +1317,7 @@
         filterTable();
 
         document.getElementById('loading').style.display = 'none';
-
-        // onloadの表示制御は、現在の曜日が土曜の場合を考慮してfilterTable()内の表示に合わせる
-        const selectedDay = document.getElementById('dayFilter').value;
-        if (selectedDay !== "土") {
-          document.getElementById('menuTable').style.display = 'table';
-        }
+        document.getElementById('menuTable').style.display = 'table';
       } catch (error) {
         document.getElementById('loading').innerText = "データの読み込みに失敗しました。";
         console.error(error);
@@ -1244,29 +1365,131 @@
       return isNaN(num) ? 0 : num;
     }
 
+    function isSaturdayState(selectedDay) {
+      if (selectedDay === "土") return true;
+      if (selectedDay === "ALL") {
+        const now = new Date();
+        if (now.getDay() === 6) return true;
+      }
+      return false;
+    }
+
     function filterTable() {
+      // ステータス表示も更新する
+      updateCafeteriaStatusUI();
+
       const selectedDay = document.getElementById('dayFilter').value;
       const selectedShop = document.getElementById('shopFilter').value;
 
       const priceLimit = parseInt(document.getElementById('priceInput').value, 10);
       const priceCondition = document.getElementById('priceCondition').value;
 
-      const satCard = document.getElementById('satMessageCard');
+      const infoCard = document.getElementById('infoMessageCard');
+      const infoIcon = document.getElementById('infoIcon');
+      const infoTitle = document.getElementById('infoTitle');
+      const infoText = document.getElementById('infoText');
       const menuTable = document.getElementById('menuTable');
       const loadingDiv = document.getElementById('loading');
 
-      // 土曜日の特別表示処理
-      if (selectedDay === "土") {
-        if (loadingDiv) loadingDiv.style.display = 'none';
-        if (menuTable) menuTable.style.display = 'none';
-        if (satCard) satCard.style.display = 'block';
+      const currentStatus = getCafeteriaStatus();
+
+      if (loadingDiv) loadingDiv.style.display = 'none';
+      if (menuTable) menuTable.style.display = 'table';
+
+      // 1. 土曜日の特別表示処理
+      if (isSaturdayState(selectedDay)) {
+        infoCard.style.display = 'block';
+        infoIcon.textContent = 'storefront';
+        infoTitle.textContent = '土曜日のメニューについて';
+        infoText.innerHTML = '土曜日のメニューの情報は、食堂からは提供されておりません。<br>ショーケースでご確認ください。';
+
+        // すべての曜日（ALL）かつ店舗フィルターしたデータをグレーアウトで表示
+        const filteredData = allData.filter(row => {
+          const matchShop = (selectedShop === "ALL" || row[1] === selectedShop);
+
+          let matchPrice = true;
+          if (!isNaN(priceLimit) && priceCondition !== "ALL") {
+            const priceVal = parsePrice(row[4]);
+            if (priceCondition === "LE") {
+              matchPrice = (priceVal <= priceLimit);
+            } else if (priceCondition === "GE") {
+              matchPrice = (priceVal >= priceLimit);
+            }
+          }
+          return matchShop && matchPrice;
+        });
+
+        renderTable(filteredData, { forceUnavailable: true, forceReason: "データなし" });
         return;
-      } else {
-        if (satCard) satCard.style.display = 'none';
-        if (loadingDiv && loadingDiv.style.display === 'none') {
-          if (menuTable) menuTable.style.display = 'table';
-        }
       }
+
+      // 2. 平日夕食の特別表示処理
+      if (currentStatus.mealType === 'dinner') {
+        infoCard.style.display = 'block';
+        infoIcon.textContent = 'dinner_dining';
+        infoTitle.textContent = '夕食のメニューについて';
+        infoText.innerHTML = '夕食のメニューの情報は、食堂からは提供されておりません。<br>ショーケースで直接ご確認ください。';
+
+        // 表示自体はグレーアウト
+        const filteredData = allData.filter(row => {
+          const rowDayFormatted = formatDayCell(row[0]);
+          const matchDay = (selectedDay === "ALL" || rowDayFormatted === selectedDay);
+          const matchShop = (selectedShop === "ALL" || row[1] === selectedShop);
+
+          let matchPrice = true;
+          if (!isNaN(priceLimit) && priceCondition !== "ALL") {
+            const priceVal = parsePrice(row[4]);
+            if (priceCondition === "LE") {
+              matchPrice = (priceVal <= priceLimit);
+            } else if (priceCondition === "GE") {
+              matchPrice = (priceVal >= priceLimit);
+            }
+          }
+          return matchDay && matchShop && matchPrice;
+        });
+
+        renderTable(filteredData, { forceUnavailable: true, forceReason: "提供なし" });
+        return;
+      }
+
+      // 3. 朝食の特別表示処理
+      if (currentStatus.mealType === 'breakfast') {
+        infoCard.style.display = 'block';
+        infoIcon.textContent = 'wb_sunny';
+        infoTitle.textContent = '朝食メニューのご案内';
+        infoText.innerHTML = 'おはようございます。学食メニュー（100円朝食）は以下のとおりです。';
+
+        // 曜日サイクル固定メニュー
+        const breakfastData = [
+          ["月", "SC 学生食堂", "朝食カウンター", "100円朝食 (カレー)", "100円", "540"],
+          ["火", "SC 学生食堂", "朝食カウンター", "100円朝食 (炒め物)", "100円", "510"],
+          ["水", "SC 学生食堂", "朝食カウンター", "100円朝食 (うどん)", "100円", "430"],
+          ["木", "SC 学生食堂", "朝食カウンター", "100円朝食 (フライ)", "100円", "580"],
+          ["金", "SC 学生食堂", "朝食カウンター", "100円朝食 (焼き魚)", "100円", "490"]
+        ];
+
+        const filteredBreakfast = breakfastData.filter(row => {
+          const matchDay = (selectedDay === "ALL" || row[0] === selectedDay);
+          const matchShop = (selectedShop === "ALL" || row[1] === selectedShop);
+
+          let matchPrice = true;
+          if (!isNaN(priceLimit) && priceCondition !== "ALL") {
+            const priceVal = parsePrice(row[4]);
+            if (priceCondition === "LE") {
+              matchPrice = (priceVal <= priceLimit);
+            } else if (priceCondition === "GE") {
+              matchPrice = (priceVal >= priceLimit);
+            }
+          }
+          return matchDay && matchShop && matchPrice;
+        });
+
+        renderTable(filteredBreakfast, { forceBreakfast: true });
+        return;
+      }
+
+      // 4. 通常表示
+      infoCard.style.display = 'none';
 
       const filteredData = allData.filter(row => {
         const rowDayFormatted = formatDayCell(row[0]);
@@ -1289,7 +1512,7 @@
       renderTable(filteredData);
     }
 
-    function renderTable(dataArray) {
+    function renderTable(dataArray, options = {}) {
       const tbody = document.getElementById('menuBody');
       tbody.innerHTML = "";
 
@@ -1303,22 +1526,27 @@
         if (!row[0]) return;
         const tr = document.createElement('tr');
 
-        const calorieVal = row[5] ? row[5].toString().trim() : "";
-
         let isUnavailable = false;
         let reason = "";
 
-        if (!status.open) {
+        if (options.forceUnavailable) {
           isUnavailable = true;
-          reason = "時間外";
+          reason = options.forceReason || "データなし";
+        } else if (options.forceBreakfast) {
+          isUnavailable = false; // 朝食モード時はグレーアウトしない
         } else {
-          const menuName = row[3] || "";
-          if (menuName.includes("コスパ丼")) {
-            const isLunchTime = (status.mealType === 'lunch');
-            const isCospaTime = (currentMinutes >= 13 * 60 + 30 && currentMinutes < 14 * 60);
-            if (!isLunchTime || !isCospaTime) {
-              isUnavailable = true;
-              reason = "13:30〜提供";
+          if (!status.open) {
+            isUnavailable = true;
+            reason = "時間外";
+          } else {
+            const menuName = row[3] || "";
+            if (menuName.includes("コスパ丼")) {
+              const isLunchTime = (status.mealType === 'lunch');
+              const isCospaTime = (currentMinutes >= 13 * 60 + 30 && currentMinutes < 14 * 60);
+              if (!isLunchTime || !isCospaTime) {
+                isUnavailable = true;
+                reason = "13:30〜提供";
+              }
             }
           }
         }
