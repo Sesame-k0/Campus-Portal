@@ -1,0 +1,27 @@
+name: Fetch Cafeteria Menu
+
+on:
+  schedule:
+    # 1時間に1回、自動でGASからデータを取得する設定（毎時0分）
+    - cron: '0 * * * *'
+  workflow_dispatch: # 必要に応じてGitHub上のボタンから手動で実行することも可能に
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch JSON from GAS
+        run: |
+          # 画像にあるGASのURLからデータを取得し、menu.jsonという名前で保存します
+          curl -L "https://script.google.com/macros/s/AKfycbzBz_zXkjkq9AwmJFlQzbTSiUsFpVzb8fJ8RBuqz8Q0R7hx2hxECbCBxaJtbsVxeo8Wdg/exec" -o menu.json
+
+      - name: Commit and Push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add menu.json
+          # データに変更があった場合のみ、GitHubに保存（プッシュ）する
+          git diff --cached --quiet || (git commit -m "Update cafeteria menu data" && git push)
