@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>openTCU</title>
-  
+
   <!-- PWA & Mobile Settings -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#006685">
@@ -691,9 +691,10 @@
       border: 4px solid #333333;
       border-radius: 8px;
       padding: 10px 16px;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.9), 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9), 0 4px 10px rgba(0, 0, 0, 0.3);
       font-family: 'Courier New', Courier, monospace;
-      color: #FFB300; /* Amber */
+      color: #FFB300;
+      /* Amber */
       text-shadow: 0 0 4px rgba(255, 179, 0, 0.6);
       min-height: 48px;
       display: flex;
@@ -717,7 +718,8 @@
     }
 
     .led-ticker-highlight {
-      color: #FFD54F; /* Bright yellow */
+      color: #FFD54F;
+      /* Bright yellow */
       text-shadow: 0 0 6px rgba(255, 213, 79, 0.8);
     }
 
@@ -733,7 +735,7 @@
       border: 5px solid #2b2b2b;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: inset 0 0 12px rgba(0,0,0,0.95), 0 6px 12px rgba(0,0,0,0.25);
+      box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.95), 0 6px 12px rgba(0, 0, 0, 0.25);
     }
 
     .led-board-header {
@@ -761,8 +763,15 @@
       letter-spacing: 0.05em;
     }
 
+    .led-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
     .led-table {
       width: 100%;
+      min-width: 550px;
       border-collapse: collapse;
       font-family: 'Outfit', 'Noto Sans JP', sans-serif;
     }
@@ -791,25 +800,25 @@
     /* LED文字カラー */
     .led-text-amber {
       color: #FFB300;
-      text-shadow: 0 0 3px rgba(255,179,0,0.5);
+      text-shadow: 0 0 3px rgba(255, 179, 0, 0.5);
       font-weight: 700;
     }
 
     .led-text-green {
       color: #00E676;
-      text-shadow: 0 0 3px rgba(0,230,118,0.5);
+      text-shadow: 0 0 3px rgba(0, 230, 118, 0.5);
       font-weight: 700;
     }
 
     .led-text-red {
       color: #FF1744;
-      text-shadow: 0 0 3px rgba(255,23,68,0.5);
+      text-shadow: 0 0 3px rgba(255, 23, 68, 0.5);
       font-weight: 700;
     }
 
     .led-text-orange {
       color: #FF3D00;
-      text-shadow: 0 0 3px rgba(255,61,0,0.5);
+      text-shadow: 0 0 3px rgba(255, 61, 0, 0.5);
       font-weight: 700;
     }
 
@@ -836,7 +845,7 @@
       border-radius: 2px;
       text-align: center;
       line-height: 1.2;
-      box-shadow: 0 0 2px rgba(255,214,0,0.8);
+      box-shadow: 0 0 2px rgba(255, 214, 0, 0.8);
     }
 
     /* 水曜限定便 (水曜日のみ外枠パープル) */
@@ -875,7 +884,7 @@
     .bus-sidebar-content {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 8px;
     }
 
     .bus-info-card {
@@ -920,14 +929,17 @@
       .bus-container {
         max-height: none;
       }
+
       .led-table th,
       .led-table td {
         padding: 8px 10px;
         font-size: 13px;
       }
+
       .led-time {
         font-size: 14px;
       }
+
       .led-ticker-content {
         font-size: 13px;
       }
@@ -1195,7 +1207,7 @@
 
     .first-period-header:hover {
       border-color: var(--md-sys-color-primary);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     /* 昼休み行 */
@@ -1220,7 +1232,7 @@
     .timetable-cell:hover {
       background-color: var(--md-sys-color-surface-container-high);
       border-color: var(--md-sys-color-primary);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       transform: translateY(-2px);
     }
 
@@ -1278,13 +1290,11 @@
 
     /* 空きコマ表示 */
     .timetable-cell-empty-slot {
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(113, 120, 125, 0.05),
-        rgba(113, 120, 125, 0.05) 10px,
-        rgba(113, 120, 125, 0.1) 10px,
-        rgba(113, 120, 125, 0.1) 20px
-      ) !important;
+      background: repeating-linear-gradient(45deg,
+          rgba(113, 120, 125, 0.05),
+          rgba(113, 120, 125, 0.05) 10px,
+          rgba(113, 120, 125, 0.1) 10px,
+          rgba(113, 120, 125, 0.1) 20px) !important;
       border: 1px solid var(--md-sys-color-outline-variant) !important;
       opacity: 0.65;
     }
@@ -1294,20 +1304,76 @@
     }
 
     /* パステルカラーパレット (MD3に馴染むトーン) */
-    .timetable-color-0 { background-color: #E3F2FD; border-color: #90CAF9; color: #0D47A1; } /* Blue */
-    .timetable-color-1 { background-color: #E8F5E9; border-color: #A5D6A7; color: #1B5E20; } /* Green */
-    .timetable-color-2 { background-color: #FFF3E0; border-color: #FFCC80; color: #E65100; } /* Orange */
-    .timetable-color-3 { background-color: #EDE7F6; border-color: #B39DDB; color: #4A148C; } /* Purple */
-    .timetable-color-4 { background-color: #FCE4EC; border-color: #F48FB1; color: #880E4F; } /* Pink */
-    .timetable-color-5 { background-color: #E0F7FA; border-color: #80DEEA; color: #006064; } /* Cyan */
-    .timetable-color-6 { background-color: #FFFDE7; border-color: #FFF59D; color: #F57F17; } /* Yellow */
-    .timetable-color-7 { background-color: #F3E5F5; border-color: #CE93D8; color: #4A148C; } /* Magenta */
+    .timetable-color-0 {
+      background-color: #E3F2FD;
+      border-color: #90CAF9;
+      color: #0D47A1;
+    }
+
+    /* Blue */
+    .timetable-color-1 {
+      background-color: #E8F5E9;
+      border-color: #A5D6A7;
+      color: #1B5E20;
+    }
+
+    /* Green */
+    .timetable-color-2 {
+      background-color: #FFF3E0;
+      border-color: #FFCC80;
+      color: #E65100;
+    }
+
+    /* Orange */
+    .timetable-color-3 {
+      background-color: #EDE7F6;
+      border-color: #B39DDB;
+      color: #4A148C;
+    }
+
+    /* Purple */
+    .timetable-color-4 {
+      background-color: #FCE4EC;
+      border-color: #F48FB1;
+      color: #880E4F;
+    }
+
+    /* Pink */
+    .timetable-color-5 {
+      background-color: #E0F7FA;
+      border-color: #80DEEA;
+      color: #006064;
+    }
+
+    /* Cyan */
+    .timetable-color-6 {
+      background-color: #FFFDE7;
+      border-color: #FFF59D;
+      color: #F57F17;
+    }
+
+    /* Yellow */
+    .timetable-color-7 {
+      background-color: #F3E5F5;
+      border-color: #CE93D8;
+      color: #4A148C;
+    }
+
+    /* Magenta */
 
     /* iPhone風編集モード */
     @keyframes wiggle {
-      0% { transform: rotate(-0.6deg); }
-      50% { transform: rotate(0.6deg); }
-      100% { transform: rotate(-0.6deg); }
+      0% {
+        transform: rotate(-0.6deg);
+      }
+
+      50% {
+        transform: rotate(0.6deg);
+      }
+
+      100% {
+        transform: rotate(-0.6deg);
+      }
     }
 
     .edit-mode .timetable-cell-registered {
@@ -1327,7 +1393,7 @@
       border-radius: 50%;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
       cursor: pointer;
       z-index: 10;
       border: 2px solid var(--md-sys-color-surface-container-low);
@@ -1375,7 +1441,7 @@
       border: 1px solid var(--md-sys-color-outline-variant);
       width: 100%;
       max-width: 460px;
-      box-shadow: 0 16px 32px rgba(0,0,0,0.15);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
       transform: scale(0.95);
       transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
       box-sizing: border-box;
@@ -1490,14 +1556,14 @@
       background-color: white;
       transition: .3s;
       border-radius: 50%;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     }
 
-    input:checked + .slider {
+    input:checked+.slider {
       background-color: var(--md-sys-color-primary);
     }
 
-    input:checked + .slider:before {
+    input:checked+.slider:before {
       transform: translateX(20px);
     }
 
@@ -1552,7 +1618,7 @@
       font-size: 12px;
       font-weight: 700;
       color: var(--md-sys-color-primary);
-      background-color: rgba(255,255,255,0.7);
+      background-color: rgba(255, 255, 255, 0.7);
       padding: 6px 12px;
       border-radius: 100px;
       text-decoration: none;
@@ -1647,21 +1713,29 @@
       </div>
 
       <!-- インフォメーションカード (土曜日・平日夕食・朝食時の案内用) -->
-      <div id="infoMessageCard" class="material-card" style="display: none; text-align: center; border: 1px solid var(--md-sys-color-outline-variant); background-color: var(--md-sys-color-surface-container-low); padding: 24px; margin-bottom: 24px;">
+      <div id="infoMessageCard" class="material-card"
+        style="display: none; text-align: center; border: 1px solid var(--md-sys-color-outline-variant); background-color: var(--md-sys-color-surface-container-low); padding: 24px; margin-bottom: 24px;">
         <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-          <span id="infoIcon" class="material-symbols-outlined" style="font-size: 48px; color: var(--md-sys-color-primary);">info</span>
-          <h3 id="infoTitle" style="font-size: 18px; font-weight: 600; color: var(--md-sys-color-on-surface); margin: 0;">タイトル</h3>
-          <p id="infoText" style="font-size: 14px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant); margin: 0; max-width: 600px;">本文</p>
+          <span id="infoIcon" class="material-symbols-outlined"
+            style="font-size: 48px; color: var(--md-sys-color-primary);">info</span>
+          <h3 id="infoTitle"
+            style="font-size: 18px; font-weight: 600; color: var(--md-sys-color-on-surface); margin: 0;">タイトル</h3>
+          <p id="infoText"
+            style="font-size: 14px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant); margin: 0; max-width: 600px;">
+            本文</p>
         </div>
       </div>
 
       <!-- データ警告アラート -->
-      <div id="dataWarningAlert" style="display: none; background-color: #FEF3C7; border: 1px solid #F59E0B; border-radius: 16px; padding: 16px 20px; margin-bottom: 20px; display: none;">
+      <div id="dataWarningAlert"
+        style="display: none; background-color: #FEF3C7; border: 1px solid #F59E0B; border-radius: 16px; padding: 16px 20px; margin-bottom: 20px; display: none;">
         <div style="display: flex; align-items: flex-start; gap: 12px;">
-          <span class="material-symbols-outlined" style="font-size: 24px; color: #D97706; flex-shrink: 0;">warning</span>
+          <span class="material-symbols-outlined"
+            style="font-size: 24px; color: #D97706; flex-shrink: 0;">warning</span>
           <div>
             <strong style="color: #92400E; font-size: 14px;">データに関するご注意</strong>
-            <p style="margin: 4px 0 0 0; font-size: 13px; line-height: 1.5; color: #92400E; opacity: 0.85;">ただいまの時間帯はデータが正常に取得できていない可能性があります。しばらくお待ちいただくことをおすすめしますが、参照の際はご注意ください。</p>
+            <p style="margin: 4px 0 0 0; font-size: 13px; line-height: 1.5; color: #92400E; opacity: 0.85;">
+              ただいまの時間帯はデータが正常に取得できていない可能性があります。しばらくお待ちいただくことをおすすめしますが、参照の際はご注意ください。</p>
           </div>
         </div>
       </div>
@@ -1711,7 +1785,8 @@
     <section id="view-bus" class="view-section">
       <div class="bus-container">
         <div class="bus-header-controls">
-          <h2 style="margin: 0; font-weight: 600; font-size: 20px; color: var(--md-sys-color-on-background); display: flex; align-items: center; gap: 8px;">
+          <h2
+            style="margin: 0; font-weight: 600; font-size: 20px; color: var(--md-sys-color-on-background); display: flex; align-items: center; gap: 8px;">
             <span class="material-symbols-outlined" style="font-size: 24px;">directions_bus</span>シャトルバス案内
           </h2>
           <div class="bus-checkbox-wrapper">
@@ -1744,43 +1819,51 @@
           <!-- 右側（サイドバーコンテンツ）：各種案内カード -->
           <div class="bus-sidebar-content">
             <!-- 安全運行に関する啓発カード -->
-            <div class="material-card bus-info-card" style="background-color: var(--md-sys-color-surface-container-low); border-left: 4px solid #FFB300;">
+            <div class="material-card bus-info-card"
+              style="background-color: var(--md-sys-color-surface-container-low); border-left: 4px solid #FFB300;">
               <div class="bus-info-card-header" style="color: #FFB300;">
                 <span class="material-symbols-outlined">warning</span>
                 <h3>安全運行に関するお願い</h3>
               </div>
               <p>このシャトルバスは、世田谷キャンパス〜横浜キャンパス間で<strong>高速道路（第三京浜道路、玉川IC〜都筑IC）を経由</strong>して運行します。</p>
-              <p>道路交通法および乗客の安全確保のため、<strong>立っての乗車は固く禁じられています。</strong>必ず着席し、乗車中は<strong>座席シートベルトを必ず着用</strong>してください。</p>
+              <p>道路交通法および乗客の安全確保のため、<strong>立ちながらの乗車は固く禁じられています。</strong>必ず着席し、乗車中は<strong>座席シートベルトを必ず着用</strong>してください。
+              </p>
             </div>
 
             <!-- 運休スケジュールに関する注意カード -->
-            <div class="material-card bus-info-card" style="background-color: var(--md-sys-color-surface-container-low); border-left: 4px solid var(--md-sys-color-error);">
+            <div class="material-card bus-info-card"
+              style="background-color: var(--md-sys-color-surface-container-low); border-left: 4px solid var(--md-sys-color-error);">
               <div class="bus-info-card-header" style="color: var(--md-sys-color-error);">
                 <span class="material-symbols-outlined">calendar_today</span>
                 <h3>運休期間に関するご注意</h3>
               </div>
-              <p>長期休み期間（夏期・冬期・春期休業期間）、および大学のイベント日やその他試験期間中などは、シャトルバスは<strong>運休または特別ダイヤ</strong>での運行となります。</p>
+              <p>長期休み期間（夏期・冬期・春期休業期間）、および大学のイベント日やその他試験期間中などは、シャトルバスは<strong>運休します</strong>。</p>
               <p>ご利用の際は、必ず事前に学内掲示やポータル等で運行スケジュールを確認するようにしてください。</p>
             </div>
 
             <!-- おまけ：車両紹介カード -->
-            <div class="material-card bus-info-card" style="background-color: var(--md-sys-color-surface-container-low); border-left: 4px solid var(--md-sys-color-primary);">
+            <div class="material-card bus-info-card"
+              style="background-color: var(--md-sys-color-surface-container-low); border-left: 4px solid var(--md-sys-color-primary);">
               <div class="bus-info-card-header" style="color: var(--md-sys-color-primary);">
                 <span class="material-symbols-outlined">info</span>
                 <h3>シャトルバス車両紹介</h3>
               </div>
               <img src="images/wanroma.png" alt="東急バス ワンロマ車" class="wanroma-img">
-              <!-- ここからワンロマ車の説明文 -->
-              <p>このシャトルバスでは、主に東急バスの<strong>「ワンロマ車」</strong>と呼ばれる特別な車両が使用されています。</p>
-              <p>一般の路線バスの機能（ワンマン機器）に加えて、観光バス等に備わる快適なハイバックシート（ロマンスシート）を搭載しており、全席にシートベルトも装備されています。高速道路の走行を前提とした、東急バス独自のハイブリッドな特別仕様車です。</p>
-              <!-- ここまでワンロマ車の説明文 -->
+              <div id="wanroma-desc-container">
+                <!-- ここからワンロマ車の説明文 -->
+                <p>このシャトルバスでは、東急バスの<strong>「ワンロマ車」</strong>と呼ばれる特別な車両が使用されています。</p>
+                <p>ふつうの路線バスの機能に加えて、観光バス等に備わるハイバックシート（通称: ロマンスシート）を搭載しており、全席にシートベルトも装備。高速道路の走行を前提とした、ハイブリッドな特別仕様車です。</p>
+                <!-- ここまでワンロマ車の説明文 -->
+              </div>
             </div>
           </div>
         </div>
 
         <!-- 注意書き等 -->
-        <div class="bus-footer-card material-card" style="margin-top: 8px; padding: 16px; background-color: var(--md-sys-color-surface-container-low); border-radius: 16px;">
-          <div style="font-size: 11px; line-height: 1.5; color: var(--md-sys-color-on-surface-variant); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div class="bus-footer-card material-card"
+          style="margin-top: 8px; padding: 16px; background-color: var(--md-sys-color-surface-container-low); border-radius: 16px;">
+          <div
+            style="font-size: 11px; line-height: 1.5; color: var(--md-sys-color-on-surface-variant); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
             <span>※道路状況により遅れる場合があります。乗車にあたってはマナーを守り、安全な運行にご協力ください。</span>
             <span style="font-weight: 600; color: var(--md-sys-color-outline);">運行管理：東急バス 東山田営業所</span>
           </div>
@@ -1791,7 +1874,8 @@
     <!-- 簡易時間割画面 -->
     <section id="view-timetable" class="view-section">
       <div class="timetable-actions">
-        <h2 style="margin: 0; font-weight: 600; font-size: 20px; color: var(--md-sys-color-on-background); display: flex; align-items: center; gap: 8px;">
+        <h2
+          style="margin: 0; font-weight: 600; font-size: 20px; color: var(--md-sys-color-on-background); display: flex; align-items: center; gap: 8px;">
           <span class="material-symbols-outlined" style="font-size: 24px;">calendar_today</span>簡易時間割
         </h2>
         <div class="timetable-btn-group">
@@ -1939,7 +2023,8 @@
       </div>
 
       <!-- 下部ボタン類 -->
-      <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+      <div
+        style="margin-top: 20px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
         <div class="timetable-btn-group">
           <button class="btn btn-tonal" onclick="exportTimetableToPNG()">
             <span class="material-symbols-outlined">download</span>画像として保存
@@ -1950,7 +2035,8 @@
           <button class="btn btn-outline" onclick="triggerImportJSON()">
             <span class="material-symbols-outlined">file_upload</span>時間割を取込 (JSON)
           </button>
-          <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="importTimetableJSON(event)" />
+          <input type="file" id="importFileInput" accept=".json" style="display: none;"
+            onchange="importTimetableJSON(event)" />
         </div>
 
         <!-- 共有アドバイス（エクスポート時に動的に表示） -->
@@ -2026,7 +2112,8 @@
 
         <div class="form-group">
           <label for="modal-notes">メモ</label>
-          <textarea id="modal-notes" class="form-control" rows="3" placeholder="教科書、評価基準など" style="resize: none;"></textarea>
+          <textarea id="modal-notes" class="form-control" rows="3" placeholder="教科書、評価基準など"
+            style="resize: none;"></textarea>
         </div>
 
         <div class="switch-group">
@@ -2094,6 +2181,23 @@
       const chk = document.getElementById('showOtherRunsCheckbox');
       if (chk) {
         showOtherRuns = chk.checked;
+      }
+
+      // ワンロマ車の説明文をランダムに表示
+      const descContainer = document.getElementById('wanroma-desc-container');
+      if (descContainer) {
+        const patterns = [
+          `<!-- ここからワンロマ車の説明文 -->
+          <p>このシャトルバスでは、東急バスの<strong>「ワンロマ車」</strong>と呼ばれる特別な車両が使用されています。</p>
+          <p>ふつうの路線バスの機能に加えて、観光バス等に備わるハイバックシート（通称: ロマンスシート）を搭載しており、全席にシートベルトも装備。高速道路の走行を前提とした、ハイブリッドな特別仕様車です。</p>
+          <!-- ここまでワンロマ車の説明文 -->`,
+          `<!-- ここからワンロマ車の説明文 -->
+          <p>現在、東京都市大学のシャトルバスには4つの車両(H1280, H1281, H1284, H1285)が使用されています。このうちH1284には、車両後部に都市大のロゴのプレートが差し込まれています。</p>
+          <p>これら「ワンロマ車」はバスファンから注目を集めていますが、同時に世代交代の波も近づいています。現在、東急バスでワンロマ車を固定運用しているのは、東京都市大学シャトルバスのみです。</p>
+          <!-- ここまでワンロマ車の説明文 -->`
+        ];
+        const randomIndex = Math.floor(Math.random() * patterns.length);
+        descContainer.innerHTML = patterns[randomIndex];
       }
 
       renderBusBoards();
@@ -2219,19 +2323,21 @@
             </div>
             <div class="led-board-sub">${subText}</div>
           </div>
-          <table class="led-table">
-            <thead>
-              <tr>
-                <th style="width: 15%;">発車 (Time)</th>
-                <th style="width: 35%;">行先 (Destination)</th>
-                <th style="width: 20%;">のりば/始発 (Origin)</th>
-                <th style="width: 15%;">備考 (Remarks)</th>
-                <th style="width: 15%; text-align: right;">発車まで (Countdown)</th>
-              </tr>
-            </thead>
-            <tbody id="led-tbody-${stopId}">
-            </tbody>
-          </table>
+          <div class="led-table-wrapper">
+            <table class="led-table">
+              <thead>
+                <tr>
+                  <th style="width: 15%;">発車 (Time)</th>
+                  <th style="width: 35%;">行先 (Destination)</th>
+                  <th style="width: 20%;">のりば/始発 (Origin)</th>
+                  <th style="width: 15%;">備考 (Remarks)</th>
+                  <th style="width: 15%; text-align: right;">発車まで (Countdown)</th>
+                </tr>
+              </thead>
+              <tbody id="led-tbody-${stopId}">
+              </tbody>
+            </table>
+          </div>
         `;
         container.appendChild(boardDiv);
 
@@ -2376,7 +2482,7 @@
       dayStartTimes[day] = !dayStartTimes[day];
       try {
         localStorage.setItem('opentcu_timetableDayStartTimes', JSON.stringify(dayStartTimes));
-      } catch (e) {}
+      } catch (e) { }
       applyDayFirstPeriodTimeUI(day);
     }
 
@@ -2400,7 +2506,7 @@
           if (entry && (entry.subject || entry.isEmptySlot)) {
             // 登録あり
             cell.classList.add("timetable-cell-registered");
-            
+
             // 色クラスの割り当て
             if (entry.isEmptySlot) {
               cell.classList.add("timetable-cell-empty-slot");
@@ -2493,7 +2599,7 @@
       const title = document.getElementById('timetableModalTitle');
       const daySelect = document.getElementById('modal-day');
       const periodSelect = document.getElementById('modal-period');
-      
+
       const subjectInput = document.getElementById('modal-subject');
       const teacherInput = document.getElementById('modal-teacher');
       const roomInput = document.getElementById('modal-room');
@@ -2547,7 +2653,7 @@
     function saveTimetableEntry() {
       const day = document.getElementById('modal-day').value;
       const period = parseInt(document.getElementById('modal-period').value, 10);
-      
+
       const subject = document.getElementById('modal-subject').value.trim();
       const teacher = document.getElementById('modal-teacher').value.trim();
       const room = document.getElementById('modal-room').value.trim();
@@ -2589,7 +2695,7 @@
         delete timetableData[key];
         try {
           localStorage.setItem('opentcu_timetableData', JSON.stringify(timetableData));
-        } catch (e) {}
+        } catch (e) { }
         renderTimetable();
       }
     }
@@ -2635,10 +2741,10 @@
     function exportTimetableJSON() {
       try {
         const dataStr = JSON.stringify(timetableData, null, 2);
-        const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-        
+        const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
         const exportFileDefaultName = 'timetable.json';
-        
+
         const linkElement = document.createElement('a');
         linkElement.setAttribute('href', dataUri);
         linkElement.setAttribute('download', exportFileDefaultName);
@@ -2648,11 +2754,11 @@
         const helperBox = document.getElementById('shareHelperBox');
         if (helperBox) {
           helperBox.style.display = 'block';
-          
+
           // config.js の URL を動的にセット
           const driveLink = document.getElementById('shareLinkGoogleDrive');
           const gigafileLink = document.getElementById('shareLinkGigafile');
-          
+
           if (driveLink && typeof CONFIG !== 'undefined') driveLink.href = CONFIG.GOOGLE_DRIVE_URL || 'https://drive.google.com';
           if (gigafileLink && typeof CONFIG !== 'undefined') gigafileLink.href = CONFIG.GIGAFILE_URL || 'https://gigafile.nu';
         }
@@ -2673,10 +2779,10 @@
       if (!file) return;
 
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         try {
           const importedData = JSON.parse(e.target.result);
-          
+
           // 簡単な形式チェック（キーの検証など）
           let isValid = true;
           if (typeof importedData === 'object' && importedData !== null) {
@@ -2707,7 +2813,7 @@
         }
       };
       reader.readAsText(file);
-      
+
       // input値をクリアして同じファイルを連続選択可能にする
       event.target.value = "";
     }
@@ -2778,7 +2884,7 @@
       element.classList.add('active');
 
       // 現在のビューをlocalStorageに保存
-      try { localStorage.setItem('opentcu_activeView', viewId); } catch(e) {}
+      try { localStorage.setItem('opentcu_activeView', viewId); } catch (e) { }
 
       if (window.innerWidth < 1024) {
         sidebar.classList.remove('open');
@@ -2809,7 +2915,7 @@
       if (newWidth > 600) newWidth = 600;
 
       document.documentElement.style.setProperty('--sidebar-width', `${newWidth}px`);
-      try { localStorage.setItem('opentcu_sidebarWidth', newWidth); } catch(e) {}
+      try { localStorage.setItem('opentcu_sidebarWidth', newWidth); } catch (e) { }
     });
 
     document.addEventListener('mouseup', () => {
@@ -2836,24 +2942,24 @@
       "SC 学生食堂": {
         displayName: "SC 学生食堂",
         slots: [
-          { id: "breakfast", name: "朝食 (月-金)", start: "08:30", end: "10:00", startMin: 8*60+30, endMin: 10*60, days: [1, 2, 3, 4, 5] },
-          { id: "lunch", name: "昼食 (月-土)", start: "11:00", end: "14:00", startMin: 11*60, endMin: 14*60, days: [1, 2, 3, 4, 5, 6], note: "(※コスパ丼は13:30〜)" },
-          { id: "dinner", name: "夕食 (月-金)", start: "17:00", end: "19:20", startMin: 17*60, endMin: 19*60+20, days: [1, 2, 3, 4, 5] }
+          { id: "breakfast", name: "朝食 (月-金)", start: "08:30", end: "10:00", startMin: 8 * 60 + 30, endMin: 10 * 60, days: [1, 2, 3, 4, 5] },
+          { id: "lunch", name: "昼食 (月-土)", start: "11:00", end: "14:00", startMin: 11 * 60, endMin: 14 * 60, days: [1, 2, 3, 4, 5, 6], note: "(※コスパ丼は13:30〜)" },
+          { id: "dinner", name: "夕食 (月-金)", start: "17:00", end: "19:20", startMin: 17 * 60, endMin: 19 * 60 + 20, days: [1, 2, 3, 4, 5] }
         ],
         checkStatus: (day, timeInMinutes) => {
           if (day === 0) {
             return { open: false, mealType: null, message: "本日は営業しておりません (日曜日)" };
           }
           // 朝食
-          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (8*60+30) && timeInMinutes < (10*60)) {
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (8 * 60 + 30) && timeInMinutes < (10 * 60)) {
             return { open: true, mealType: 'breakfast', message: "朝食(100円) 営業中" };
           }
           // 昼食
-          if ([1, 2, 3, 4, 5, 6].includes(day) && timeInMinutes >= (11*60) && timeInMinutes < (14*60)) {
+          if ([1, 2, 3, 4, 5, 6].includes(day) && timeInMinutes >= (11 * 60) && timeInMinutes < (14 * 60)) {
             return { open: true, mealType: 'lunch', message: "昼食 営業中" };
           }
           // 夕食
-          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (17*60) && timeInMinutes < (19*60+20)) {
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (17 * 60) && timeInMinutes < (19 * 60 + 20)) {
             return { open: true, mealType: 'dinner', message: "夕食 営業中" };
           }
           return { open: false, mealType: null, message: "ただいま 営業時間外です" };
@@ -2862,13 +2968,13 @@
       "ラウンジオーク": {
         displayName: "ラウンジオーク",
         slots: [
-          { id: "lunch", name: "営業 (月-金)", start: "11:00", end: "14:00", startMin: 11*60, endMin: 14*60, days: [1, 2, 3, 4, 5], note: "※学生は12:40まで使用不可" }
+          { id: "lunch", name: "営業 (月-金)", start: "11:00", end: "14:00", startMin: 11 * 60, endMin: 14 * 60, days: [1, 2, 3, 4, 5], note: "※学生は12:40まで使用不可" }
         ],
         checkStatus: (day, timeInMinutes) => {
           if (day === 0 || day === 6) {
             return { open: false, mealType: null, message: "本日は営業しておりません" };
           }
-          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (11*60) && timeInMinutes < (14*60)) {
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (11 * 60) && timeInMinutes < (14 * 60)) {
             return { open: true, mealType: 'lunch', message: "営業中 (※学生は12:40まで使用不可)" };
           }
           return { open: false, mealType: null, message: "ただいま 営業時間外です" };
@@ -2877,13 +2983,13 @@
       "nana cafe": {
         displayName: "nana cafe",
         slots: [
-          { id: "all-day", name: "営業 (月-金)", start: "10:00", end: "17:00", startMin: 10*60, endMin: 17*60, days: [1, 2, 3, 4, 5] }
+          { id: "all-day", name: "営業 (月-金)", start: "10:00", end: "17:00", startMin: 10 * 60, endMin: 17 * 60, days: [1, 2, 3, 4, 5] }
         ],
         checkStatus: (day, timeInMinutes) => {
           if (day === 0 || day === 6) {
             return { open: false, mealType: null, message: "本日は営業しておりません" };
           }
-          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (10*60) && timeInMinutes < (17*60)) {
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (10 * 60) && timeInMinutes < (17 * 60)) {
             return { open: true, mealType: 'all-day', message: "営業中" };
           }
           return { open: false, mealType: null, message: "ただいま 営業時間外です" };
@@ -2892,13 +2998,13 @@
       "cafe sora": {
         displayName: "cafe sora",
         slots: [
-          { id: "all-day", name: "営業 (月-金)", start: "11:00", end: "14:00", startMin: 11*60, endMin: 14*60, days: [1, 2, 3, 4, 5] }
+          { id: "all-day", name: "営業 (月-金)", start: "11:00", end: "14:00", startMin: 11 * 60, endMin: 14 * 60, days: [1, 2, 3, 4, 5] }
         ],
         checkStatus: (day, timeInMinutes) => {
           if (day === 0 || day === 6) {
             return { open: false, mealType: null, message: "本日は営業しておりません" };
           }
-          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (11*60) && timeInMinutes < (14*60)) {
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (11 * 60) && timeInMinutes < (14 * 60)) {
             return { open: true, mealType: 'all-day', message: "営業中" };
           }
           return { open: false, mealType: null, message: "ただいま 営業時間外です" };
@@ -2907,19 +3013,19 @@
       "YC 学生食堂": {
         displayName: "YC 学生食堂",
         slots: [
-          { id: "breakfast", name: "朝食 (月-金)", start: "08:30", end: "10:00", startMin: 8*60+30, endMin: 10*60, days: [1, 2, 3, 4, 5] },
-          { id: "lunch", name: "昼食 (月-土)", start: "11:00", end: "15:00", startMin: 11*60, endMin: 15*60, days: [1, 2, 3, 4, 5, 6], note: "(※コスパ丼は13:30〜)" }
+          { id: "breakfast", name: "朝食 (月-金)", start: "08:30", end: "10:00", startMin: 8 * 60 + 30, endMin: 10 * 60, days: [1, 2, 3, 4, 5] },
+          { id: "lunch", name: "昼食 (月-土)", start: "11:00", end: "15:00", startMin: 11 * 60, endMin: 15 * 60, days: [1, 2, 3, 4, 5, 6], note: "(※コスパ丼は13:30〜)" }
         ],
         checkStatus: (day, timeInMinutes) => {
           if (day === 0) {
             return { open: false, mealType: null, message: "本日は営業しておりません (日曜日)" };
           }
           // 朝食
-          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (8*60+30) && timeInMinutes < (10*60)) {
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (8 * 60 + 30) && timeInMinutes < (10 * 60)) {
             return { open: true, mealType: 'breakfast', message: "朝食 営業中" };
           }
           // 昼食
-          if ([1, 2, 3, 4, 5, 6].includes(day) && timeInMinutes >= (11*60) && timeInMinutes < (15*60)) {
+          if ([1, 2, 3, 4, 5, 6].includes(day) && timeInMinutes >= (11 * 60) && timeInMinutes < (15 * 60)) {
             return { open: true, mealType: 'lunch', message: "昼食 営業中" };
           }
           return { open: false, mealType: null, message: "ただいま 営業時間外です" };
@@ -2928,13 +3034,13 @@
       "YC 7号館カフェ": {
         displayName: "YC 7号館カフェ",
         slots: [
-          { id: "all-day", name: "営業 (月-金)", start: "11:00", end: "17:20", startMin: 11*60, endMin: 17*60+20, days: [1, 2, 3, 4, 5] }
+          { id: "all-day", name: "営業 (月-金)", start: "11:00", end: "17:20", startMin: 11 * 60, endMin: 17 * 60 + 20, days: [1, 2, 3, 4, 5] }
         ],
         checkStatus: (day, timeInMinutes) => {
           if (day === 0 || day === 6) {
             return { open: false, mealType: null, message: "本日は営業しておりません" };
           }
-          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (11*60) && timeInMinutes < (17*60+20)) {
+          if ([1, 2, 3, 4, 5].includes(day) && timeInMinutes >= (11 * 60) && timeInMinutes < (17 * 60 + 20)) {
             return { open: true, mealType: 'all-day', message: "営業中" };
           }
           return { open: false, mealType: null, message: "ただいま 営業時間外です" };
@@ -3084,11 +3190,11 @@
         if (alertBanner) alertBanner.style.display = 'block';
         return;
       }
-      
+
       const now = new Date();
       const currentDay = now.getDay(); // 0:日, 1:月, ... 6:土
       const diffToMonday = currentDay === 0 ? -6 : 1 - currentDay;
-      
+
       // 今週の月曜日 0:00:00 (JST基準とするため、ローカル時間で生成)
       const monday = new Date(now);
       monday.setDate(now.getDate() + diffToMonday);
@@ -3170,7 +3276,7 @@
         if (cachedDataStr) {
           const cachedJson = JSON.parse(cachedDataStr);
           allData = cachedJson.slice(1); // ヘッダーをスキップ
-          
+
           populateFilters();
           filterTable();
           checkDataDateValidity(allData);
@@ -3188,10 +3294,10 @@
         const fetchUrl = (typeof CONFIG !== 'undefined' && CONFIG.API_URL) ? CONFIG.API_URL : "./menu.json";
         const response = await fetch(fetchUrl);
         const data = await response.json();
-        
+
         // ローカルストレージに最新データをキャッシュ
         localStorage.setItem('opentcu_menuData', JSON.stringify(data));
-        
+
         allData = data.slice(1); // ヘッダーをスキップ
 
         // キャッシュからロードされていなかった、またはデータに差分がある場合はUIを更新
@@ -3350,7 +3456,12 @@
           ["火", "SC 学生食堂", "朝食カウンター", "100円朝食 (炒め物)", "100円", "510"],
           ["水", "SC 学生食堂", "朝食カウンター", "100円朝食 (うどん)", "100円", "430"],
           ["木", "SC 学生食堂", "朝食カウンター", "100円朝食 (フライ)", "100円", "580"],
-          ["金", "SC 学生食堂", "朝食カウンター", "100円朝食 (焼き魚)", "100円", "490"]
+          ["金", "SC 学生食堂", "朝食カウンター", "100円朝食 (焼き魚)", "100円", "490"],
+          ["月", "YC 学生食堂", "朝食カウンター", "100円朝食 (カレー)", "100円", "540"],
+          ["火", "YC 学生食堂", "朝食カウンター", "100円朝食 (炒め物)", "100円", "510"],
+          ["水", "YC 学生食堂", "朝食カウンター", "100円朝食 (うどん)", "100円", "430"],
+          ["木", "YC 学生食堂", "朝食カウンター", "100円朝食 (フライ)", "100円", "580"],
+          ["金", "YC 学生食堂", "朝食カウンター", "100円朝食 (焼き魚)", "100円", "490"]
         ];
 
         const filteredBreakfast = breakfastData.filter(row => {
@@ -3451,14 +3562,14 @@
           if (index === 0) {
             const rawCell = cell ? cell.toString().trim() : "";
             const parsedDate = new Date(rawCell);
-            
+
             if (!isNaN(parsedDate.getTime())) {
               const jstDate = new Date(parsedDate.getTime() + 9 * 60 * 60 * 1000);
               const month = jstDate.getUTCMonth() + 1;
               const date = jstDate.getUTCDate();
               const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
               const dayName = dayNames[parsedDate.getDay()];
-              
+
               let badgeClass = "badge-day";
               if (["月", "火", "木", "金"].includes(dayName)) {
                 badgeClass = "badge-day-mon";
@@ -3469,7 +3580,7 @@
               } else if (dayName === "日") {
                 badgeClass = "badge-day-sun";
               }
-              
+
               td.innerHTML = `<span style="font-size:12px; font-weight:500; color:var(--md-sys-color-on-surface-variant);">${month}月${date}日</span><br><span class="badge ${badgeClass}" style="margin-top:4px;">(${dayName})</span>`;
             } else {
               // 日付形式でない（モック等の曜日単体の文字列）場合
