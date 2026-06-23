@@ -851,6 +851,70 @@
       filter: grayscale(100%);
     }
 
+    /* バス案内画面の左右2カラムレイアウト */
+    .bus-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      width: 100%;
+    }
+
+    @media (min-width: 1024px) {
+      .bus-layout {
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: start;
+      }
+    }
+
+    .bus-main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .bus-sidebar-content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .bus-info-card {
+      padding: 20px !important;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bus-info-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .bus-info-card-header h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .bus-info-card p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .bus-info-card .wanroma-img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      margin-top: 4px;
+      margin-bottom: 4px;
+      object-fit: cover;
+      border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
     /* レスポンシブ調整 */
     @media (max-width: 600px) {
       .bus-container {
@@ -1658,18 +1722,59 @@
           </div>
         </div>
 
-        <!-- LED Ticker Box -->
-        <div class="led-ticker-box">
-          <div class="led-ticker-title">先発バス案内 / DEPARTURE BOARD TICKER</div>
-          <div class="led-ticker-content" id="ledTickerContent">
-            現在、本日の運行便はありません。
-          </div>
-        </div>
+        <div class="bus-layout">
+          <!-- 左側（メインコンテンツ）：発車案内板 -->
+          <div class="bus-main-content">
+            <!-- LED Ticker Box -->
+            <div class="led-ticker-box">
+              <div class="led-ticker-title">先発バス案内 / DEPARTURE BOARD TICKER</div>
+              <div class="led-ticker-content" id="ledTickerContent">
+                現在、本日の運行便はありません。
+              </div>
+            </div>
 
-        <!-- Stacked Departures Boards -->
-        <div class="led-boards-container" id="ledBoardsContainer">
-          <div style="text-align: center; padding: 40px; color: var(--md-sys-color-outline);">
-            時刻表を読み込み中...
+            <!-- Stacked Departures Boards -->
+            <div class="led-boards-container" id="ledBoardsContainer">
+              <div style="text-align: center; padding: 40px; color: var(--md-sys-color-outline);">
+                時刻表を読み込み中...
+              </div>
+            </div>
+          </div>
+
+          <!-- 右側（サイドバーコンテンツ）：各種案内カード -->
+          <div class="bus-sidebar-content">
+            <!-- 安全運行に関する啓発カード -->
+            <div class="material-card bus-info-card" style="background-color: var(--md-sys-color-surface-container-low); border-left: 4px solid #FFB300;">
+              <div class="bus-info-card-header" style="color: #FFB300;">
+                <span class="material-symbols-outlined">warning</span>
+                <h3>安全運行に関するお願い</h3>
+              </div>
+              <p>このシャトルバスは、世田谷キャンパス〜横浜キャンパス間で<strong>高速道路（第三京浜道路、玉川IC〜都筑IC）を経由</strong>して運行します。</p>
+              <p>道路交通法および乗客の安全確保のため、<strong>立っての乗車は固く禁じられています。</strong>必ず着席し、乗車中は<strong>座席シートベルトを必ず着用</strong>してください。</p>
+            </div>
+
+            <!-- 運休スケジュールに関する注意カード -->
+            <div class="material-card bus-info-card" style="background-color: var(--md-sys-color-surface-container-low); border-left: 4px solid var(--md-sys-color-error);">
+              <div class="bus-info-card-header" style="color: var(--md-sys-color-error);">
+                <span class="material-symbols-outlined">calendar_today</span>
+                <h3>運休期間に関するご注意</h3>
+              </div>
+              <p>長期休み期間（夏期・冬期・春期休業期間）、および大学のイベント日やその他試験期間中などは、シャトルバスは<strong>運休または特別ダイヤ</strong>での運行となります。</p>
+              <p>ご利用の際は、必ず事前に学内掲示やポータル等で運行スケジュールを確認するようにしてください。</p>
+            </div>
+
+            <!-- おまけ：車両紹介カード -->
+            <div class="material-card bus-info-card" style="background-color: var(--md-sys-color-surface-container-low); border-left: 4px solid var(--md-sys-color-primary);">
+              <div class="bus-info-card-header" style="color: var(--md-sys-color-primary);">
+                <span class="material-symbols-outlined">info</span>
+                <h3>シャトルバス車両紹介</h3>
+              </div>
+              <img src="images/wanroma.png" alt="東急バス ワンロマ車" class="wanroma-img">
+              <!-- ここからワンロマ車の説明文 -->
+              <p>このシャトルバスでは、主に東急バスの<strong>「ワンロマ車」</strong>と呼ばれる特別な車両が使用されています。</p>
+              <p>一般の路線バスの機能（ワンマン機器）に加えて、観光バス等に備わる快適なハイバックシート（ロマンスシート）を搭載しており、全席にシートベルトも装備されています。高速道路の走行を前提とした、東急バス独自のハイブリッドな特別仕様車です。</p>
+              <!-- ここまでワンロマ車の説明文 -->
+            </div>
           </div>
         </div>
 
@@ -1969,9 +2074,10 @@
         { from: "O", to: "S", depTime: "14:30", arrTime: "15:05", days: [2], months: [4, 5, 6, 7], operator: "東急バス 東山田営業所", note: "4月-7月 火曜運行 (横浜通過)" },
         { from: "S", to: "T", depTime: "12:10", arrTime: "12:30", days: [1, 2, 3, 4, 5], operator: "東急バス 東山田営業所", note: "等々力便 (隠し)" },
         { from: "T", to: "S", depTime: "12:40", arrTime: "13:00", days: [1, 2, 3, 4, 5], operator: "東急バス 東山田営業所", note: "等々力便 (隠し)" },
-        { from: "S", to: "D", depTime: "17:35", arrTime: "18:00", days: [1, 2, 3, 4, 5], isDeadhead: true, operator: "東急バス 東山田営業所", note: "回送" },
-        { from: "Y", to: "D", depTime: "17:35", arrTime: "17:50", days: [1, 2, 3, 4, 5], isDeadhead: true, operator: "東急バス 東山田営業所", note: "回送" },
-        { from: "Y", to: "D", depTime: "14:35", arrTime: "14:50", days: [3], isDeadhead: true, operator: "東急バス 東山田営業所", note: "回送" }
+        { from: "S", to: "D", depTime: "18:05", arrTime: "18:30", days: [1, 2, 3, 4, 5], isDeadhead: true, operator: "東急バス 東山田営業所", note: "回送" },
+        { from: "Y", to: "D", depTime: "18:05", arrTime: "18:20", days: [1, 2, 3, 4, 5], isDeadhead: true, operator: "東急バス 東山田営業所", note: "回送" },
+        { from: "Y", to: "D", depTime: "14:35", arrTime: "14:50", days: [3], isDeadhead: true, operator: "東急バス 東山田営業所", note: "回送" },
+        { from: "S", to: "D", depTime: "15:10", arrTime: "15:35", days: [2], months: [4, 5, 6, 7], isDeadhead: true, operator: "東急バス 東山田営業所", note: "回送" }
       ]
     };
 
@@ -2009,6 +2115,7 @@
       if (run.from === "S" && run.depTime === "13:00" && !run.isDeadhead) return true;
       if (run.from === "Y" && run.depTime === "13:00" && !run.isDeadhead) return true;
       if (run.from === "Y" && run.depTime === "13:10" && run.days.includes(3)) return true;
+      if (run.from === "S" && run.depTime === "13:20" && run.to === "O") return true;
       return false;
     }
 
@@ -2183,7 +2290,8 @@
           if (run.isDeadhead) {
             destName = `${destName} (回送)`;
             destColorClass = "led-text-orange";
-            remarksText = "回送";
+            remarksText = "ご乗車になれません。";
+            remarksColorClass = "led-text-orange";
           } else if (run.to === "O") {
             destColorClass = "led-text-orange";
           }
