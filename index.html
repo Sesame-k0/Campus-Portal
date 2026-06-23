@@ -791,22 +791,22 @@
       }
 
       /* テーブルをカード風に変更 */
-      table,
-      thead,
-      tbody,
-      th,
-      td,
-      tr {
+      #menuTable,
+      #menuTable thead,
+      #menuTable tbody,
+      #menuTable th,
+      #menuTable td,
+      #menuTable tr {
         display: block;
       }
 
-      thead tr {
+      #menuTable thead tr {
         position: absolute;
         top: -9999px;
         left: -9999px;
       }
 
-      tr {
+      #menuTable tr {
         border: 1px solid var(--md-sys-color-outline-variant);
         border-radius: 16px;
         margin-bottom: 16px;
@@ -815,7 +815,7 @@
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
       }
 
-      td {
+      #menuTable td {
         border: none;
         border-bottom: 1px solid var(--md-sys-color-surface-variant);
         position: relative;
@@ -824,11 +824,11 @@
         font-size: 14px;
       }
 
-      td:last-child {
+      #menuTable td:last-child {
         border-bottom: none;
       }
 
-      td::before {
+      #menuTable td::before {
         position: absolute;
         left: 16px;
         width: 35%;
@@ -918,7 +918,7 @@
     .timetable-table {
       width: 100%;
       border-collapse: separate;
-      border-spacing: 8px;
+      border-spacing: 12px;
       table-layout: fixed;
       min-width: 750px;
     }
@@ -993,7 +993,6 @@
       border: 1px dashed var(--md-sys-color-outline-variant);
       transition: all var(--md-transition-duration) var(--md-transition-easing);
       cursor: pointer;
-      overflow: hidden;
     }
 
     .timetable-cell:hover {
@@ -1005,9 +1004,6 @@
 
     /* 未登録時のプラスマーク */
     .timetable-cell-empty {
-      display: flex;
-      justify-content: center;
-      align-items: center;
       color: var(--md-sys-color-outline);
     }
 
@@ -1026,9 +1022,6 @@
     .timetable-cell-registered {
       border-style: solid;
       border-width: 1px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
       padding: 10px;
       box-sizing: border-box;
       text-align: left;
@@ -1566,12 +1559,43 @@
         <table class="timetable-table" id="timetableTable">
           <thead>
             <tr>
-              <th style="width: 130px;">時限</th>
-              <th>月</th>
-              <th>火</th>
-              <th>水</th>
-              <th>木</th>
-              <th>金</th>
+              <th style="width: 120px;">時限</th>
+              <th>
+                月
+                <div class="first-period-header" onclick="toggleDayFirstPeriodStart('mon')" title="月曜1限の開始時刻を切り替えます">
+                  1限 <span id="label-start-mon">09:20</span>
+                </div>
+              </th>
+              <th>
+                火
+                <div class="first-period-header" onclick="toggleDayFirstPeriodStart('tue')" title="火曜1限の開始時刻を切り替えます">
+                  1限 <span id="label-start-tue">09:20</span>
+                </div>
+              </th>
+              <th>
+                水
+                <div class="first-period-header" onclick="toggleDayFirstPeriodStart('wed')" title="水曜1限の開始時刻を切り替えます">
+                  1限 <span id="label-start-wed">09:20</span>
+                </div>
+              </th>
+              <th>
+                木
+                <div class="first-period-header" onclick="toggleDayFirstPeriodStart('thu')" title="木曜1限の開始時刻を切り替えます">
+                  1限 <span id="label-start-thu">09:20</span>
+                </div>
+              </th>
+              <th>
+                金
+                <div class="first-period-header" onclick="toggleDayFirstPeriodStart('fri')" title="金曜1限の開始時刻を切り替えます">
+                  1限 <span id="label-start-fri">09:20</span>
+                </div>
+              </th>
+              <th>
+                土
+                <div class="first-period-header" onclick="toggleDayFirstPeriodStart('sat')" title="土曜1限の開始時刻を切り替えます">
+                  1限 <span id="label-start-sat">09:20</span>
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -1580,10 +1604,7 @@
               <td>
                 <div class="timetable-time-col">
                   <span>1限</span>
-                  <span id="label-period-1-time" style="font-size: 11px;">09:20 - 11:00</span>
-                  <div class="first-period-header" onclick="toggleFirstPeriodStart()" title="1限の開始時刻を切り替えます">
-                    <span id="label-period-1-start-mode">通常 (09:20)</span>
-                  </div>
+                  <span style="font-size: 10px; opacity: 0.8;">曜日別設定</span>
                 </div>
               </td>
               <td class="timetable-cell timetable-cell-empty" id="cell-mon-1" onclick="handleCellClick('mon', 1)"></td>
@@ -1591,13 +1612,14 @@
               <td class="timetable-cell timetable-cell-empty" id="cell-wed-1" onclick="handleCellClick('wed', 1)"></td>
               <td class="timetable-cell timetable-cell-empty" id="cell-thu-1" onclick="handleCellClick('thu', 1)"></td>
               <td class="timetable-cell timetable-cell-empty" id="cell-fri-1" onclick="handleCellClick('fri', 1)"></td>
+              <td class="timetable-cell timetable-cell-empty" id="cell-sat-1" onclick="handleCellClick('sat', 1)"></td>
             </tr>
             <!-- 2限 -->
             <tr id="row-period-2">
               <td>
                 <div class="timetable-time-col">
                   <span>2限</span>
-                  <span style="font-size: 11px;">11:15 - 12:55</span>
+                  <span style="font-size: 11px;">11:10 - 12:50</span>
                 </div>
               </td>
               <td class="timetable-cell timetable-cell-empty" id="cell-mon-2" onclick="handleCellClick('mon', 2)"></td>
@@ -1605,6 +1627,7 @@
               <td class="timetable-cell timetable-cell-empty" id="cell-wed-2" onclick="handleCellClick('wed', 2)"></td>
               <td class="timetable-cell timetable-cell-empty" id="cell-thu-2" onclick="handleCellClick('thu', 2)"></td>
               <td class="timetable-cell timetable-cell-empty" id="cell-fri-2" onclick="handleCellClick('fri', 2)"></td>
+              <td class="timetable-cell timetable-cell-empty" id="cell-sat-2" onclick="handleCellClick('sat', 2)"></td>
             </tr>
             <!-- 昼休み -->
             <tr class="timetable-lunch-row">
@@ -1613,14 +1636,14 @@
                   <span>昼休み</span>
                 </div>
               </td>
-              <td colspan="5">LUNCH TIME (12:55 - 13:45)</td>
+              <td colspan="6">LUNCH TIME (12:50 - 13:40)</td>
             </tr>
             <!-- 3限 -->
             <tr id="row-period-3">
               <td>
                 <div class="timetable-time-col">
                   <span>3限</span>
-                  <span style="font-size: 11px;">13:45 - 15:25</span>
+                  <span style="font-size: 11px;">13:40 - 15:20</span>
                 </div>
               </td>
               <td class="timetable-cell timetable-cell-empty" id="cell-mon-3" onclick="handleCellClick('mon', 3)"></td>
@@ -1628,13 +1651,14 @@
               <td class="timetable-cell timetable-cell-empty" id="cell-wed-3" onclick="handleCellClick('wed', 3)"></td>
               <td class="timetable-cell timetable-cell-empty" id="cell-thu-3" onclick="handleCellClick('thu', 3)"></td>
               <td class="timetable-cell timetable-cell-empty" id="cell-fri-3" onclick="handleCellClick('fri', 3)"></td>
+              <td class="timetable-cell timetable-cell-empty" id="cell-sat-3" onclick="handleCellClick('sat', 3)"></td>
             </tr>
             <!-- 4限 -->
             <tr id="row-period-4">
               <td>
                 <div class="timetable-time-col">
                   <span>4限</span>
-                  <span style="font-size: 11px;">15:40 - 17:20</span>
+                  <span style="font-size: 11px;">15:30 - 17:10</span>
                 </div>
               </td>
               <td class="timetable-cell timetable-cell-empty" id="cell-mon-4" onclick="handleCellClick('mon', 4)"></td>
@@ -1642,13 +1666,14 @@
               <td class="timetable-cell timetable-cell-empty" id="cell-wed-4" onclick="handleCellClick('wed', 4)"></td>
               <td class="timetable-cell timetable-cell-empty" id="cell-thu-4" onclick="handleCellClick('thu', 4)"></td>
               <td class="timetable-cell timetable-cell-empty" id="cell-fri-4" onclick="handleCellClick('fri', 4)"></td>
+              <td class="timetable-cell timetable-cell-empty" id="cell-sat-4" onclick="handleCellClick('sat', 4)"></td>
             </tr>
             <!-- 5限 -->
             <tr id="row-period-5">
               <td>
                 <div class="timetable-time-col">
                   <span>5限</span>
-                  <span style="font-size: 11px;">17:30 - 19:10</span>
+                  <span style="font-size: 11px;">17:20 - 19:00</span>
                 </div>
               </td>
               <td class="timetable-cell timetable-cell-empty" id="cell-mon-5" onclick="handleCellClick('mon', 5)"></td>
@@ -1656,20 +1681,7 @@
               <td class="timetable-cell timetable-cell-empty" id="cell-wed-5" onclick="handleCellClick('wed', 5)"></td>
               <td class="timetable-cell timetable-cell-empty" id="cell-thu-5" onclick="handleCellClick('thu', 5)"></td>
               <td class="timetable-cell timetable-cell-empty" id="cell-fri-5" onclick="handleCellClick('fri', 5)"></td>
-            </tr>
-            <!-- 6限 -->
-            <tr id="row-period-6">
-              <td>
-                <div class="timetable-time-col">
-                  <span>6限</span>
-                  <span style="font-size: 11px;">19:20 - 21:00</span>
-                </div>
-              </td>
-              <td class="timetable-cell timetable-cell-empty" id="cell-mon-6" onclick="handleCellClick('mon', 6)"></td>
-              <td class="timetable-cell timetable-cell-empty" id="cell-tue-6" onclick="handleCellClick('tue', 6)"></td>
-              <td class="timetable-cell timetable-cell-empty" id="cell-wed-6" onclick="handleCellClick('wed', 6)"></td>
-              <td class="timetable-cell timetable-cell-empty" id="cell-thu-6" onclick="handleCellClick('thu', 6)"></td>
-              <td class="timetable-cell timetable-cell-empty" id="cell-fri-6" onclick="handleCellClick('fri', 6)"></td>
+              <td class="timetable-cell timetable-cell-empty" id="cell-sat-5" onclick="handleCellClick('sat', 5)"></td>
             </tr>
           </tbody>
         </table>
@@ -1731,6 +1743,7 @@
               <option value="wed">水曜日</option>
               <option value="thu">木曜日</option>
               <option value="fri">金曜日</option>
+              <option value="sat">土曜日</option>
             </select>
           </div>
           <div class="form-group">
@@ -1741,7 +1754,6 @@
               <option value="3">3限</option>
               <option value="4">4限</option>
               <option value="5">5限</option>
-              <option value="6">6限</option>
             </select>
           </div>
         </div>
@@ -1787,7 +1799,7 @@
     // ==========================================
     let timetableData = {};
     let isTimetableEditMode = false;
-    let isFirstPeriodStart9am = false;
+    let dayStartTimes = { mon: false, tue: false, wed: false, thu: false, fri: false, sat: false };
 
     // パステルカラーのハッシュ選択用
     function getTimetableColorClass(subjectName) {
@@ -1811,44 +1823,48 @@
           timetableData = {};
         }
 
-        const savedFirstPeriodMode = localStorage.getItem('opentcu_timetableFirstPeriodStart');
-        isFirstPeriodStart9am = (savedFirstPeriodMode === 'true');
+        const savedStartTimes = localStorage.getItem('opentcu_timetableDayStartTimes');
+        if (savedStartTimes) {
+          dayStartTimes = JSON.parse(savedStartTimes);
+        } else {
+          dayStartTimes = { mon: false, tue: false, wed: false, thu: false, fri: false, sat: false };
+        }
       } catch (e) {
         console.error("Failed to load timetable data:", e);
         timetableData = {};
+        dayStartTimes = { mon: false, tue: false, wed: false, thu: false, fri: false, sat: false };
       }
 
-      applyFirstPeriodTimeUI();
+      // 曜日別の開始時間UIをそれぞれ更新
+      const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+      days.forEach(day => {
+        applyDayFirstPeriodTimeUI(day);
+      });
+
       renderTimetable();
     }
 
-    // 1限目の時間表示を更新する
-    function applyFirstPeriodTimeUI() {
-      const timeLabel = document.getElementById('label-period-1-time');
-      const modeLabel = document.getElementById('label-period-1-start-mode');
-      
-      if (isFirstPeriodStart9am) {
-        timeLabel.textContent = "09:00 - 10:40";
-        modeLabel.textContent = "早朝 (09:00)";
-      } else {
-        timeLabel.textContent = "09:20 - 11:00";
-        modeLabel.textContent = "通常 (09:20)";
+    // 各曜日の1限時間表示を更新する
+    function applyDayFirstPeriodTimeUI(day) {
+      const modeLabel = document.getElementById(`label-start-${day}`);
+      if (modeLabel) {
+        modeLabel.textContent = dayStartTimes[day] ? "09:00" : "09:20";
       }
     }
 
-    // 1限目の開始時間トグル
-    function toggleFirstPeriodStart() {
-      isFirstPeriodStart9am = !isFirstPeriodStart9am;
+    // 曜日ごとの1限開始時間トグル
+    function toggleDayFirstPeriodStart(day) {
+      dayStartTimes[day] = !dayStartTimes[day];
       try {
-        localStorage.setItem('opentcu_timetableFirstPeriodStart', isFirstPeriodStart9am);
+        localStorage.setItem('opentcu_timetableDayStartTimes', JSON.stringify(dayStartTimes));
       } catch (e) {}
-      applyFirstPeriodTimeUI();
+      applyDayFirstPeriodTimeUI(day);
     }
 
     // 時間割の再描画
     function renderTimetable() {
-      const days = ['mon', 'tue', 'wed', 'thu', 'fri'];
-      const periods = [1, 2, 3, 4, 5, 6];
+      const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+      const periods = [1, 2, 3, 4, 5];
 
       days.forEach(day => {
         periods.forEach(period => {
@@ -1972,13 +1988,14 @@
       notesInput.value = "";
       emptyCheck.checked = false;
 
+      // 曜日・時限のセレクトボックスは常に編集可能にしておく（ユーザー選択可能仕様）
+      daySelect.disabled = false;
+      periodSelect.disabled = false;
+
       if (day && period) {
         // 特定コマクリック時
         daySelect.value = day;
         periodSelect.value = period;
-        // 曜日・時限は変更できないようにする（誤操作防止）
-        daySelect.disabled = true;
-        periodSelect.disabled = true;
 
         const entry = timetableData[`${day}-${period}`];
         if (entry) {
@@ -1995,8 +2012,6 @@
         // 右上「授業を追加」ボタンクリック時
         daySelect.value = "mon";
         periodSelect.value = "1";
-        daySelect.disabled = false;
-        periodSelect.disabled = false;
         title.textContent = "授業を追加";
       }
 
@@ -2147,7 +2162,7 @@
           let isValid = true;
           if (typeof importedData === 'object' && importedData !== null) {
             for (const key in importedData) {
-              if (!/^[a-z]{3}-[1-6]$/.test(key)) {
+              if (!/^(mon|tue|wed|thu|fri|sat)-[1-5]$/.test(key)) {
                 isValid = false;
                 break;
               }
