@@ -5,6 +5,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>openTCU</title>
+  
+  <!-- PWA & Mobile Settings -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#006685">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="images/icon-192.png">
+
+  <!-- External Configurations -->
+  <script src="./config.js"></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -854,10 +865,10 @@
       </button>
     </div>
     <ul class="nav-list">
-      <li class="nav-item active" onclick="switchView('cafeteria', this)">
+      <li class="nav-item active" id="nav-cafeteria" onclick="switchView('cafeteria', this)">
         <span class="material-symbols-outlined">restaurant</span>学食メニュー
       </li>
-      <li class="nav-item" onclick="switchView('bus', this)">
+      <li class="nav-item" id="nav-bus" onclick="switchView('bus', this)">
         <span class="material-symbols-outlined">directions_bus</span>シャトルバス案内
       </li>
     </ul>
@@ -902,6 +913,17 @@
           <span id="infoIcon" class="material-symbols-outlined" style="font-size: 48px; color: var(--md-sys-color-primary);">info</span>
           <h3 id="infoTitle" style="font-size: 18px; font-weight: 600; color: var(--md-sys-color-on-surface); margin: 0;">タイトル</h3>
           <p id="infoText" style="font-size: 14px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant); margin: 0; max-width: 600px;">本文</p>
+        </div>
+      </div>
+
+      <!-- データ警告アラート -->
+      <div id="dataWarningAlert" style="display: none; background-color: #FEF3C7; border: 1px solid #F59E0B; border-radius: 16px; padding: 16px 20px; margin-bottom: 20px; display: none;">
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+          <span class="material-symbols-outlined" style="font-size: 24px; color: #D97706; flex-shrink: 0;">warning</span>
+          <div>
+            <strong style="color: #92400E; font-size: 14px;">データに関するご注意</strong>
+            <p style="margin: 4px 0 0 0; font-size: 13px; line-height: 1.5; color: #92400E; opacity: 0.85;">ただいまの時間帯はデータが正常に取得できていない可能性があります。しばらくお待ちいただくことをおすすめしますが、参照の際はご注意ください。</p>
+          </div>
         </div>
       </div>
 
@@ -1015,14 +1037,16 @@
 
   <script>
     // ==========================================
-    // 曜日の表示バグ修正用パーサー (ISO日付を曜日文字へ変換)
+    // 曜日の表示パーサー (ISO日付を曜日文字へ変換)
+    // formatStyle: 'short' → 曜日のみ (フィルタ用), 'long' → MM月DD日(改行)(曜日) (テーブル表示用)
     // ==========================================
-    function formatDayCell(dayStr) {
+    function formatDayCell(dayStr, formatStyle) {
       if (!dayStr) return "";
+      if (!formatStyle) formatStyle = 'short';
 
       const trimmed = dayStr.toString().trim();
 
-      // すでに「月」「火」「水」「木」「金」「土」「日」等の曜日である場合はそのまま返す
+      // すでに「月」「火」「水」「木」「金」「土」「日」等の曜日である場合
       if (/^[月火水木金土日]$/.test(trimmed)) {
         return trimmed;
       }
@@ -1030,9 +1054,18 @@
       // ISO 8601形式 (2026-06-14T15:00:00.000Z等) か確認してDateオブジェクトにパース
       const parsedDate = new Date(trimmed);
       if (!isNaN(parsedDate.getTime())) {
-        // スプレッドシート側のUTC日付(JST+9h)を考慮してブラウザ実行環境(JST)で曜日を取得
         const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
-        return dayNames[parsedDate.getDay()];
+        const dayName = dayNames[parsedDate.getDay()];
+
+        if (formatStyle === 'long') {
+          // JSTに合わせた日付を取得 (UTCからの補正)
+          const jstDate = new Date(parsedDate.getTime() + 9 * 60 * 60 * 1000);
+          const month = jstDate.getUTCMonth() + 1;
+          const date = jstDate.getUTCDate();
+          return `${month}月${date}日<br>(${dayName})`;
+        }
+
+        return dayName;
       }
 
       // それ以外の場合、部分一致で曜日を探す
@@ -1066,6 +1099,9 @@
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
       element.classList.add('active');
 
+      // 現在のビューをlocalStorageに保存
+      try { localStorage.setItem('opentcu_activeView', viewId); } catch(e) {}
+
       if (window.innerWidth < 1024) {
         sidebar.classList.remove('open');
         overlay.classList.remove('show');
@@ -1095,6 +1131,7 @@
       if (newWidth > 600) newWidth = 600;
 
       document.documentElement.style.setProperty('--sidebar-width', `${newWidth}px`);
+      try { localStorage.setItem('opentcu_sidebarWidth', newWidth); } catch(e) {}
     });
 
     document.addEventListener('mouseup', () => {
@@ -1298,29 +1335,125 @@
     }
 
     // ==========================================
-    // 学食メニューのデータをGitHub内部からもらってくる→表示
-    // GitHub側は毎日1回JSONをもらってくるよ
+    // 学食メニューのデータロード (PWAキャッシュ & バックグラウンド同期対応)
     // ==========================================
-    const API_URL = "./menu.json";
     let allData = [];
 
+    // 今週のデータが含まれているかチェックし、アラートを表示する関数
+    function checkDataDateValidity(data) {
+      if (!data || data.length === 0) {
+        const alertBanner = document.getElementById('dataWarningAlert');
+        if (alertBanner) alertBanner.style.display = 'block';
+        return;
+      }
+      
+      const now = new Date();
+      const currentDay = now.getDay(); // 0:日, 1:月, ... 6:土
+      const diffToMonday = currentDay === 0 ? -6 : 1 - currentDay;
+      
+      // 今週の月曜日 0:00:00 (JST基準とするため、ローカル時間で生成)
+      const monday = new Date(now);
+      monday.setDate(now.getDate() + diffToMonday);
+      monday.setHours(0, 0, 0, 0);
+
+      // 今週の日曜日 23:59:59
+      const sunday = new Date(monday);
+      sunday.setDate(monday.getDate() + 6);
+      sunday.setHours(23, 59, 59, 999);
+
+      let hasThisWeekData = false;
+
+      for (const row of data) {
+        const dayStr = row[0];
+        if (!dayStr) continue;
+
+        const trimmed = dayStr.toString().trim();
+        const parsedDate = new Date(trimmed);
+        if (!isNaN(parsedDate.getTime())) {
+          // スプレッドシート側のUTC日付(JST+9h)を考慮してブラウザ実行環境(JST)で比較
+          const jstDate = new Date(parsedDate.getTime() + 9 * 60 * 60 * 1000);
+          if (jstDate >= monday && jstDate <= sunday) {
+            hasThisWeekData = true;
+            break;
+          }
+        }
+      }
+
+      const alertBanner = document.getElementById('dataWarningAlert');
+      if (alertBanner) {
+        alertBanner.style.display = hasThisWeekData ? 'none' : 'block';
+      }
+    }
+
     window.onload = async function () {
+      // 1. サイドバー幅の復元 (レイアウトシフトを最小にするため最初に処理)
+      try {
+        const savedWidth = localStorage.getItem('opentcu_sidebarWidth');
+        if (savedWidth) {
+          document.documentElement.style.setProperty('--sidebar-width', `${savedWidth}px`);
+        }
+      } catch (e) {
+        console.error("Failed to restore sidebar width:", e);
+      }
+
+      // 2. 営業時間ステータスの初期更新 & ループ開始
       updateCafeteriaStatusUI();
       setInterval(updateCafeteriaStatusUI, 60000);
 
+      // 3. アクティブなタブ（ビュー）の復元
       try {
-        const response = await fetch(API_URL);
+        const activeView = localStorage.getItem('opentcu_activeView') || 'cafeteria';
+        const navItem = document.getElementById('nav-' + activeView);
+        if (navItem) {
+          switchView(activeView, navItem);
+        }
+      } catch (e) {
+        console.error("Failed to restore active view:", e);
+      }
+
+      // 4. メニューデータの Stale-While-Revalidate キャッシュ処理
+      let cacheLoaded = false;
+      try {
+        const cachedDataStr = localStorage.getItem('opentcu_menuData');
+        if (cachedDataStr) {
+          const cachedJson = JSON.parse(cachedDataStr);
+          allData = cachedJson.slice(1); // ヘッダーをスキップ
+          
+          populateFilters();
+          filterTable();
+          checkDataDateValidity(allData);
+
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('menuTable').style.display = 'table';
+          cacheLoaded = true;
+        }
+      } catch (e) {
+        console.error("Failed to load cached menu data:", e);
+      }
+
+      // 5. バックグラウンドでの最新データ同期
+      try {
+        const fetchUrl = (typeof CONFIG !== 'undefined' && CONFIG.API_URL) ? CONFIG.API_URL : "./menu.json";
+        const response = await fetch(fetchUrl);
         const data = await response.json();
+        
+        // ローカルストレージに最新データをキャッシュ
+        localStorage.setItem('opentcu_menuData', JSON.stringify(data));
+        
         allData = data.slice(1); // ヘッダーをスキップ
 
+        // キャッシュからロードされていなかった、またはデータに差分がある場合はUIを更新
         populateFilters();
         filterTable();
+        checkDataDateValidity(allData);
 
         document.getElementById('loading').style.display = 'none';
         document.getElementById('menuTable').style.display = 'table';
       } catch (error) {
-        document.getElementById('loading').innerText = "データの読み込みに失敗しました。";
-        console.error(error);
+        console.error("Failed to fetch fresh menu data:", error);
+        if (!cacheLoaded) {
+          document.getElementById('loading').innerText = "データの読み込みに失敗しました。オフライン状態か、一時的にサーバーにアクセスできません。";
+        }
       }
     };
 
@@ -1561,25 +1694,46 @@
 
           const td = document.createElement('td');
 
-          if (index === 0) {
-            cellText = formatDayCell(cellText);
-          }
-
           td.setAttribute('data-label', headers[index]);
 
           if (index === 0) {
-            // 曜日ごとにバッジ配色クラスを分岐
-            let badgeClass = "badge-day";
-            if (cellText === "月" || cellText === "火" || cellText === "木" || cellText === "金") {
-              badgeClass = "badge-day-mon";
-            } else if (cellText === "水") {
-              badgeClass = "badge-day-wed";
-            } else if (cellText === "土") {
-              badgeClass = "badge-day-sat";
-            } else if (cellText === "日") {
-              badgeClass = "badge-day-sun";
+            const rawCell = cell ? cell.toString().trim() : "";
+            const parsedDate = new Date(rawCell);
+            
+            if (!isNaN(parsedDate.getTime())) {
+              const jstDate = new Date(parsedDate.getTime() + 9 * 60 * 60 * 1000);
+              const month = jstDate.getUTCMonth() + 1;
+              const date = jstDate.getUTCDate();
+              const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
+              const dayName = dayNames[parsedDate.getDay()];
+              
+              let badgeClass = "badge-day";
+              if (["月", "火", "木", "金"].includes(dayName)) {
+                badgeClass = "badge-day-mon";
+              } else if (dayName === "水") {
+                badgeClass = "badge-day-wed";
+              } else if (dayName === "土") {
+                badgeClass = "badge-day-sat";
+              } else if (dayName === "日") {
+                badgeClass = "badge-day-sun";
+              }
+              
+              td.innerHTML = `<span style="font-size:12px; font-weight:500; color:var(--md-sys-color-on-surface-variant);">${month}月${date}日</span><br><span class="badge ${badgeClass}" style="margin-top:4px;">(${dayName})</span>`;
+            } else {
+              // 日付形式でない（モック等の曜日単体の文字列）場合
+              const dayText = formatDayCell(rawCell);
+              let badgeClass = "badge-day";
+              if (dayText === "月" || dayText === "火" || dayText === "木" || dayText === "金") {
+                badgeClass = "badge-day-mon";
+              } else if (dayText === "水") {
+                badgeClass = "badge-day-wed";
+              } else if (dayText === "土") {
+                badgeClass = "badge-day-sat";
+              } else if (dayText === "日") {
+                badgeClass = "badge-day-sun";
+              }
+              td.innerHTML = `<span class="badge ${badgeClass}">${dayText}</span>`;
             }
-            td.innerHTML = `<span class="badge ${badgeClass}">${cellText}</span>`;
           } else if (index === 1) {
             td.innerHTML = `<span class="badge badge-shop">${cellText}</span>`;
           } else if (index === 4) {
@@ -1611,6 +1765,17 @@
         }
 
         tbody.appendChild(tr);
+      });
+    }
+  </script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker registered successfully with scope:', reg.scope))
+          .catch(err => console.error('Service Worker registration failed:', err));
       });
     }
   </script>
