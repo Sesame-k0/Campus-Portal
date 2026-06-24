@@ -1707,22 +1707,25 @@
     /* === 外部リンク集スタイル === */
     .links-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* 横5列程度になるよう縮小 */
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* 横長カードに合わせるため少し拡大 */
       gap: 12px;
       width: 100%;
       box-sizing: border-box;
-      margin-top: 16px;
+      margin-top: 12px;
+      margin-bottom: 24px;
     }
 
     .link-card {
       background: var(--md-sys-color-surface-container);
       border: 1px solid var(--md-sys-color-outline-variant);
       border-radius: 16px;
-      padding: 16px; /* パディングを小さくしてコンパクト化 */
+      padding: 16px;
       cursor: pointer;
       display: flex;
-      flex-direction: column;
+      flex-direction: row; /* 横長表示にするため横並びへ */
+      align-items: center;
       justify-content: space-between;
+      gap: 12px;
       transition: transform var(--md-transition-duration) var(--md-transition-easing), 
                   box-shadow var(--md-transition-duration) var(--md-transition-easing),
                   background-color var(--md-transition-duration) var(--md-transition-easing),
@@ -1730,10 +1733,19 @@
     }
 
     .link-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       background-color: var(--md-sys-color-surface-container-high);
       border-color: var(--md-sys-color-primary);
+    }
+
+    .link-card-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      min-width: 0;
+      flex-grow: 1;
     }
 
     .link-card-category {
@@ -1742,61 +1754,21 @@
       font-weight: 700;
       padding: 2px 6px;
       border-radius: 100px;
-      margin-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-    }
-
-    /* カテゴリ別の色設定 */
-    .link-card-category.cat-official {
-      background-color: #E0F2FE;
-      color: #0369A1;
-    }
-    .link-card-category.cat-office {
-      background-color: #F3E8FF;
-      color: #6B21A8;
-    }
-    .link-card-category.cat-facility {
-      background-color: #FEF3C7;
-      color: #B45309;
-    }
-    .link-card-category.cat-activity {
-      background-color: #DCFCE7;
-      color: #15803D;
-    }
-    .link-card-category.cat-other {
-      background-color: #F3F4F6;
-      color: #374151;
-    }
-
-    /* ダークモード用のカテゴリ色上書き（視認性確保） */
-    html[data-theme="dark"] .link-card-category.cat-official {
-      background-color: #0c4a6e;
-      color: #38bdf8;
-    }
-    html[data-theme="dark"] .link-card-category.cat-office {
-      background-color: #581c87;
-      color: #e9d5ff;
-    }
-    html[data-theme="dark"] .link-card-category.cat-facility {
-      background-color: #78350f;
-      color: #fde68a;
-    }
-    html[data-theme="dark"] .link-card-category.cat-activity {
-      background-color: #064e3b;
-      color: #6ee7b7;
-    }
-    html[data-theme="dark"] .link-card-category.cat-other {
-      background-color: #374151;
-      color: #e5e7eb;
+      margin-bottom: 4px;
     }
 
     .link-card-name {
-      font-size: 13px; /* 少し小さめに変更 */
+      font-size: 13px;
       font-weight: 600;
       color: var(--md-sys-color-on-surface);
       margin: 0;
       line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
     }
 
     /* 学内専用バッジ（黄色地に黒文字） */
@@ -1810,23 +1782,72 @@
       background-color: #FCD34D; /* 明るい黄色 */
       padding: 2px 6px;
       border-radius: 4px;
-      margin-top: 6px;
+      margin-top: 4px;
     }
 
     .link-card-campus-only .material-symbols-outlined {
       font-size: 11px;
     }
 
-    .link-card-footer {
+    .link-card-arrow {
       display: flex;
-      justify-content: flex-end;
       align-items: center;
-      margin-top: 8px; /* 間隔を縮小 */
+      justify-content: center;
       color: var(--md-sys-color-outline);
+      flex-shrink: 0;
+      transition: color var(--md-transition-duration) var(--md-transition-easing),
+                  transform var(--md-transition-duration) var(--md-transition-easing);
     }
 
-    .link-card:hover .link-card-footer {
+    .link-card:hover .link-card-arrow {
       color: var(--md-sys-color-primary);
+      transform: translateX(2px);
+    }
+
+    /* カテゴリグループヘッダー */
+    .link-group-header {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--md-sys-color-on-background);
+      margin-top: 32px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--md-sys-color-primary-container);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      scroll-margin-top: 80px; /* 固定ヘッダー（64px）へのかぶり防止 */
+    }
+
+    /* アンカーナビゲーション */
+    .link-anchor-nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      animation: fadeIn var(--md-transition-duration) var(--md-transition-easing);
+    }
+
+    .btn-anchor {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 100px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      background-color: var(--md-sys-color-surface-container-low);
+      color: var(--md-sys-color-on-surface-variant);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .btn-anchor:hover {
+      background-color: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-on-primary-container);
+      border-color: var(--md-sys-color-primary);
     }
   </style>
 </head>
@@ -2273,23 +2294,31 @@
       </h2>
 
       <!-- フィルター・検索バー -->
-      <div class="filter-bar" style="margin-bottom: 16px;">
+      <div class="filter-bar" style="margin-bottom: 12px;">
         <!-- キーワード検索 -->
         <div style="position: relative; flex-grow: 1; min-width: 200px;">
           <input type="text" id="linkSearchInput" placeholder="キーワード・略称で検索 (例: 吹部)" oninput="filterLinks()" style="padding: 10px 16px 10px 40px; width: 100%; border: 1px solid var(--md-sys-color-outline); border-radius: 100px; font-size: 14px; font-weight: 500; font-family: inherit; color: var(--md-sys-color-on-surface); background-color: var(--md-sys-color-surface); box-sizing: border-box;" />
           <span class="material-symbols-outlined" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--md-sys-color-outline); font-size: 20px; pointer-events: none;">search</span>
         </div>
         <!-- カテゴリ絞り込み -->
-        <select id="linkCategoryFilter" onchange="filterLinks()" style="min-width: 150px;">
+        <select id="linkCategoryFilter" onchange="filterLinks()" style="min-width: 130px;">
           <option value="ALL">すべてのカテゴリ</option>
-          <option value="公式">公式</option>
-          <option value="学内窓口">学内窓口</option>
-          <option value="学内施設">学内施設</option>
-          <option value="課外活動">課外活動</option>
+        </select>
+        <!-- アクセス制限絞り込み -->
+        <select id="linkAccessFilter" onchange="filterLinks()" style="min-width: 140px;">
+          <option value="ALL">すべてのアクセス</option>
+          <option value="PUBLIC">学外アクセス可能</option>
+          <option value="CAMPUS">学内専用のみ</option>
         </select>
       </div>
 
-      <div class="links-grid" id="linksGrid">
+      <!-- カテゴリへのクイックジャンプアンカーナビ -->
+      <div class="link-anchor-nav" id="linkAnchorNav">
+        <!-- JSにより動的生成 -->
+      </div>
+
+      <!-- 外部リンク表示エリア（通常時はカテゴリ別グループ分け、検索時はフラットグリッド） -->
+      <div id="linksContainer">
         <!-- JSにより動的生成 -->
       </div>
     </section>
@@ -3920,20 +3949,35 @@
     // ==========================================
     // 外部リンク集の動的読み込みと制御ロジック
     // ==========================================
+    let externalCategories = [];
     let externalLinksData = [];
 
     async function loadExternalLinks() {
       try {
         const response = await fetch('./links.json');
         if (!response.ok) throw new Error('Failed to fetch links.json');
-        externalLinksData = await response.json();
-        renderExternalLinks(externalLinksData);
+        const data = await response.json();
+        
+        externalCategories = data.categories || [];
+        externalLinksData = data.links || [];
+
+        // 1. カテゴリ色の動的注入
+        injectCategoryStyles(externalCategories);
+
+        // 2. カテゴリフィルター選択肢の動的生成
+        populateCategoryFilter(externalCategories);
+
+        // 3. アンカーナビゲーションの動的生成
+        populateAnchorNav(externalCategories);
+
+        // 4. 初期表示のレンダリング
+        renderLinksLayout(externalLinksData, false);
       } catch (e) {
         console.error("Error loading links:", e);
-        const grid = document.getElementById('linksGrid');
-        if (grid) {
-          grid.innerHTML = `
-            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--md-sys-color-error);">
+        const container = document.getElementById('linksContainer');
+        if (container) {
+          container.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: var(--md-sys-color-error);">
               外部リンクデータの取得に失敗しました。
             </div>
           `;
@@ -3941,61 +3985,181 @@
       }
     }
 
-    function getCategoryClass(category) {
-      switch (category) {
-        case '公式': return 'cat-official';
-        case '学内窓口': return 'cat-office';
-        case '学内施設': return 'cat-facility';
-        case '課外活動': return 'cat-activity';
-        default: return 'cat-other';
+    function injectCategoryStyles(categories) {
+      let css = '';
+      categories.forEach((cat, index) => {
+        const className = `cat-dyn-${index}`;
+        // ライトモード用スタイル
+        css += `
+          .link-card-category.${className} {
+            background-color: ${cat.bgLight} !important;
+            color: ${cat.textLight} !important;
+          }
+        `;
+        // ダークモード用スタイル
+        css += `
+          html[data-theme="dark"] .link-card-category.${className} {
+            background-color: ${cat.bgDark} !important;
+            color: ${cat.textDark} !important;
+          }
+        `;
+      });
+      
+      const oldStyle = document.getElementById('dynamic-category-styles');
+      if (oldStyle) oldStyle.remove();
+
+      const styleTag = document.createElement('style');
+      styleTag.id = 'dynamic-category-styles';
+      styleTag.textContent = css;
+      document.head.appendChild(styleTag);
+    }
+
+    function populateCategoryFilter(categories) {
+      const filterSelect = document.getElementById('linkCategoryFilter');
+      if (!filterSelect) return;
+      
+      filterSelect.innerHTML = '<option value="ALL">すべてのカテゴリ</option>';
+      categories.forEach(cat => {
+        filterSelect.innerHTML += `<option value="${cat.name}">${cat.name}</option>`;
+      });
+    }
+
+    function populateAnchorNav(categories) {
+      const anchorNav = document.getElementById('linkAnchorNav');
+      if (!anchorNav) return;
+      
+      anchorNav.innerHTML = '';
+      categories.forEach((cat, index) => {
+        // リンクが登録されているカテゴリのみナビに表示
+        const count = externalLinksData.filter(l => l.category === cat.name).length;
+        if (count === 0) return;
+
+        anchorNav.innerHTML += `
+          <button class="btn-anchor" onclick="scrollToCategory(${index})">
+            <span class="material-symbols-outlined" style="font-size: 14px;">tag</span>
+            ${cat.name}
+          </button>
+        `;
+      });
+    }
+
+    function scrollToCategory(index) {
+      const header = document.getElementById(`link-group-${index}`);
+      if (header) {
+        header.scrollIntoView({ behavior: 'smooth' });
       }
     }
 
-    function renderExternalLinks(linksArray) {
-      const grid = document.getElementById('linksGrid');
-      if (!grid) return;
+    function getCategoryClass(categoryName) {
+      const idx = externalCategories.findIndex(c => c.name === categoryName);
+      return idx !== -1 ? `cat-dyn-${idx}` : 'cat-dyn-other';
+    }
+
+    function renderLinksLayout(linksArray, isFiltering) {
+      const container = document.getElementById('linksContainer');
+      const anchorNav = document.getElementById('linkAnchorNav');
+      if (!container) return;
 
       if (linksArray.length === 0) {
-        grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--md-sys-color-outline);">
+        if (anchorNav) anchorNav.style.display = 'none';
+        container.innerHTML = `
+          <div style="text-align: center; padding: 40px; color: var(--md-sys-color-outline);">
             一致するリンクが見つかりません。
           </div>
         `;
         return;
       }
 
-      grid.innerHTML = linksArray.map(link => {
-        // 元のデータのインデックスを見つけてクリックイベントに渡す
-        const originalIndex = externalLinksData.findIndex(item => item.name === link.name);
-        const catClass = getCategoryClass(link.category);
-        const campusBadge = link.onCampusOnly 
-          ? `<div class="link-card-campus-only"><span class="material-symbols-outlined">gpp_maybe</span>学内専用</div>` 
-          : '';
+      if (isFiltering) {
+        // 検索・フィルタリング時はグループヘッダーなしのフラットなグリッドで表示
+        if (anchorNav) anchorNav.style.display = 'none';
+        
+        const cardsHtml = linksArray.map(link => {
+          const originalIndex = externalLinksData.findIndex(item => item.name === link.name);
+          const catClass = getCategoryClass(link.category);
+          const campusBadge = link.onCampusOnly 
+            ? `<div class="link-card-campus-only"><span class="material-symbols-outlined">gpp_maybe</span>学内専用</div>` 
+            : '';
 
-        return `
-          <div class="link-card" onclick="handleLinkCardClick(${originalIndex})">
-            <div>
-              <div class="link-card-category ${catClass}">${link.category || 'その他'}</div>
-              <h3 class="link-card-name">${link.name}</h3>
-              ${campusBadge}
+          return `
+            <div class="link-card" onclick="handleLinkCardClick(${originalIndex})">
+              <div class="link-card-content">
+                <span class="link-card-category ${catClass}">${link.category || 'その他'}</span>
+                <h3 class="link-card-name" title="${link.name}">${link.name}</h3>
+                ${campusBadge}
+              </div>
+              <div class="link-card-arrow">
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </div>
             </div>
-            <div class="link-card-footer">
-              <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
+          `;
+        }).join('');
+
+        container.innerHTML = `<div class="links-grid">${cardsHtml}</div>`;
+      } else {
+        // 通常表示（カテゴリごとにヘッダー＋横長カードグリッドを挟む）
+        if (anchorNav) anchorNav.style.display = 'flex';
+        
+        let html = '';
+        externalCategories.forEach((cat, catIdx) => {
+          const catLinks = linksArray.filter(link => link.category === cat.name);
+          if (catLinks.length === 0) return;
+
+          const cardsHtml = catLinks.map(link => {
+            const originalIndex = externalLinksData.findIndex(item => item.name === link.name);
+            const catClass = `cat-dyn-${catIdx}`;
+            const campusBadge = link.onCampusOnly 
+              ? `<div class="link-card-campus-only"><span class="material-symbols-outlined">gpp_maybe</span>学内専用</div>` 
+              : '';
+
+            return `
+              <div class="link-card" onclick="handleLinkCardClick(${originalIndex})">
+                <div class="link-card-content">
+                  <span class="link-card-category ${catClass}">${link.category || 'その他'}</span>
+                  <h3 class="link-card-name" title="${link.name}">${link.name}</h3>
+                  ${campusBadge}
+                </div>
+                <div class="link-card-arrow">
+                  <span class="material-symbols-outlined">arrow_forward</span>
+                </div>
+              </div>
+            `;
+          }).join('');
+
+          html += `
+            <h3 class="link-group-header" id="link-group-${catIdx}">
+              <span class="material-symbols-outlined">label</span>${cat.name}
+            </h3>
+            <div class="links-grid">
+              ${cardsHtml}
             </div>
-          </div>
-        `;
-      }).join('');
+          `;
+        });
+
+        container.innerHTML = html;
+      }
     }
 
     function filterLinks() {
       const searchQuery = document.getElementById('linkSearchInput').value.toLowerCase().trim();
       const selectedCategory = document.getElementById('linkCategoryFilter').value;
+      const selectedAccess = document.getElementById('linkAccessFilter').value;
+
+      const isFiltering = (searchQuery !== "" || selectedCategory !== "ALL" || selectedAccess !== "ALL");
 
       const filtered = externalLinksData.filter(link => {
-        // カテゴリの絞り込み
+        // 1. カテゴリ絞り込み
         const matchCategory = (selectedCategory === "ALL" || link.category === selectedCategory);
 
-        // 検索ワードの絞り込み
+        // 2. アクセス制限絞り込み
+        let matchAccess = true;
+        if (selectedAccess === "PUBLIC") {
+          matchAccess = (link.onCampusOnly !== true);
+        } else if (selectedAccess === "CAMPUS") {
+          matchAccess = (link.onCampusOnly === true);
+        }
+
+        // 3. 検索ワード絞り込み
         let matchSearch = true;
         if (searchQuery !== "") {
           const matchName = link.name && link.name.toLowerCase().includes(searchQuery);
@@ -4011,10 +4175,10 @@
           matchSearch = matchName || matchCatText || matchDesc || matchKeywords;
         }
 
-        return matchCategory && matchSearch;
+        return matchCategory && matchAccess && matchSearch;
       });
 
-      renderExternalLinks(filtered);
+      renderLinksLayout(filtered, isFiltering);
     }
 
     function handleLinkCardClick(index) {
