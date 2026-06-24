@@ -6,6 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>openTCU</title>
 
+  <!-- Immediate theme check to prevent flash of light theme -->
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+
   <!-- PWA & Mobile Settings -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#006685">
@@ -61,6 +69,35 @@
       --sidebar-width: 320px;
     }
 
+    html[data-theme="dark"] {
+      --md-sys-color-primary: #66d3ff;
+      --md-sys-color-on-primary: #003548;
+      --md-sys-color-primary-container: #004d66;
+      --md-sys-color-on-primary-container: #bfe9ff;
+      --md-sys-color-secondary: #b4cbd6;
+      --md-sys-color-on-secondary: #1f333c;
+      --md-sys-color-secondary-container: #354a54;
+      --md-sys-color-on-secondary-container: #d0e6f2;
+      --md-sys-color-tertiary: #c6c3eb;
+      --md-sys-color-on-tertiary: #2e2d4d;
+      --md-sys-color-tertiary-container: #454364;
+      --md-sys-color-on-tertiary-container: #e3dfff;
+      --md-sys-color-error: #ffb4ab;
+      --md-sys-color-on-error: #690005;
+      --md-sys-color-background: #0e1416;
+      --md-sys-color-on-background: #dde3e6;
+      --md-sys-color-surface: #0e1416;
+      --md-sys-color-on-surface: #dde3e6;
+      --md-sys-color-surface-variant: #41484d;
+      --md-sys-color-on-surface-variant: #c0c7cd;
+      --md-sys-color-outline: #8b9297;
+      --md-sys-color-outline-variant: #41484d;
+      --md-sys-color-surface-container-low: #171c1f;
+      --md-sys-color-surface-container: #1b2023;
+      --md-sys-color-surface-container-high: #262b2e;
+      --md-sys-color-surface-container-highest: #313639;
+    }
+
     body {
       font-family: 'Outfit', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       margin: 0;
@@ -69,6 +106,11 @@
       overflow-x: hidden;
       line-height: 1.5;
       transition: background-color var(--md-transition-duration) var(--md-transition-easing);
+    }
+
+    /* なめらかなテーマ切り替え */
+    body, .app-bar, .sidebar, .material-card, .status-card, .time-slot, table, th, td, .form-control, .btn, .icon-button, .link-card {
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
     }
 
     /* === 上部ヘッダー (画面最上部・全幅固定) === */
@@ -873,7 +915,7 @@
 
     @media (min-width: 1024px) {
       .bus-layout {
-        grid-template-columns: 1.2fr 0.8fr;
+        grid-template-columns: 1.5fr 0.5fr;
         align-items: start;
       }
     }
@@ -889,37 +931,49 @@
     .bus-sidebar-content {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 16px; /* カード同士の縦の間隔 */
     }
 
     .bus-info-card {
-      padding: 20px !important;
+      padding: 0 !important; /* 横いっぱいのヘッダーのため */
+      overflow: hidden;
+      margin-bottom: 0 !important; /* 縦の余分な間隔をクリア */
       display: flex;
       flex-direction: column;
-      gap: 8px;
     }
 
     .bus-info-card-header {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 4px;
+      padding: 12px 16px;
     }
 
     .bus-info-card-header h3 {
       margin: 0;
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 700;
     }
 
-    .bus-info-card p {
+    .bus-info-card-header .material-symbols-outlined {
+      font-size: 20px;
+    }
+
+    .bus-info-card-body {
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bus-info-card-body p {
       margin: 0;
       font-size: 13px;
       line-height: 1.6;
       color: var(--md-sys-color-on-surface-variant);
     }
 
-    .bus-info-card .wanroma-img {
+    .bus-info-card-body .oneroma-img {
       width: 100%;
       height: auto;
       border-radius: 12px;
@@ -927,6 +981,20 @@
       margin-bottom: 4px;
       object-fit: cover;
       border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    /* ヘッダーテーマ設定 */
+    .bus-info-card.header-warning .bus-info-card-header {
+      background-color: #FFB300;
+      color: #000000; /* 黄色は黒文字で視認性向上 */
+    }
+    .bus-info-card.header-error .bus-info-card-header {
+      background-color: var(--md-sys-color-error);
+      color: var(--md-sys-color-on-error);
+    }
+    .bus-info-card.header-primary .bus-info-card-header {
+      background-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
     }
 
     /* レスポンシブ調整 */
@@ -1635,6 +1703,67 @@
       background-color: white;
       transform: translateY(-1px);
     }
+
+    /* === 外部リンク集スタイル === */
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 16px;
+    }
+
+    .link-card {
+      background: var(--md-sys-color-surface-container);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: 20px;
+      padding: 24px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform var(--md-transition-duration) var(--md-transition-easing), 
+                  box-shadow var(--md-transition-duration) var(--md-transition-easing),
+                  background-color var(--md-transition-duration) var(--md-transition-easing),
+                  border-color var(--md-transition-duration) var(--md-transition-easing);
+    }
+
+    .link-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      background-color: var(--md-sys-color-surface-container-high);
+      border-color: var(--md-sys-color-primary);
+    }
+
+    .link-card-category {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--md-sys-color-primary);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    .link-card-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--md-sys-color-on-surface);
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .link-card-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 16px;
+      color: var(--md-sys-color-outline);
+    }
+
+    .link-card:hover .link-card-footer {
+      color: var(--md-sys-color-primary);
+    }
   </style>
 </head>
 
@@ -1648,6 +1777,9 @@
       <span class="material-symbols-outlined" style="font-size: 28px; color: var(--md-sys-color-primary);">school</span>
       openTCU
     </div>
+    <button class="icon-button theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme" style="margin-left: auto;">
+      <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+    </button>
   </header>
 
   <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
@@ -1667,6 +1799,9 @@
       </li>
       <li class="nav-item" id="nav-timetable" onclick="switchView('timetable', this)">
         <span class="material-symbols-outlined">calendar_today</span>簡易時間割
+      </li>
+      <li class="nav-item" id="nav-links" onclick="switchView('links', this)">
+        <span class="material-symbols-outlined">open_in_new</span>外部リンク集
       </li>
     </ul>
 
@@ -1824,41 +1959,43 @@
           <!-- 右側（サイドバーコンテンツ）：各種案内カード -->
           <div class="bus-sidebar-content">
             <!-- 安全運行に関する啓発カード -->
-            <div class="material-card bus-info-card"
-              style="background-color: var(--md-sys-color-surface-container-low); border-left: 4px solid #FFB300;">
-              <div class="bus-info-card-header" style="color: #FFB300;">
+            <div class="material-card bus-info-card header-warning">
+              <div class="bus-info-card-header">
                 <span class="material-symbols-outlined">warning</span>
                 <h3>安全運行に関するお願い</h3>
               </div>
-              <p>このシャトルバスは、世田谷キャンパス〜横浜キャンパス間で<strong>高速道路（第三京浜道路、玉川IC〜都筑IC）を経由</strong>して運行します。</p>
-              <p>道路交通法および乗客の安全確保のため、<strong>立ちながらの乗車は固く禁じられています。</strong>必ず着席し、乗車中は<strong>座席シートベルトを必ず着用</strong>してください。
-              </p>
+              <div class="bus-info-card-body">
+                <p>このシャトルバスは、世田谷キャンパス〜横浜キャンパス間で<strong>高速道路（第三京浜道路、玉川IC〜都筑IC）を経由</strong>して運行します。</p>
+                <p>道路交通法および乗客の安全確保のため、<strong>立ちながらの乗車は固く禁じられています。</strong>必ず着席し、乗車中は<strong>座席シートベルトを必ず着用</strong>してください。</p>
+              </div>
             </div>
 
             <!-- 運休スケジュールに関する注意カード -->
-            <div class="material-card bus-info-card"
-              style="background-color: var(--md-sys-color-surface-container-low); border-left: 4px solid var(--md-sys-color-error);">
-              <div class="bus-info-card-header" style="color: var(--md-sys-color-error);">
+            <div class="material-card bus-info-card header-error">
+              <div class="bus-info-card-header">
                 <span class="material-symbols-outlined">calendar_today</span>
                 <h3>運休期間に関するご注意</h3>
               </div>
-              <p>長期休み期間（夏期・冬期・春期休業期間）、および大学のイベント日やその他試験期間中などは、シャトルバスは<strong>運休します</strong>。</p>
-              <p>ご利用の際は、必ず事前に学内掲示やポータル等で運行スケジュールを確認するようにしてください。</p>
+              <div class="bus-info-card-body">
+                <p>長期休み期間（夏期・冬期・春期休業期間）、および大学のイベント日やその他試験期間中などは、シャトルバスは<strong>運休します</strong>。</p>
+                <p>ご利用の際は、必ず事前に学内掲示やポータル等で運行スケジュールを確認するようにしてください。</p>
+              </div>
             </div>
 
             <!-- おまけ：車両紹介カード -->
-            <div class="material-card bus-info-card"
-              style="background-color: var(--md-sys-color-surface-container-low); border-left: 4px solid var(--md-sys-color-primary);">
-              <div class="bus-info-card-header" style="color: var(--md-sys-color-primary);">
+            <div class="material-card bus-info-card header-primary">
+              <div class="bus-info-card-header">
                 <span class="material-symbols-outlined">info</span>
                 <h3>シャトルバス車両紹介</h3>
               </div>
-              <img src="images/wanroma.png" alt="東急バス ワンロマ車" class="wanroma-img">
-              <div id="wanroma-desc-container">
-                <!-- ここからワンロマ車の説明文 -->
-                <p>このシャトルバスでは、東急バスの<strong>「ワンロマ車」</strong>と呼ばれる特別な車両が使用されています。</p>
-                <p>ふつうの路線バスの機能に加えて、観光バス等に備わるハイバックシート（通称: ロマンスシート）を搭載しており、全席にシートベルトも装備。高速道路の走行を前提とした、ハイブリッドな特別仕様車です。</p>
-                <!-- ここまでワンロマ車の説明文 -->
+              <div class="bus-info-card-body">
+                <img src="images/oneroma.png" alt="東急バス ワンロマ車" class="oneroma-img">
+                <div id="oneroma-desc-container">
+                  <!-- ここからワンロマ車の説明文 -->
+                  <p>このシャトルバスでは、東急バスの<strong>「ワンロマ車」</strong>と呼ばれる特別な車両が使用されています。</p>
+                  <p>ふつうの路線バスの機能に加えて、観光バス等に備わるハイバックシート（通称: ロマンスシート）を搭載しており、全席にシートベルトも装備。高速道路の走行を前提とした、ハイブリッドな特別仕様車です。</p>
+                  <!-- ここまでワンロマ車の説明文 -->
+                </div>
               </div>
             </div>
           </div>
@@ -2064,6 +2201,17 @@
       </div>
     </section>
 
+    <!-- 外部リンク集画面 -->
+    <section id="view-links" class="view-section">
+      <h2
+        style="margin-top:0; font-weight:600; font-size:20px; color: var(--md-sys-color-on-background); display: flex; align-items: center; gap: 8px;">
+        <span class="material-symbols-outlined" style="font-size: 24px;">open_in_new</span>外部リンク集
+      </h2>
+      <div class="links-grid" id="linksGrid">
+        <!-- JSにより動的生成 -->
+      </div>
+    </section>
+
   </main>
 
   <!-- 授業コマ追加・編集モーダル -->
@@ -2136,6 +2284,24 @@
     </div>
   </div>
 
+  <!-- 外部リンク詳細モーダル -->
+  <div class="modal-overlay" id="linkModalOverlay">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="linkModalTitle">外部リンク詳細</h3>
+        <button class="icon-button" onclick="closeLinkModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="modal-body" id="linkModalBody">
+        <!-- 動的コンテンツ -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeLinkModal()">閉じる</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ==========================================
     // シャトルバス案内 (Bus Departures Board & Countdown) 機能ロジック
@@ -2189,7 +2355,7 @@
       }
 
       // ワンロマ車の説明文をランダムに表示
-      const descContainer = document.getElementById('wanroma-desc-container');
+      const descContainer = document.getElementById('oneroma-desc-container');
       if (descContainer) {
         const patterns = [
           `<!-- ここからワンロマ車の説明文 -->
@@ -3235,14 +3401,29 @@
     }
 
     window.onload = async function () {
-      // 0. 簡易時間割の初期化
+      // 0. テーマアイコンの同期
+      try {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        updateThemeIcon(savedTheme);
+      } catch (e) {
+        console.error("Failed to sync theme icon:", e);
+      }
+
+      // 0.2. 外部リンク集の初期化
+      try {
+        await loadExternalLinks();
+      } catch (e) {
+        console.error("Failed to initialize external links:", e);
+      }
+
+      // 0.4. 簡易時間割の初期化
       try {
         initTimetable();
       } catch (e) {
         console.error("Failed to initialize timetable:", e);
       }
 
-      // 0.5. バス時刻表 & トラッカーの初期化
+      // 0.6. バス時刻表 & トラッカーの初期化
       try {
         await initBusFeature();
       } catch (e) {
@@ -3634,6 +3815,156 @@
 
         tbody.appendChild(tr);
       });
+    }
+
+    // ==========================================
+    // ダークモード（テーマ）切り替え機能
+    // ==========================================
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    }
+
+    function updateThemeIcon(theme) {
+      const icon = document.getElementById('theme-icon');
+      if (icon) {
+        icon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
+      }
+    }
+
+    // ==========================================
+    // 外部リンク集の動的読み込みと制御ロジック
+    // ==========================================
+    let externalLinksData = [];
+
+    async function loadExternalLinks() {
+      try {
+        const response = await fetch('./links.json');
+        if (!response.ok) throw new Error('Failed to fetch links.json');
+        externalLinksData = await response.json();
+        renderExternalLinks();
+      } catch (e) {
+        console.error("Error loading links:", e);
+        const grid = document.getElementById('linksGrid');
+        if (grid) {
+          grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--md-sys-color-error);">
+              外部リンクデータの取得に失敗しました。
+            </div>
+          `;
+        }
+      }
+    }
+
+    function renderExternalLinks() {
+      const grid = document.getElementById('linksGrid');
+      if (!grid) return;
+
+      if (externalLinksData.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--md-sys-color-outline);">
+            リンクが登録されていません。
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = externalLinksData.map((link, index) => {
+        return `
+          <div class="link-card" onclick="handleLinkCardClick(${index})">
+            <div>
+              <div class="link-card-category">${link.category || 'その他'}</div>
+              <h3 class="link-card-name">${link.name}</h3>
+            </div>
+            <div class="link-card-footer">
+              <span class="material-symbols-outlined" style="font-size: 20px;">arrow_forward</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function handleLinkCardClick(index) {
+      const linkData = externalLinksData[index];
+      if (!linkData) return;
+
+      const titleEl = document.getElementById('linkModalTitle');
+      const bodyEl = document.getElementById('linkModalBody');
+
+      if (titleEl) titleEl.textContent = linkData.name;
+
+      let snsHtml = '';
+      if (linkData.sns && linkData.sns.length > 0) {
+        snsHtml = `
+          <div style="margin-top: 16px;">
+            <label style="font-size: 13px; font-weight: 600; color: var(--md-sys-color-on-surface-variant); display: block; margin-bottom: 8px;">公式SNS</label>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              ${linkData.sns.slice(0, 3).map(s => {
+                let icon = 'share';
+                let btnColor = 'var(--md-sys-color-secondary-container)';
+                let textColor = 'var(--md-sys-color-on-secondary-container)';
+                const platformLower = s.platform.toLowerCase();
+                
+                if (platformLower.includes('twitter') || platformLower.includes('x')) {
+                  icon = 'share';
+                  btnColor = '#000000';
+                  textColor = '#ffffff';
+                } else if (platformLower.includes('instagram')) {
+                  btnColor = 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)';
+                  textColor = '#ffffff';
+                } else if (platformLower.includes('youtube')) {
+                  btnColor = '#ff0000';
+                  textColor = '#ffffff';
+                } else if (platformLower.includes('facebook')) {
+                  btnColor = '#1877f2';
+                  textColor = '#ffffff';
+                } else if (platformLower.includes('line')) {
+                  btnColor = '#06c755';
+                  textColor = '#ffffff';
+                }
+                
+                return `
+                  <a href="${s.url}" target="_blank" rel="noopener noreferrer" class="btn" style="background: ${btnColor}; color: ${textColor}; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding: 8px 16px; border-radius: 100px; font-size: 13px; font-weight: 600; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">open_in_new</span>
+                    ${s.platform}
+                  </a>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      if (bodyEl) {
+        bodyEl.innerHTML = `
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            ${linkData.category ? `<div style="align-self: flex-start; background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.05em;">${linkData.category}</div>` : ''}
+            
+            <p style="font-size: 14px; line-height: 1.6; color: var(--md-sys-color-on-surface); margin: 0; white-space: pre-wrap;">${linkData.description || '概要説明はありません。'}</p>
+            
+            <div style="margin-top: 8px;">
+              <label style="font-size: 13px; font-weight: 600; color: var(--md-sys-color-on-surface-variant); display: block; margin-bottom: 8px;">公式サイト</label>
+              <a href="${linkData.website}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+                <span class="material-symbols-outlined" style="font-size: 20px;">public</span>
+                公式サイトを開く
+              </a>
+            </div>
+            
+            ${snsHtml}
+          </div>
+        `;
+      }
+
+      const overlay = document.getElementById('linkModalOverlay');
+      if (overlay) overlay.classList.add('show');
+    }
+
+    function closeLinkModal() {
+      const overlay = document.getElementById('linkModalOverlay');
+      if (overlay) overlay.classList.remove('show');
     }
   </script>
 
