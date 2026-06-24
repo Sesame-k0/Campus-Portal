@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 
 <head>
@@ -109,7 +109,19 @@
     }
 
     /* なめらかなテーマ切り替え */
-    body, .app-bar, .sidebar, .material-card, .status-card, .time-slot, table, th, td, .form-control, .btn, .icon-button, .link-card {
+    body,
+    .app-bar,
+    .sidebar,
+    .material-card,
+    .status-card,
+    .time-slot,
+    table,
+    th,
+    td,
+    .form-control,
+    .btn,
+    .icon-button,
+    .link-card {
       transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -931,13 +943,16 @@
     .bus-sidebar-content {
       display: flex;
       flex-direction: column;
-      gap: 16px; /* カード同士の縦の間隔 */
+      gap: 16px;
+      /* カード同士の縦の間隔 */
     }
 
     .bus-info-card {
-      padding: 0 !important; /* 横いっぱいのヘッダーのため */
+      padding: 0 !important;
+      /* 横いっぱいのヘッダーのため */
       overflow: hidden;
-      margin-bottom: 0 !important; /* 縦の余分な間隔をクリア */
+      margin-bottom: 0 !important;
+      /* 縦の余分な間隔をクリア */
       display: flex;
       flex-direction: column;
     }
@@ -986,12 +1001,15 @@
     /* ヘッダーテーマ設定 */
     .bus-info-card.header-warning .bus-info-card-header {
       background-color: #FFB300;
-      color: #000000; /* 黄色は黒文字で視認性向上 */
+      color: #000000;
+      /* 黄色は黒文字で視認性向上 */
     }
+
     .bus-info-card.header-error .bus-info-card-header {
       background-color: var(--md-sys-color-error);
       color: var(--md-sys-color-on-error);
     }
+
     .bus-info-card.header-primary .bus-info-card-header {
       background-color: var(--md-sys-color-primary);
       color: var(--md-sys-color-on-primary);
@@ -1707,7 +1725,8 @@
     /* === 外部リンク集スタイル === */
     .links-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* 横長カードに合わせるため少し拡大 */
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      /* 横長カードに合わせるため少し拡大 */
       gap: 12px;
       width: 100%;
       box-sizing: border-box;
@@ -1722,14 +1741,15 @@
       padding: 16px;
       cursor: pointer;
       display: flex;
-      flex-direction: row; /* 横長表示にするため横並びへ */
+      flex-direction: row;
+      /* 横長表示にするため横並びへ */
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      transition: transform var(--md-transition-duration) var(--md-transition-easing), 
-                  box-shadow var(--md-transition-duration) var(--md-transition-easing),
-                  background-color var(--md-transition-duration) var(--md-transition-easing),
-                  border-color var(--md-transition-duration) var(--md-transition-easing);
+      transition: transform var(--md-transition-duration) var(--md-transition-easing),
+        box-shadow var(--md-transition-duration) var(--md-transition-easing),
+        background-color var(--md-transition-duration) var(--md-transition-easing),
+        border-color var(--md-transition-duration) var(--md-transition-easing);
     }
 
     .link-card:hover {
@@ -1779,7 +1799,8 @@
       font-size: 9px;
       font-weight: 700;
       color: #78350f;
-      background-color: #FCD34D; /* 明るい黄色 */
+      background-color: #FCD34D;
+      /* 明るい黄色 */
       padding: 2px 6px;
       border-radius: 4px;
       margin-top: 4px;
@@ -1796,7 +1817,7 @@
       color: var(--md-sys-color-outline);
       flex-shrink: 0;
       transition: color var(--md-transition-duration) var(--md-transition-easing),
-                  transform var(--md-transition-duration) var(--md-transition-easing);
+        transform var(--md-transition-duration) var(--md-transition-easing);
     }
 
     .link-card:hover .link-card-arrow {
@@ -1816,7 +1837,8 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      scroll-margin-top: 80px; /* 固定ヘッダー（64px）へのかぶり防止 */
+      scroll-margin-top: 80px;
+      /* 固定ヘッダー（64px）へのかぶり防止 */
     }
 
     /* アンカーナビゲーション */
@@ -1849,6 +1871,94 @@
       color: var(--md-sys-color-on-primary-container);
       border-color: var(--md-sys-color-primary);
     }
+
+    /* 外部リンク機能用の追加スタイル */
+    .link-tag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      margin-left: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .tag-ポータル {
+      background-color: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-on-primary-container);
+    }
+    .tag-掲示板 {
+      background-color: var(--md-sys-color-tertiary-container);
+      color: var(--md-sys-color-on-tertiary-container);
+    }
+    .tag-廃止済 {
+      background-color: #E2E8F0;
+      color: #475569;
+    }
+    html[data-theme="dark"] .tag-廃止済 {
+      background-color: #334155;
+      color: #94A3B8;
+    }
+
+    .favorite-btn {
+      background: none;
+      border: none;
+      padding: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--md-sys-color-outline);
+      border-radius: 50%;
+      transition: all 0.2s ease;
+    }
+    .favorite-btn:hover {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: #F59E0B;
+    }
+    .favorite-btn.is-active {
+      color: #F59E0B;
+    }
+    .favorite-btn span {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      transition: font-variation-settings 0.2s ease;
+    }
+    .favorite-btn.is-active span {
+      font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+    }
+
+    .link-card-reorder button {
+      background: none;
+      border: none;
+      padding: 2px;
+      cursor: pointer;
+      color: var(--md-sys-color-outline);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    .link-card-reorder button:hover:not(:disabled) {
+      background-color: var(--md-sys-color-surface-container-high);
+      color: var(--md-sys-color-primary);
+    }
+
+    .warning-banner {
+      background-color: var(--md-sys-color-tertiary-container);
+      color: var(--md-sys-color-on-tertiary-container);
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      animation: fadeIn var(--md-transition-duration) var(--md-transition-easing);
+    }
   </style>
 </head>
 
@@ -1862,7 +1972,8 @@
       <span class="material-symbols-outlined" style="font-size: 28px; color: var(--md-sys-color-primary);">school</span>
       openTCU
     </div>
-    <button class="icon-button theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme" style="margin-left: auto;">
+    <button class="icon-button theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme"
+      style="margin-left: auto;">
       <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
     </button>
   </header>
@@ -2051,7 +2162,9 @@
               </div>
               <div class="bus-info-card-body">
                 <p>このシャトルバスは、世田谷キャンパス〜横浜キャンパス間で<strong>高速道路（第三京浜道路、玉川IC〜都筑IC）を経由</strong>して運行します。</p>
-                <p>道路交通法および乗客の安全確保のため、<strong>立ちながらの乗車は固く禁じられています。</strong>必ず着席し、乗車中は<strong>座席シートベルトを必ず着用</strong>してください。</p>
+                <p>
+                  道路交通法および乗客の安全確保のため、<strong>立ちながらの乗車は固く禁じられています。</strong>必ず着席し、乗車中は<strong>座席シートベルトを必ず着用</strong>してください。
+                </p>
               </div>
             </div>
 
@@ -2078,7 +2191,8 @@
                 <div id="oneroma-desc-container">
                   <!-- ここからワンロマ車の説明文 -->
                   <p>このシャトルバスでは、東急バスの<strong>「ワンロマ車」</strong>と呼ばれる特別な車両が使用されています。</p>
-                  <p>ふつうの路線バスの機能に加えて、観光バス等に備わるハイバックシート（通称: ロマンスシート）を搭載しており、全席にシートベルトも装備。高速道路の走行を前提とした、ハイブリッドな特別仕様車です。</p>
+                  <p>ふつうの路線バスの機能に加えて、観光バス等に備わるハイバックシート（通称: ロマンスシート）を搭載しており、全席にシートベルトも装備。高速道路の走行を前提とした、ハイブリッドな特別仕様車です。
+                  </p>
                   <!-- ここまでワンロマ車の説明文 -->
                 </div>
               </div>
@@ -2293,12 +2407,17 @@
         <span class="material-symbols-outlined" style="font-size: 24px;">open_in_new</span>外部リンク集
       </h2>
 
+      <!-- 警告文バナー用プレースホルダー（上部） -->
+      <div id="topWarningPlaceholder"></div>
+
       <!-- 申請・訂正案内文とボタン -->
-      <div style="background-color: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+      <div
+        style="background-color: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
         <span style="font-size: 13px; font-weight: 500;">
           すべての施設・課外活動を網羅しているわけではありません。追加してほしい場合、もしくは訂正、削除してほしい場合はご連絡ください。
         </span>
-        <button onclick="event.preventDefault(); alert('申請窓口は現在準備中です。');" style="background-color: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); border: none; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; font-family: inherit;">
+        <button onclick="event.preventDefault(); alert('申請窓口は現在準備中です。');"
+          style="background-color: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); border: none; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; font-family: inherit;">
           <span class="material-symbols-outlined" style="font-size: 14px;">mail</span>
           申請・訂正はこちら
         </button>
@@ -2308,8 +2427,10 @@
       <div class="filter-bar" style="margin-bottom: 12px;">
         <!-- キーワード検索 -->
         <div style="position: relative; flex-grow: 1; min-width: 200px;">
-          <input type="text" id="linkSearchInput" placeholder="キーワード・略称で検索 (例: 吹部)" oninput="filterLinks()" style="padding: 10px 16px 10px 40px; width: 100%; border: 1px solid var(--md-sys-color-outline); border-radius: 100px; font-size: 14px; font-weight: 500; font-family: inherit; color: var(--md-sys-color-on-surface); background-color: var(--md-sys-color-surface); box-sizing: border-box;" />
-          <span class="material-symbols-outlined" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--md-sys-color-outline); font-size: 20px; pointer-events: none;">search</span>
+          <input type="text" id="linkSearchInput" placeholder="キーワード・略称で検索 (例: 吹部)" oninput="filterLinks()"
+            style="padding: 10px 16px 10px 40px; width: 100%; border: 1px solid var(--md-sys-color-outline); border-radius: 100px; font-size: 14px; font-weight: 500; font-family: inherit; color: var(--md-sys-color-on-surface); background-color: var(--md-sys-color-surface); box-sizing: border-box;" />
+          <span class="material-symbols-outlined"
+            style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--md-sys-color-outline); font-size: 20px; pointer-events: none;">search</span>
         </div>
         <!-- カテゴリ絞り込み -->
         <select id="linkCategoryFilter" onchange="filterLinks()" style="min-width: 130px;">
@@ -2323,6 +2444,14 @@
         </select>
       </div>
 
+      <!-- お気に入りセクション -->
+      <div id="favoritesSection" style="margin-bottom: 24px; display: none;">
+        <h3 class="link-group-header" style="color: #F59E0B; display: flex; align-items: center; gap: 8px; margin-top: 0;">
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>お気に入り
+        </h3>
+        <div class="links-grid" id="favoritesGrid"></div>
+      </div>
+
       <!-- カテゴリへのクイックジャンプアンカーナビ -->
       <div class="link-anchor-nav" id="linkAnchorNav">
         <!-- JSにより動的生成 -->
@@ -2332,6 +2461,9 @@
       <div id="linksContainer">
         <!-- JSにより動的生成 -->
       </div>
+
+      <!-- 警告文バナー用プレースホルダー（下部） -->
+      <div id="bottomWarningPlaceholder" style="margin-top: 16px;"></div>
     </section>
 
   </main>
@@ -4033,6 +4165,14 @@
                            "textLight":  "#334155",
                            "bgDark":  "#1E293B",
                            "textDark":  "#CBD5E1"
+                       },
+                       {
+                           "id":  "プロジェクト",
+                           "name":  "プロジェクト",
+                           "bgLight":  "#EEF2FF",
+                           "textLight":  "#4F46E5",
+                           "bgDark":  "#312E81",
+                           "textDark":  "#A5B4FC"
                        }
                    ],
     "links":  [
@@ -4060,7 +4200,10 @@
                                       "platform":  "YouTube",
                                       "url":  "https://www.youtube.com/@東京都市大学-p1r"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "五島育英会公式",
@@ -4086,7 +4229,10 @@
                                       "platform":  "YouTube",
                                       "url":  "https://www.youtube.com/user/tcu104"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "教学課",
@@ -4111,7 +4257,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "キャリア支援センター",
@@ -4134,7 +4283,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "図書館",
@@ -4165,7 +4317,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://twitter.com/tcu_library"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "プリンター(PaperCut MF)",
@@ -4188,7 +4343,10 @@
                       "onCampusOnly":  true,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "新聞会",
@@ -4213,7 +4371,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcuprs"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "情報基盤センター",
@@ -4238,7 +4399,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "情報基盤センター - セキュリティ対策自己点検・TCUアカウントのパスワード変更",
@@ -4263,7 +4427,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "情報基盤センター - 学内Wi-Fi",
@@ -4294,7 +4461,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "情報基盤センター - ソフトウェア利用",
@@ -4308,15 +4478,6 @@
                                        "設備",
                                        "システム",
                                        "学内",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館",
                                        "授業",
                                        "シラバス",
                                        "履修",
@@ -4328,7 +4489,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "情報基盤センター - 遠隔デスクトップ",
@@ -4353,7 +4517,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "学内ポータル・Webシラバス",
@@ -4385,7 +4552,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+                                   "ポータル"
+                               ]
                   },
                   {
                       "name":  "文書ライブラリ",
@@ -4409,7 +4579,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "Campus Life",
@@ -4423,7 +4596,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ヨコキャリ",
@@ -4449,7 +4625,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+                                   "掲示板"
+                               ]
                   },
                   {
                       "name":  "WebClass",
@@ -4485,7 +4664,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "地域連携・生涯学習推進室",
@@ -4502,7 +4684,10 @@
                                       "platform":  "Facebook",
                                       "url":  "https://www.facebook.com/TokyoCityUniv/"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "図書館 施設予約システム",
@@ -4539,11 +4724,14 @@
                       "onCampusOnly":  true,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "研究者情報データベース",
-                      "category":  "大学公式",
+                      "category":  "学内窓口",
                       "description":  "東京都市大学に所属する教員・研究者の専門分野、研究業績、外部資金獲得状況などを公開している公式データベースです。",
                       "website":  "https://www.risys.gl.tcu.ac.jp/",
                       "keywords":  [
@@ -4553,7 +4741,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "学術機関リポジトリ",
@@ -4567,20 +4758,16 @@
                                        "設備",
                                        "システム",
                                        "学内",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
                                        "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "論文"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "出席確認システム",
@@ -4616,7 +4803,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "教員の出校状況",
@@ -4629,21 +4819,15 @@
                                        "施設",
                                        "設備",
                                        "システム",
-                                       "学内",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "学内"
                                    ],
                       "onCampusOnly":  true,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "数学質問箱(BBS)",
@@ -4653,15 +4837,6 @@
                       "keywords":  [
                                        "数学質問箱(BBS)",
                                        "学内窓口",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館",
                                        "授業",
                                        "シラバス",
                                        "履修",
@@ -4673,7 +4848,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+                                   "掲示板"
+                               ]
                   },
                   {
                       "name":  "横浜キャンパス-授業改善方策フィードバック",
@@ -4697,7 +4875,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "メディア情報学部 情報システム学科 研究室配属システム",
@@ -4723,7 +4904,10 @@
                       "onCampusOnly":  true,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "メディア情報学部 社会メディア学科 研究室配属システム",
@@ -4749,7 +4933,10 @@
                       "onCampusOnly":  true,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "環境学部 研究室配属システム",
@@ -4775,7 +4962,10 @@
                       "onCampusOnly":  true,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "都市生活学部 プロジェクト演習配属申請登録システム",
@@ -4801,7 +4991,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "学生相談室",
@@ -4815,7 +5008,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ハラスメント相談窓口",
@@ -4829,7 +5025,10 @@
                       "onCampusOnly":  true,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "TCU FORCE",
@@ -4854,7 +5053,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "キャリア支援サイト",
@@ -4877,7 +5079,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "都市大キャリアNavi",
@@ -4900,7 +5105,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "TCU メール",
@@ -4929,7 +5137,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "OneDrive",
@@ -4965,7 +5176,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "TCU Storage",
@@ -4990,7 +5204,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "世田谷キャンパス 物品借用申請",
@@ -5011,7 +5228,10 @@
                       "onCampusOnly":  true,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "横浜キャンパス YCよやく君",
@@ -5039,7 +5259,10 @@
                       "onCampusOnly":  true,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "東京都市大学 原子力研究所",
@@ -5060,7 +5283,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "東京都市大学 総合研究所",
@@ -5082,30 +5308,32 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "東京都市大学 オーストラリアプログラム",
-                      "category":  "学内窓口",
+                      "category":  "プロジェクト",
                       "description":  "独自の語学研修と約100日間のオーストラリア留学を組み合わせた、本学を代表する留学プログラム（TAP）の公式情報サイトです。",
                       "website":  "https://tap.tcu.ac.jp/",
                       "keywords":  [
                                        "東京都市大学 オーストラリアプログラム",
-                                       "学内窓口",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "オーストラリアプログラム",
+                                       "TAP",
+                                       "タップ",
+                                       "留学",
+                                       "海外",
+                                       "英語"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "Shibuya PXU",
@@ -5123,7 +5351,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "CSAC 産官学交流センター",
@@ -5136,21 +5367,15 @@
                                        "施設",
                                        "設備",
                                        "システム",
-                                       "学内",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "学内"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ものつくりセンター",
@@ -5178,7 +5403,10 @@
                                       "platform":  "YouTube",
                                       "url":  "https://www.youtube.com/@東京都市大学ものつくり支"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "学生工房",
@@ -5199,7 +5427,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/TCU_StudentFab"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ダイバーシティ推進室",
@@ -5213,7 +5444,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ラーニングコモンズSC",
@@ -5230,20 +5464,16 @@
                                        "世田谷",
                                        "世田谷キャンパス",
                                        "せたがや",
-                                       "図書",
-                                       "本",
                                        "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "勉強"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ぴっぴ",
@@ -5264,7 +5494,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://www.instagram.com/pippi.tokyotoshidai/"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ラウンジオーク",
@@ -5294,7 +5527,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "キャンパスショップ",
@@ -5330,7 +5566,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/hayato_shouji"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "後援会",
@@ -5344,7 +5583,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "校友会",
@@ -5369,34 +5611,31 @@
                                       "platform":  "Instagram",
                                       "url":  "https://www.instagram.com/tcu_kouyuukai/"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ひらめき・こと・もの・くらし・ひと づくりプログラム",
-                      "category":  "大学公式",
+                      "category":  "プロジェクト",
                       "description":  "専門知識を背景に、異分野融合のアプローチから新たな価値創造と問題解決に貢献できる人材を育成する、本学独自の教育プログラムです。",
                       "website":  "https://hirameki.tcu.ac.jp/",
                       "keywords":  [
                                        "ひらめき・こと・もの・くらし・ひと づくりプログラム",
-                                       "大学公式",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "大学公式"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ヒトモノリサーチ 東京都市大学×AERA",
-                      "category":  "大学公式",
+                      "category":  "プロジェクト",
                       "description":  "東京都市大学の教授陣や教員へのインタビューを通じ、専門の研究活動や人生観について語ってもらう特別対談連載企画です。",
                       "website":  "https://dot.asahi.com/ad/21113001/",
                       "keywords":  [
@@ -5406,7 +5645,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "男女共同参画室",
@@ -5415,21 +5657,15 @@
                       "website":  "http://www.sankaku.tcu.ac.jp/",
                       "keywords":  [
                                        "男女共同参画室",
-                                       "学内窓口",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "学内窓口"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "女性研究者支援室 SOFERS",
@@ -5443,7 +5679,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "理工学部",
@@ -5458,7 +5697,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "建築都市デザイン学部",
@@ -5473,7 +5715,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "情報工学部",
@@ -5488,7 +5733,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "環境学部",
@@ -5503,7 +5751,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "メディア情報学部",
@@ -5541,7 +5792,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://www.instagram.com/facultyofinformaticstcu/"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "デザイン・データ科学部",
@@ -5556,7 +5810,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "都市生活学部",
@@ -5571,7 +5828,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "人間科学部",
@@ -5586,7 +5846,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "大学院 総合理工学研究科",
@@ -5600,7 +5863,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "大学院 環境情報学研究科",
@@ -5614,7 +5880,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "大学院 情報データ科学研究科",
@@ -5628,7 +5897,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "世田谷祭公式サイト",
@@ -5655,7 +5927,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://www.instagram.com/setagayafes_sfa"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "世田谷祭実行委員会",
@@ -5681,7 +5956,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://www.instagram.com/setagayafes_sfa"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "横浜祭公式サイト",
@@ -5712,7 +5990,10 @@
                                       "platform":  "YouTube",
                                       "url":  "https://www.youtube.com/@Yokohamafest"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "横浜祭実行委員会",
@@ -5742,7 +6023,10 @@
                                       "platform":  "YouTube",
                                       "url":  "https://www.youtube.com/@Yokohamafest"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "等々力祭",
@@ -5758,7 +6042,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+                                   "廃止済"
+                               ]
                   },
                   {
                       "name":  "学生団体連合会 本部",
@@ -5770,16 +6057,7 @@
                                        "学生団体連合会 本",
                                        "世田谷",
                                        "世田谷キャンパス",
-                                       "せたがや",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "せたがや"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
@@ -5799,7 +6077,10 @@
                                       "platform":  "Note",
                                       "url":  "https://note.com/sto_sc/"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "学生団体連合会 横浜分室",
@@ -5830,7 +6111,10 @@
                                       "platform":  "YouTube",
                                       "url":  "https://www.youtube.com/channel/UC1XmFKKDnEIMDsmXbG-AHaQ/"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "学生団体連合会 等々力分室(Twitter)",
@@ -5857,7 +6141,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://twitter.com/todobun_2nd"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+                                   "廃止済"
+                               ]
                   },
                   {
                       "name":  "アカペラサークル Groove",
@@ -5877,7 +6164,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcu_Groove"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "吹奏楽団",
@@ -5896,7 +6186,10 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "吹奏楽団 Brass",
@@ -5905,15 +6198,6 @@
                       "website":  "https://x.com/tcu_brass",
                       "keywords":  [
                                        "吹奏楽団 Brass",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館",
                                        "音楽",
                                        "軽音",
                                        "バンド",
@@ -5931,7 +6215,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/tcu_brass/"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "吹奏楽団 Stack",
@@ -5957,7 +6244,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://x.com/STACKSOUNDSORCHESTRA"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "硬式野球部",
@@ -5980,7 +6270,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://www.instagram.com/toshidai_baseball"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "競技麻雀部",
@@ -6005,24 +6298,18 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcu_ma"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "学生フォーミュラチーム Mi-Tech Racing",
-                      "category":  "サークル・同好会",
+                      "category":  "プロジェクト",
                       "description":  "学生自らがレーシングマシンの設計・製作・走行テストを一貫して行い、学生フォーミュラ日本大会に出場するプロジェクト団体です。",
                       "website":  "https://mitech-racing.com",
                       "keywords":  [
-                                       "学生フォーミュラチーム Mi-Tech Racing",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "学生フォーミュラチーム Mi-Tech Racing"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
@@ -6034,7 +6321,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/mitechracing"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "航空研究部 APSARAS",
@@ -6055,7 +6345,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/apsaras_tcu"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "鉄道研究部",
@@ -6079,7 +6372,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/tcu_rail/"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ラグビー部",
@@ -6096,7 +6392,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcurfc634"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "写真部",
@@ -6117,7 +6416,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/photo_tcu/"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "グリークラブ！",
@@ -6139,7 +6441,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcuglee"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "放送会",
@@ -6147,16 +6452,7 @@
                       "description":  "学内イベントや学園祭の音響サポート、番組制作、アナウンス活動などを行う、本格的な放送部にあたる団体です。9号館3階に会室があります。",
                       "website":  "https://x.com/TBAhousoukai",
                       "keywords":  [
-                                       "放送会",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "放送会"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
@@ -6164,7 +6460,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/TBAhousoukai"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "アメフト部 Helios",
@@ -6187,7 +6486,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://www.instagram.com/helios.tcu.football/"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "アイスホッケー部",
@@ -6204,7 +6506,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcu_icehockey"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "陸上競技部",
@@ -6225,7 +6530,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://www.instagram.com/tcu_tf"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "卓球部",
@@ -6242,7 +6550,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcu_ttc"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "天文研究部",
@@ -6263,7 +6574,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://www.instagram.com/tenmon_tcu"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ISO学生委員会",
@@ -6294,30 +6608,25 @@
                                       "platform":  "Instagram",
                                       "url":  "http://Instagram.com/ycisosc"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "デジタルコンテンツ研究会",
                       "category":  "文化系",
-                      "description":  "DTM（音楽制作）、イラスト、CG、プログラミング、動画編集など、多彩な創作活動を行う本学最大級のインドア系創作サークルです。",
+                      "description":  "DTM（音楽制作）、イラスト、CG、プログラミング、動画編集など、多彩な創作活動を行う本学最大級のインドア系創作サークルです。 マスコットキャラクターは、水色の髪の毛とピンク色のリボンの髪留めが特徴的な「でじこんちゃん」です。",
                       "website":  "https://tcu-dc.net/",
                       "keywords":  [
                                        "デジタルコンテンツ研究会",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館",
                                        "音楽",
                                        "軽音",
                                        "バンド",
                                        "ライブ",
                                        "楽器",
-                                       "演奏"
+                                       "演奏",
+                                       "デジコン"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
@@ -6325,7 +6634,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcu_dc"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "水泳部",
@@ -6342,7 +6654,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcuswimteam"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ヨット部",
@@ -6363,7 +6678,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/tcuyac"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "弓道部",
@@ -6380,7 +6698,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcu_kyudo"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "フットサル部 woodsbear",
@@ -6405,7 +6726,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/tcu_woodsbear/"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ハワイアンクラブ",
@@ -6431,7 +6755,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/hawai_ianclub"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ソフトテニス部",
@@ -6450,7 +6777,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/citysofttennis"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "コンピュータ技術研究会 CTRL",
@@ -6477,7 +6807,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcuctrl"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "柏甌会",
@@ -6493,7 +6826,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcu_tea"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "スナイパーズ",
@@ -6515,7 +6851,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcu_snipers"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "東京都市大学将棋サークル",
@@ -6532,7 +6871,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcushogi26fu"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "少林寺拳法部",
@@ -6552,7 +6894,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcushorinji"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "バスケットボール部",
@@ -6572,7 +6917,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcu_bbc"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "夢キャンコミュニケーター",
@@ -6588,7 +6936,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/yumecampus_tcu"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "二子玉川夢キャンパス",
@@ -6606,11 +6957,14 @@
                       "onCampusOnly":  false,
                       "sns":  [
 
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "宇宙開発教育コミュニティ TAC",
-                      "category":  "サークル・同好会",
+                      "category":  "プロジェクト",
                       "description":  "ロケットや人工衛星の開発、打ち上げプロジェクトの実現に向けて、工学的アプローチから挑戦を続ける宇宙開発コミュニティです。",
                       "website":  "https://grp.tcu.ac.jp/tac/",
                       "keywords":  [
@@ -6622,7 +6976,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/TAC_toshidai"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "サッカー部",
@@ -6645,7 +7002,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/toshidai_soccer"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ダンス部 UPBEAT",
@@ -6666,7 +7026,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/TCU_UPBEAT"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "自動車部",
@@ -6683,7 +7046,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/univ_carclub"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ハンドボール部",
@@ -6707,7 +7073,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/handball.tcu"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "学科研究会連合本部",
@@ -6716,16 +7085,7 @@
                       "website":  "https://x.com/tcu_dra",
                       "keywords":  [
                                        "学科研究会連合本部",
-                                       "学科研究会連合本",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "学科研究会連合本"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
@@ -6737,7 +7097,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/tcu_dra"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "モーターサイクル部",
@@ -6758,7 +7121,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/mcctcu"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "バドミントン部",
@@ -6775,7 +7141,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/TCU_badminton_7"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "ダンス部 LAVI",
@@ -6799,12 +7168,15 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/lavi_tcu"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "arte",
                       "category":  "サークル・同好会",
-                      "description":  "横浜キャンパスを中心にイラストや漫画の制作活動を行い、部誌の発行や文化祭での展示・物販活動を展開する創作サークルです。",
+                      "description":  "横浜キャンパスを中心にイラストや漫画の制作活動を行い、部誌の発行や文化祭での展示・物販活動を展開する創作サークルです。 マスコットキャラクターは、赤色の服が印象的な「アカマキさん」と、赤いマフラーを巻いた白猫の「ネコマフラー」です。",
                       "website":  "https://arteofficial.web.fc2.com/index.html",
                       "keywords":  [
                                        "arte",
@@ -6818,7 +7190,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/arteofficial"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "音楽団体PLAM",
@@ -6843,7 +7218,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/PLAM20201"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "潜水科学研究会 ダイビング部",
@@ -6864,7 +7242,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/tcu_senken"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "空手道部",
@@ -6892,7 +7273,10 @@
                                       "platform":  "Facebook",
                                       "url":  "https://facebook.com/TCU.KARATE"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "都市緑化研究会",
@@ -6915,7 +7299,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://www.instagram.com/toshiryokkakenkyuuka"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "同好会連合本部",
@@ -6925,16 +7312,7 @@
                       "keywords":  [
                                        "同好会連合本部",
                                        "同好会連合本",
-                                       "連合本部",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "連合本部"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
@@ -6942,7 +7320,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcu_acc"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "古生物同好会",
@@ -6951,16 +7332,7 @@
                       "website":  "https://x.com/TCU_koseibutsu",
                       "keywords":  [
                                        "古生物同好会",
-                                       "古生物",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "古生物"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
@@ -6972,7 +7344,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/tcu_paleo"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "合気道部",
@@ -6992,7 +7367,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/TCU_aiki"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "体育会本部",
@@ -7001,16 +7379,7 @@
                       "website":  "https://taiikukaihonbu0.wixsite.com/tcu-taiikukai",
                       "keywords":  [
                                        "体育会本部",
-                                       "体育会本",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "体育会本"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
@@ -7018,7 +7387,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcu_taiikukai0"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "エレクトーンサークル sky tone",
@@ -7041,12 +7413,15 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcu_skytone"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "お散歩同好会",
                       "category":  "サークル・同好会",
-                      "description":  "横浜キャンパスを中心に、四季折々のスポットへのお散歩や散策を通じて学生同士の親睦とQOL向上を図るのどかな同好会です。",
+                      "description":  "横浜キャンパスを中心に、四季折々のスポットへのお散歩や散策を通じて学生同士の親睦とQOL向上を図るのどかな同好会です。 マスコットキャラクターは、紺色の髪の毛が特徴の女の子「どどどさん」です。",
                       "website":  "https://x.com/Dosannpo_tcu",
                       "keywords":  [
                                        "お散歩同好会",
@@ -7065,7 +7440,10 @@
                                       "platform":  "Pixiv",
                                       "url":  "https://www.pixiv.net/users/101580325"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "東京都市大 SF研",
@@ -7085,7 +7463,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://instagram.com/sf_tokiocity"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "漫画アニメ研究部 まに",
@@ -7102,7 +7483,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/maniportal_tcu"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "Skyview",
@@ -7118,7 +7502,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/skyview_tcu"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "カードゲーム同好会",
@@ -7135,7 +7522,10 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tcu_tcg"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "自転車競技同好会",
@@ -7156,7 +7546,10 @@
                                       "platform":  "Instagram",
                                       "url":  "https://www.instagram.com/tcu_bicycleteam/"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
                   },
                   {
                       "name":  "たまこま部",
@@ -7165,16 +7558,7 @@
                       "website":  "https://x.com/tamakomabu2025",
                       "keywords":  [
                                        "たまこま部",
-                                       "たまこま",
-                                       "図書",
-                                       "本",
-                                       "自習",
-                                       "勉強",
-                                       "文献",
-                                       "論文",
-                                       "書籍",
-                                       "読書",
-                                       "図書館"
+                                       "たまこま"
                                    ],
                       "onCampusOnly":  false,
                       "sns":  [
@@ -7182,20 +7566,44 @@
                                       "platform":  "Twitter / X",
                                       "url":  "https://x.com/tamakomabu2025"
                                   }
-                              ]
+                              ],
+                      "tags":  [
+
+                               ]
+                  },
+                  {
+                      "name":  "東急グループ公式ホームページ",
+                      "category":  "大学公式",
+                      "description":  "五島育英会が属する、東急グループの公式ホームページです。グループの事業紹介やニュースなどが掲載されています。",
+                      "website":  "https://tokyugroup.jp/",
+                      "keywords":  [
+                                       "東急グループ",
+                                       "東急",
+                                       "tokyu",
+                                       "公式",
+                                       "東急グループ公式ホームページ"
+                                   ],
+                      "onCampusOnly":  false,
+                      "sns":  [
+
+                              ],
+                      "tags":  [
+
+                               ]
                   }
               ]
 };
 
     let externalCategories = [];
     let externalLinksData = [];
+    let favorites = JSON.parse(localStorage.getItem('favoriteLinks') || '[]');
 
     async function loadExternalLinks() {
       try {
         const response = await fetch('./links.json');
         if (!response.ok) throw new Error('Failed to fetch links.json');
         const data = await response.json();
-        
+
         externalCategories = data.categories || [];
         externalLinksData = data.links || [];
 
@@ -7208,8 +7616,10 @@
         // 3. アンカーナビゲーションの動的生成
         populateAnchorNav(externalCategories);
 
-        // 4. 初期表示のレンダリング
+        // 4. 初期表示のレンダリングとお気に入り・警告文初期化
         renderLinksLayout(externalLinksData, false);
+        renderFavorites();
+        initWarningBanner();
       } catch (e) {
         console.warn("Failed to fetch links.json. Using local fallback database.", e);
         externalCategories = DEFAULT_LINKS_DATA.categories || [];
@@ -7224,8 +7634,10 @@
         // 3. アンカーナビゲーションの動的生成
         populateAnchorNav(externalCategories);
 
-        // 4. 初期表示のレンダリング
+        // 4. 初期表示のレンダリングとお気に入り・警告文初期化
         renderLinksLayout(externalLinksData, false);
+        renderFavorites();
+        initWarningBanner();
       }
     }
 
@@ -7248,7 +7660,7 @@
           }
         `;
       });
-      
+
       const oldStyle = document.getElementById('dynamic-category-styles');
       if (oldStyle) oldStyle.remove();
 
@@ -7261,7 +7673,7 @@
     function populateCategoryFilter(categories) {
       const filterSelect = document.getElementById('linkCategoryFilter');
       if (!filterSelect) return;
-      
+
       filterSelect.innerHTML = '<option value="ALL">すべてのカテゴリ</option>';
       categories.forEach(cat => {
         filterSelect.innerHTML += `<option value="${cat.name}">${cat.name}</option>`;
@@ -7271,7 +7683,7 @@
     function populateAnchorNav(categories) {
       const anchorNav = document.getElementById('linkAnchorNav');
       if (!anchorNav) return;
-      
+
       anchorNav.innerHTML = '';
       categories.forEach((cat, index) => {
         // リンクが登録されているカテゴリのみナビに表示
@@ -7299,6 +7711,180 @@
       return idx !== -1 ? `cat-dyn-${idx}` : 'cat-dyn-other';
     }
 
+    // 警告バナーの初期化と切り替え
+    function initWarningBanner() {
+      const isDismissed = localStorage.getItem('warningBannerDismissed') === 'true';
+      const containerId = isDismissed ? 'bottomWarningPlaceholder' : 'topWarningPlaceholder';
+      const placeholder = document.getElementById(containerId);
+      if (!placeholder) return;
+
+      placeholder.innerHTML = `
+        <div class="warning-banner" id="warningBanner">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="material-symbols-outlined" style="font-size: 20px;">info</span>
+            <span>掲載されている説明には間違いが含まれていることがあります。</span>
+          </div>
+          <button onclick="dismissWarningBanner(event)" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; color: inherit;" title="閉じる">
+            <span class="material-symbols-outlined" style="font-size: 18px;">close</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function dismissWarningBanner(event) {
+      if (event) event.stopPropagation();
+      const banner = document.getElementById('warningBanner');
+      if (!banner) return;
+
+      localStorage.setItem('warningBannerDismissed', 'true');
+      const bottomPlaceholder = document.getElementById('bottomWarningPlaceholder');
+      if (bottomPlaceholder) {
+        bottomPlaceholder.appendChild(banner);
+      }
+    }
+
+    // お気に入り機能のロジック
+    function toggleFavorite(event, name) {
+      if (event) event.stopPropagation();
+      const index = favorites.indexOf(name);
+      if (index === -1) {
+        favorites.push(name);
+      } else {
+        favorites.splice(index, 1);
+      }
+      localStorage.setItem('favoriteLinks', JSON.stringify(favorites));
+      renderFavorites();
+      filterLinks(); // 再レンダリングして星マークを更新
+    }
+
+    function moveFavoriteUp(event, name) {
+      if (event) event.stopPropagation();
+      const index = favorites.indexOf(name);
+      if (index > 0) {
+        const temp = favorites[index - 1];
+        favorites[index - 1] = favorites[index];
+        favorites[index] = temp;
+        localStorage.setItem('favoriteLinks', JSON.stringify(favorites));
+        renderFavorites();
+      }
+    }
+
+    function moveFavoriteDown(event, name) {
+      if (event) event.stopPropagation();
+      const index = favorites.indexOf(name);
+      if (index !== -1 && index < favorites.length - 1) {
+        const temp = favorites[index + 1];
+        favorites[index + 1] = favorites[index];
+        favorites[index] = temp;
+        localStorage.setItem('favoriteLinks', JSON.stringify(favorites));
+        renderFavorites();
+      }
+    }
+
+    function renderFavorites() {
+      const section = document.getElementById('favoritesSection');
+      const grid = document.getElementById('favoritesGrid');
+      if (!section || !grid) return;
+
+      if (favorites.length === 0) {
+        section.style.display = 'none';
+        return;
+      }
+
+      section.style.display = 'block';
+
+      const favLinks = [];
+      favorites.forEach(name => {
+        const linkObj = externalLinksData.find(l => l.name === name);
+        if (linkObj) favLinks.push(linkObj);
+      });
+
+      const cardsHtml = favLinks.map((link, idx) => {
+        const originalIndex = externalLinksData.findIndex(item => item.name === link.name);
+        const catClass = getCategoryClass(link.category);
+        const campusBadge = link.onCampusOnly
+          ? `<div class="link-card-campus-only"><span class="material-symbols-outlined">gpp_maybe</span>学内専用</div>`
+          : '';
+
+        let tagsHtml = '';
+        if (link.tags && Array.isArray(link.tags)) {
+          tagsHtml = link.tags.map(t => `<span class="link-tag tag-${t}">${t}</span>`).join('');
+        }
+
+        const isDeprecated = link.tags && link.tags.includes('廃止済');
+        const cardStyle = isDeprecated ? 'opacity: 0.5; filter: grayscale(1);' : '';
+
+        return `
+          <div class="link-card" onclick="handleLinkCardClick(${originalIndex})" style="${cardStyle}">
+            <div class="link-card-content" style="flex-grow: 1;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                <span class="link-card-category ${catClass}">${link.category || 'その他'}</span>
+                <div style="display: flex; gap: 4px; align-items: center;">
+                  ${tagsHtml}
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+                <h3 class="link-card-name" title="${link.name}" style="margin: 0;">${link.name}</h3>
+                <button class="favorite-btn is-active" onclick="toggleFavorite(event, '${link.name}')" style="background: none; border: none; padding: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: color 0.2s;" title="お気に入り解除">
+                  <span class="material-symbols-outlined" style="font-size: 20px;">star</span>
+                </button>
+              </div>
+              ${campusBadge}
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-left: auto;">
+              <div class="link-card-reorder" style="display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 0 4px; border-left: 1px solid var(--md-sys-color-outline-variant); height: 80%;">
+                <button onclick="moveFavoriteUp(event, '${link.name}')" style="background: none; border: none; padding: 2px; cursor: pointer; color: var(--md-sys-color-outline); display: inline-flex; align-items: center;" title="上に移動" ${idx === 0 ? 'disabled style="opacity: 0.3; cursor: not-allowed;"' : ''}>
+                  <span class="material-symbols-outlined" style="font-size: 18px;">keyboard_arrow_up</span>
+                </button>
+                <button onclick="moveFavoriteDown(event, '${link.name}')" style="background: none; border: none; padding: 2px; cursor: pointer; color: var(--md-sys-color-outline); display: inline-flex; align-items: center;" title="下に移動" ${idx === favLinks.length - 1 ? 'disabled style="opacity: 0.3; cursor: not-allowed;"' : ''}>
+                  <span class="material-symbols-outlined" style="font-size: 18px;">keyboard_arrow_down</span>
+                </button>
+              </div>
+              <div class="link-card-arrow" style="padding-left: 8px; border-left: 1px solid var(--md-sys-color-outline-variant); display: flex; align-items: center;">
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      grid.innerHTML = cardsHtml;
+    }
+
+    // リンク並び替えの最適化
+    function sortLinks(linksArray) {
+      return linksArray.slice().sort((a, b) => {
+        // 1. "廃止済"タグのあるリンクは常に最末尾へ
+        const aDeprecated = a.tags && a.tags.includes('廃止済');
+        const bDeprecated = b.tags && b.tags.includes('廃止済');
+        if (aDeprecated && !bDeprecated) return 1;
+        if (!aDeprecated && bDeprecated) return -1;
+
+        // 2. カテゴリ順でソート（externalCategories内のインデックス順）
+        const aCatIdx = externalCategories.findIndex(c => c.name === a.category);
+        const bCatIdx = externalCategories.findIndex(c => c.name === b.category);
+        const aIdx = aCatIdx !== -1 ? aCatIdx : 999;
+        const bIdx = bCatIdx !== -1 ? bCatIdx : 999;
+        if (aIdx !== bIdx) return aIdx - bIdx;
+
+        // 3. 同じカテゴリ内でのソート
+        if (a.category === 'システム') {
+          const getSystemPriority = (name) => {
+            if (name.includes('学内ポータル')) return 0;
+            if (name.includes('WebClass')) return 1;
+            if (name.includes('出席確認システム')) return 2;
+            return 999;
+          };
+          const aPri = getSystemPriority(a.name);
+          const bPri = getSystemPriority(b.name);
+          if (aPri !== bPri) return aPri - bPri;
+        }
+
+        // 4. その他は五十音順（日本語基準）
+        return a.name.localeCompare(b.name, 'ja');
+      });
+    }
+
     function renderLinksLayout(linksArray, isFiltering) {
       const container = document.getElementById('linksContainer');
       const anchorNav = document.getElementById('linkAnchorNav');
@@ -7314,25 +7900,49 @@
         return;
       }
 
+      // 並び替えの最適化を適用
+      const sortedLinks = sortLinks(linksArray);
+
       if (isFiltering) {
         // 検索・フィルタリング時はグループヘッダーなしのフラットなグリッドで表示
         if (anchorNav) anchorNav.style.display = 'none';
-        
-        const cardsHtml = linksArray.map(link => {
+
+        const cardsHtml = sortedLinks.map(link => {
           const originalIndex = externalLinksData.findIndex(item => item.name === link.name);
           const catClass = getCategoryClass(link.category);
-          const campusBadge = link.onCampusOnly 
-            ? `<div class="link-card-campus-only"><span class="material-symbols-outlined">gpp_maybe</span>学内専用</div>` 
+          const campusBadge = link.onCampusOnly
+            ? `<div class="link-card-campus-only"><span class="material-symbols-outlined">gpp_maybe</span>学内専用</div>`
             : '';
 
+          let tagsHtml = '';
+          if (link.tags && Array.isArray(link.tags)) {
+            tagsHtml = link.tags.map(t => `<span class="link-tag tag-${t}">${t}</span>`).join('');
+          }
+
+          const isFav = favorites.indexOf(link.name) !== -1;
+          const favClass = isFav ? 'is-active' : '';
+
+          const isDeprecated = link.tags && link.tags.includes('廃止済');
+          const cardStyle = isDeprecated ? 'opacity: 0.5; filter: grayscale(1);' : '';
+
           return `
-            <div class="link-card" onclick="handleLinkCardClick(${originalIndex})">
-              <div class="link-card-content">
-                <span class="link-card-category ${catClass}">${link.category || 'その他'}</span>
-                <h3 class="link-card-name" title="${link.name}">${link.name}</h3>
+            <div class="link-card" onclick="handleLinkCardClick(${originalIndex})" style="${cardStyle}">
+              <div class="link-card-content" style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                  <span class="link-card-category ${catClass}">${link.category || 'その他'}</span>
+                  <div style="display: flex; gap: 4px; align-items: center;">
+                    ${tagsHtml}
+                  </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+                  <h3 class="link-card-name" title="${link.name}" style="margin: 0;">${link.name}</h3>
+                  <button class="favorite-btn ${favClass}" onclick="toggleFavorite(event, '${link.name}')" style="background: none; border: none; padding: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: color 0.2s;" title="お気に入り登録/解除">
+                    <span class="material-symbols-outlined" style="font-size: 20px;">star</span>
+                  </button>
+                </div>
                 ${campusBadge}
               </div>
-              <div class="link-card-arrow">
+              <div class="link-card-arrow" style="display: flex; align-items: center;">
                 <span class="material-symbols-outlined">arrow_forward</span>
               </div>
             </div>
@@ -7343,27 +7953,48 @@
       } else {
         // 通常表示（カテゴリごとにヘッダー＋横長カードグリッドを挟む）
         if (anchorNav) anchorNav.style.display = 'flex';
-        
+
         let html = '';
         externalCategories.forEach((cat, catIdx) => {
-          const catLinks = linksArray.filter(link => link.category === cat.name);
+          const catLinks = sortedLinks.filter(link => link.category === cat.name);
           if (catLinks.length === 0) return;
 
           const cardsHtml = catLinks.map(link => {
             const originalIndex = externalLinksData.findIndex(item => item.name === link.name);
             const catClass = `cat-dyn-${catIdx}`;
-            const campusBadge = link.onCampusOnly 
-              ? `<div class="link-card-campus-only"><span class="material-symbols-outlined">gpp_maybe</span>学内専用</div>` 
+            const campusBadge = link.onCampusOnly
+              ? `<div class="link-card-campus-only"><span class="material-symbols-outlined">gpp_maybe</span>学内専用</div>`
               : '';
 
+            let tagsHtml = '';
+            if (link.tags && Array.isArray(link.tags)) {
+              tagsHtml = link.tags.map(t => `<span class="link-tag tag-${t}">${t}</span>`).join('');
+            }
+
+            const isFav = favorites.indexOf(link.name) !== -1;
+            const favClass = isFav ? 'is-active' : '';
+
+            const isDeprecated = link.tags && link.tags.includes('廃止済');
+            const cardStyle = isDeprecated ? 'opacity: 0.5; filter: grayscale(1);' : '';
+
             return `
-              <div class="link-card" onclick="handleLinkCardClick(${originalIndex})">
-                <div class="link-card-content">
-                  <span class="link-card-category ${catClass}">${link.category || 'その他'}</span>
-                  <h3 class="link-card-name" title="${link.name}">${link.name}</h3>
+              <div class="link-card" onclick="handleLinkCardClick(${originalIndex})" style="${cardStyle}">
+                <div class="link-card-content" style="flex-grow: 1;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                    <span class="link-card-category ${catClass}">${link.category || 'その他'}</span>
+                    <div style="display: flex; gap: 4px; align-items: center;">
+                      ${tagsHtml}
+                    </div>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+                    <h3 class="link-card-name" title="${link.name}" style="margin: 0;">${link.name}</h3>
+                    <button class="favorite-btn ${favClass}" onclick="toggleFavorite(event, '${link.name}')" style="background: none; border: none; padding: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: color 0.2s;" title="お気に入り登録/解除">
+                      <span class="material-symbols-outlined" style="font-size: 20px;">star</span>
+                    </button>
+                  </div>
                   ${campusBadge}
                 </div>
-                <div class="link-card-arrow">
+                <div class="link-card-arrow" style="display: flex; align-items: center;">
                   <span class="material-symbols-outlined">arrow_forward</span>
                 </div>
               </div>
@@ -7409,7 +8040,7 @@
           const matchName = link.name && link.name.toLowerCase().includes(searchQuery);
           const matchCatText = link.category && link.category.toLowerCase().includes(searchQuery);
           const matchDesc = link.description && link.description.toLowerCase().includes(searchQuery);
-          
+
           // 略称・別名のマッチング
           let matchKeywords = false;
           if (link.keywords && Array.isArray(link.keywords)) {
@@ -7441,36 +8072,36 @@
             <label style="font-size: 13px; font-weight: 600; color: var(--md-sys-color-on-surface-variant); display: block; margin-bottom: 8px;">公式SNS</label>
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
               ${linkData.sns.slice(0, 3).map(s => {
-                let icon = 'share';
-                let btnColor = 'var(--md-sys-color-secondary-container)';
-                let textColor = 'var(--md-sys-color-on-secondary-container)';
-                const platformLower = s.platform.toLowerCase();
-                
-                if (platformLower.includes('twitter') || platformLower.includes('x')) {
-                  icon = 'share';
-                  btnColor = '#000000';
-                  textColor = '#ffffff';
-                } else if (platformLower.includes('instagram')) {
-                  btnColor = 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)';
-                  textColor = '#ffffff';
-                } else if (platformLower.includes('youtube')) {
-                  btnColor = '#ff0000';
-                  textColor = '#ffffff';
-                } else if (platformLower.includes('facebook')) {
-                  btnColor = '#1877f2';
-                  textColor = '#ffffff';
-                } else if (platformLower.includes('line')) {
-                  btnColor = '#06c755';
-                  textColor = '#ffffff';
-                }
-                
-                return `
+          let icon = 'share';
+          let btnColor = 'var(--md-sys-color-secondary-container)';
+          let textColor = 'var(--md-sys-color-on-secondary-container)';
+          const platformLower = s.platform.toLowerCase();
+
+          if (platformLower.includes('twitter') || platformLower.includes('x')) {
+            icon = 'share';
+            btnColor = '#000000';
+            textColor = '#ffffff';
+          } else if (platformLower.includes('instagram')) {
+            btnColor = 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)';
+            textColor = '#ffffff';
+          } else if (platformLower.includes('youtube')) {
+            btnColor = '#ff0000';
+            textColor = '#ffffff';
+          } else if (platformLower.includes('facebook')) {
+            btnColor = '#1877f2';
+            textColor = '#ffffff';
+          } else if (platformLower.includes('line')) {
+            btnColor = '#06c755';
+            textColor = '#ffffff';
+          }
+
+          return `
                   <a href="${s.url}" target="_blank" rel="noopener noreferrer" class="btn" style="background: ${btnColor}; color: ${textColor}; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding: 8px 16px; border-radius: 100px; font-size: 13px; font-weight: 600; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
                     <span class="material-symbols-outlined" style="font-size: 18px;">open_in_new</span>
                     ${s.platform}
                   </a>
                 `;
-              }).join('')}
+        }).join('')}
             </div>
           </div>
         `;
@@ -7490,11 +8121,17 @@
 
       const catClass = getCategoryClass(linkData.category);
 
+      let tagsHtml = '';
+      if (linkData.tags && Array.isArray(linkData.tags)) {
+        tagsHtml = linkData.tags.map(t => `<span class="link-tag tag-${t}">${t}</span>`).join('');
+      }
+
       if (bodyEl) {
         bodyEl.innerHTML = `
           <div style="display: flex; flex-direction: column; gap: 16px;">
             <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
               ${linkData.category ? `<span class="link-card-category ${catClass}" style="margin-bottom: 0;">${linkData.category}</span>` : ''}
+              ${tagsHtml}
               ${linkData.onCampusOnly ? `<span class="link-card-campus-only" style="margin-top: 0; padding: 3px 8px;">学内専用</span>` : ''}
             </div>
             
