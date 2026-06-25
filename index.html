@@ -2223,7 +2223,7 @@
     <button class="icon-button" onclick="toggleSidebar()">
       <span class="material-symbols-outlined">menu</span>
     </button>
-    <div class="app-title">
+    <div class="app-title" onclick="switchView('home', document.getElementById('nav-home'))" style="cursor: pointer;">
       <span class="material-symbols-outlined" style="font-size: 28px; color: var(--md-sys-color-primary);">school</span>
       openTCU
     </div>
@@ -4517,6 +4517,23 @@
           document.getElementById('loading').innerText = "データの読み込みに失敗しました。オフライン状態か、一時的にサーバーにアクセスできません。";
         }
       }
+
+      // URLから名刺情報の受け取り（クエリパラメータチェック）
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const cardParam = urlParams.get('card');
+        if (cardParam) {
+          const decodedJson = decodeURIComponent(escape(atob(cardParam)));
+          const parsedData = JSON.parse(decodedJson);
+          if (parsedData && parsedData.n) {
+            setTimeout(() => {
+              openSelfIntroResultModal(parsedData);
+            }, 800);
+          }
+        }
+      } catch (e) {
+        console.error("Failed to parse card query param on load:", e);
+      }
     };
 
     function populateFilters() {
@@ -6314,13 +6331,19 @@
         c: profile.campus
       };
       
+      const currentUrl = window.location.href.split('?')[0];
+      const serialized = JSON.stringify(dataToShare);
+      // UTF-8 bytes to Base64 safely
+      const base64Data = btoa(unescape(encodeURIComponent(serialized)));
+      const qrValue = currentUrl + '?card=' + base64Data;
+      
       const canvas = document.getElementById('mySelfIntroQRCanvas');
       if (canvas) {
         new QRious({
           element: canvas,
-          value: JSON.stringify(dataToShare),
+          value: qrValue,
           size: 180,
-          level: 'M'
+          level: 'L' // Low level reduces density, making it much easier to scan on screens
         });
       }
     }
@@ -6409,18 +6432,28 @@
 
         if (code) {
           try {
-            const parsed = JSON.parse(code.data);
-            if (parsed && parsed.n) {
+            const qrText = code.data;
+            let parsedData = null;
+            
+            if (qrText.includes('?card=')) {
+              const base64Part = qrText.split('?card=')[1].split('&')[0];
+              const decodedJson = decodeURIComponent(escape(atob(base64Part)));
+              parsedData = JSON.parse(decodedJson);
+            } else {
+              parsedData = JSON.parse(qrText);
+            }
+
+            if (parsedData && parsedData.n) {
               if (navigator.vibrate) {
                 navigator.vibrate(100);
               }
               stopSelfIntroScan();
               closeSelfIntroScanModal();
-              openSelfIntroResultModal(parsed);
+              openSelfIntroResultModal(parsedData);
               return;
             }
           } catch (e) {
-            if (feedback) feedback.textContent = '無効なQRコードです。';
+            if (feedback) feedback.textContent = '無効な名刺コードです。';
           }
         }
       }
