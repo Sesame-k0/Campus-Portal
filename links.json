@@ -81,6 +81,10 @@
                 {
                     "platform": "YouTube",
                     "url": "https://www.youtube.com/@東京都市大学-p1r"
+                },
+                {
+                    "platform": "Instagram",
+                    "url": "https://www.instagram.com/tokyo_city_unv/"
                 }
             ],
             "tags": [],
@@ -1896,6 +1900,85 @@
             "sns": [],
             "tags": [],
             "sortOrder": 120
+        },
+        {
+            "name": "merry chat",
+            "category": "システム",
+            "description": "英語科が設置している、英語学習に特化したAIチャットサービスです。OpenAI社のAPIを使用しています。",
+            "website": "https://merrychat.tcu.ac.jp/chat",
+            "keywords": [
+                "merry chat",
+                "merrychat",
+                "英語科",
+                "AI",
+                "チャット",
+                "メリーチャット"
+            ],
+            "onCampusOnly": true,
+            "sns": [],
+            "tags": [],
+            "sortOrder": 300
+        },
+        {
+            "name": "UniHub",
+            "category": "学生運営",
+            "description": "都市大の学生によって作られた、学内SNSサービスです。※大学公式ではありません。ご利用は自己責任でお願いします。",
+            "website": "https://user.tcu.ac.jp/~g2437051/",
+            "keywords": [
+                "UniHub",
+                "SNS",
+                "学内SNS",
+                "都市大",
+                "ユニハブ",
+                "うにはぶ",
+                "非公式"
+            ],
+            "onCampusOnly": true,
+            "sns": [
+                {
+                    "platform": "Instagram",
+                    "url": "https://www.instagram.com/unihub_toshidai/"
+                }
+            ],
+            "tags": [
+                "掲示板"
+            ],
+            "sortOrder": 700
+        },
+        {
+            "name": "toshidai.trade",
+            "category": "学生運営",
+            "description": "都市大の学生によって作られたと思われる、掲示板やAIチャット機能なども内包した多機能な学内総合非公式ポータルです。※大学公式ではありません。ご利用は自己責任でお願いします。",
+            "website": "https://toshidai.trade",
+            "keywords": [
+                "toshidai.trade",
+                "トシダイトレード",
+                "非公式"
+            ],
+            "onCampusOnly": false,
+            "sns": [],
+            "tags": [
+                "ポータル"
+            ],
+            "sortOrder": 710
+        },
+        {
+            "name": "openTCU",
+            "category": "学生運営",
+            "description": "当サイトです。サーバーにデータを集積しない、オフライン志向のWebポータルサイトです。※大学公式ではありません。ご利用は自己責任でお願いします。",
+            "website": "https://sesame-k0.github.io/openTCU/",
+            "keywords": [
+                "openTCU",
+                "オープン",
+                "オープンティーシーユー",
+                "非公式"
+            ],
+            "onCampusOnly": false,
+            "sns": [],
+            "tags": [
+                "ポータル"
+            ],
+            "sortOrder": 715
         }
     ]
 }
