@@ -2258,13 +2258,54 @@
       background-color: #00508f;
     }
 
-    .btn-danger {
-      background-color: var(--md-sys-color-error);
-      color: var(--md-sys-color-on-error);
-    }
-
     .btn-danger:hover {
       background-color: #900a0a;
+    }
+
+    /* ==========================================
+       時間割マルチシートタブ (Timetable Multi-Sheets)
+       ========================================== */
+    .timetable-tabs-container {
+      margin-top: 8px;
+    }
+
+    .timetable-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      background-color: var(--md-sys-color-surface-container-high);
+      color: var(--md-sys-color-on-surface-variant);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .timetable-tab:hover {
+      background-color: var(--md-sys-color-surface-container-highest);
+    }
+
+    .timetable-tab.active {
+      background-color: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-on-primary-container);
+      border-color: var(--md-sys-color-primary);
+    }
+
+    .timetable-tab-rename-icon {
+      font-size: 14px !important;
+      opacity: 0.5;
+      cursor: pointer;
+      transition: opacity 0.2s, color 0.2s;
+      margin-left: 2px;
+    }
+
+    .timetable-tab-rename-icon:hover {
+      opacity: 1;
+      color: var(--md-sys-color-primary);
     }
 
     /* ==========================================
@@ -2442,6 +2483,16 @@
         width: 100%;
         justify-content: center;
         box-sizing: border-box;
+      }
+
+      /* スマホ向け時間割タブ調整 */
+      .timetable-tab {
+        padding: 4px 10px !important;
+        font-size: 11px !important;
+        border-radius: 6px !important;
+      }
+      .timetable-tab-rename-icon {
+        font-size: 12px !important;
       }
     }
   </style>
@@ -2826,6 +2877,21 @@
           </button>
           <button class="btn btn-primary" onclick="openTimetableAddModal()">
             <span class="material-symbols-outlined">add</span>授業を追加
+          </button>
+        </div>
+      </div>
+
+      <!-- 時間割シート切り替えタブバー -->
+      <div class="timetable-tabs-container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+        <div class="timetable-tabs" id="timetableTabs" style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <!-- JSで動的に追加されます -->
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-radius: 8px; height: 32px;" onclick="createNewTimetableSheet()">
+            <span class="material-symbols-outlined" style="font-size: 16px;">add</span>新規シート
+          </button>
+          <button class="btn btn-outline" id="btnDeleteCurrentSheet" style="padding: 6px 12px; font-size: 12px; border-radius: 8px; height: 32px; background-color: transparent; color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);" onclick="deleteCurrentTimetableSheet()">
+            <span class="material-symbols-outlined" style="font-size: 16px;">delete</span>シート削除
           </button>
         </div>
       </div>
@@ -3947,6 +4013,181 @@
     let isTimetableEditMode = false;
     let dayStartTimes = { mon: false, tue: false, wed: false, thu: false, fri: false, sat: false };
 
+    let timetables = [];
+    let activeTimetableId = "";
+
+    function loadTimetableData() {
+      try {
+        const savedTimetables = localStorage.getItem('opentcu_timetablesList');
+        const savedActiveId = localStorage.getItem('opentcu_activeTimetableId');
+        
+        if (savedTimetables) {
+          timetables = JSON.parse(savedTimetables);
+          activeTimetableId = savedActiveId || (timetables[0] ? timetables[0].id : "");
+        } else {
+          // 古い単一データからのマイグレーション
+          const oldData = localStorage.getItem('opentcu_timetableData');
+          let initialData = {};
+          if (oldData) {
+            try {
+              initialData = JSON.parse(oldData);
+            } catch(e) {}
+          }
+          timetables = [
+            { id: "sheet-1", name: "時間割 1", data: initialData }
+          ];
+          activeTimetableId = "sheet-1";
+          saveTimetablesToStorage();
+        }
+      } catch (e) {
+        console.error("Failed to load timetables:", e);
+        timetables = [{ id: "sheet-1", name: "時間割 1", data: {} }];
+        activeTimetableId = "sheet-1";
+      }
+
+      let activeSheet = timetables.find(t => t.id === activeTimetableId);
+      if (!activeSheet && timetables[0]) {
+        activeTimetableId = timetables[0].id;
+        activeSheet = timetables[0];
+      }
+      
+      timetableData = activeSheet ? activeSheet.data : {};
+    }
+
+    function saveTimetablesToStorage() {
+      try {
+        localStorage.setItem('opentcu_timetablesList', JSON.stringify(timetables));
+        localStorage.setItem('opentcu_activeTimetableId', activeTimetableId);
+        localStorage.setItem('opentcu_timetableData', JSON.stringify(timetableData));
+      } catch (e) {
+        console.error("Failed to save timetables to storage:", e);
+      }
+    }
+
+    function renderTimetableTabs() {
+      const tabsContainer = document.getElementById('timetableTabs');
+      if (!tabsContainer) return;
+      tabsContainer.innerHTML = "";
+
+      timetables.forEach(sheet => {
+        const isActive = sheet.id === activeTimetableId;
+        
+        const tab = document.createElement('div');
+        tab.className = `timetable-tab${isActive ? ' active' : ''}`;
+        tab.onclick = () => switchTimetableSheet(sheet.id);
+
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = sheet.name;
+        tab.appendChild(nameSpan);
+
+        const editIcon = document.createElement('span');
+        editIcon.className = "material-symbols-outlined timetable-tab-rename-icon";
+        editIcon.style.fontSize = "14px";
+        editIcon.textContent = "edit";
+        editIcon.title = "時間割シートの名前を変更";
+        editIcon.onclick = (e) => {
+          e.stopPropagation();
+          renameTimetableSheet(sheet.id);
+        };
+        tab.appendChild(editIcon);
+
+        tabsContainer.appendChild(tab);
+      });
+
+      const btnDelete = document.getElementById('btnDeleteCurrentSheet');
+      if (btnDelete) {
+        if (timetables.length <= 1) {
+          btnDelete.style.opacity = "0.5";
+          btnDelete.style.pointerEvents = "none";
+        } else {
+          btnDelete.style.opacity = "1";
+          btnDelete.style.pointerEvents = "auto";
+        }
+      }
+    }
+
+    function switchTimetableSheet(id) {
+      if (id === activeTimetableId) return;
+      
+      if (isTimetableEditMode) {
+        toggleTimetableEditMode();
+      }
+
+      activeTimetableId = id;
+      const activeSheet = timetables.find(t => t.id === activeTimetableId);
+      timetableData = activeSheet ? activeSheet.data : {};
+      
+      saveTimetablesToStorage();
+      renderTimetableTabs();
+      renderTimetable();
+    }
+
+    function createNewTimetableSheet() {
+      const newSheetId = "sheet-" + Date.now();
+      const newSheetName = `時間割 ${timetables.length + 1}`;
+      
+      const newSheet = {
+        id: newSheetId,
+        name: newSheetName,
+        data: {}
+      };
+      
+      timetables.push(newSheet);
+      activeTimetableId = newSheetId;
+      timetableData = newSheet.data;
+
+      saveTimetablesToStorage();
+      renderTimetableTabs();
+      renderTimetable();
+      
+      renameTimetableSheet(newSheetId);
+    }
+
+    function deleteCurrentTimetableSheet() {
+      if (timetables.length <= 1) {
+        alert("最後の時間割シートは削除できません。");
+        return;
+      }
+
+      const activeSheet = timetables.find(t => t.id === activeTimetableId);
+      const sheetName = activeSheet ? activeSheet.name : "この時間割";
+
+      if (confirm(`時間割「${sheetName}」を完全に削除しますか？\n（この操作は取り消せません）`)) {
+        const index = timetables.findIndex(t => t.id === activeTimetableId);
+        timetables.splice(index, 1);
+        
+        activeTimetableId = timetables[Math.max(0, index - 1)].id;
+        const nextSheet = timetables.find(t => t.id === activeTimetableId);
+        timetableData = nextSheet ? nextSheet.data : {};
+
+        saveTimetablesToStorage();
+        renderTimetableTabs();
+        renderTimetable();
+      }
+    }
+
+    function renameTimetableSheet(id) {
+      const sheet = timetables.find(t => t.id === id);
+      if (!sheet) return;
+
+      const newName = prompt("時間割シートの名前を入力してください（15文字以内）：", sheet.name);
+      if (newName === null) return;
+
+      const trimmedName = newName.trim();
+      if (!trimmedName) {
+        alert("名前を入力してください。");
+        return;
+      }
+      if (trimmedName.length > 15) {
+        alert("名前は15文字以内で入力してください。");
+        return;
+      }
+
+      sheet.name = trimmedName;
+      saveTimetablesToStorage();
+      renderTimetableTabs();
+    }
+
     // パステルカラーのハッシュ選択用
     function getTimetableColorClass(subjectName) {
       if (!subjectName) return "timetable-color-0";
@@ -3960,26 +4201,7 @@
 
     // 初期化処理
     function initTimetable() {
-      // localStorage からデータを読み込む
-      try {
-        const savedData = localStorage.getItem('opentcu_timetableData');
-        if (savedData) {
-          timetableData = JSON.parse(savedData);
-        } else {
-          timetableData = {};
-        }
-
-        const savedStartTimes = localStorage.getItem('opentcu_timetableDayStartTimes');
-        if (savedStartTimes) {
-          dayStartTimes = JSON.parse(savedStartTimes);
-        } else {
-          dayStartTimes = { mon: false, tue: false, wed: false, thu: false, fri: false, sat: false };
-        }
-      } catch (e) {
-        console.error("Failed to load timetable data:", e);
-        timetableData = {};
-        dayStartTimes = { mon: false, tue: false, wed: false, thu: false, fri: false, sat: false };
-      }
+      loadTimetableData();
 
       // 曜日別の開始時間UIをそれぞれ更新
       const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -3987,6 +4209,7 @@
         applyDayFirstPeriodTimeUI(day);
       });
 
+      renderTimetableTabs();
       renderTimetable();
     }
 
@@ -4196,7 +4419,7 @@
       };
 
       try {
-        localStorage.setItem('opentcu_timetableData', JSON.stringify(timetableData));
+        saveTimetablesToStorage();
       } catch (e) {
         console.error("Failed to save timetable to localStorage:", e);
       }
@@ -4215,7 +4438,7 @@
       if (confirm(`「${displayName}」を時間割から削除しますか？`)) {
         delete timetableData[key];
         try {
-          localStorage.setItem('opentcu_timetableData', JSON.stringify(timetableData));
+          saveTimetablesToStorage();
         } catch (e) { }
         renderTimetable();
       }
@@ -4322,9 +4545,19 @@
             return;
           }
 
-          if (confirm("時間割データを取り込みますか？ 現在登録されている時間割データは上書きされます。")) {
-            timetableData = importedData;
-            localStorage.setItem('opentcu_timetableData', JSON.stringify(timetableData));
+          if (confirm("時間割データを取り込みますか？ 「インポートされた時間割」として新規シートに追加されます。")) {
+            const newSheetId = "sheet-" + Date.now();
+            const newSheet = {
+              id: newSheetId,
+              name: `インポート (${new Date().toLocaleDateString('ja-JP', {month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'})})`,
+              data: importedData
+            };
+            timetables.push(newSheet);
+            activeTimetableId = newSheetId;
+            timetableData = newSheet.data;
+            
+            saveTimetablesToStorage();
+            renderTimetableTabs();
             renderTimetable();
             alert("時間割を取り込みました！");
           }
@@ -6148,10 +6381,18 @@
     }
 
     function resetTimetableData() {
-      if (confirm('登録されている時間割データをすべて削除しますか？\n（この操作は取り消せません）')) {
+      if (confirm('登録されているすべての時間割データを削除し、初期状態に戻しますか？\n（この操作は取り消せません）')) {
         try {
+          localStorage.removeItem('opentcu_timetablesList');
+          localStorage.removeItem('opentcu_activeTimetableId');
           localStorage.removeItem('opentcu_timetableData');
-          timetableData = {};
+          
+          timetables = [{ id: "sheet-1", name: "時間割 1", data: {} }];
+          activeTimetableId = "sheet-1";
+          timetableData = timetables[0].data;
+
+          saveTimetablesToStorage();
+          renderTimetableTabs();
           renderTimetable();
           updateHomeView();
           alert('時間割データをリセットしました。');
