@@ -39,7 +39,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
     rel="stylesheet">
   <style>
     /* ベース設定 */
@@ -113,7 +114,8 @@
       width: 1em;
       height: 1em;
       vertical-align: middle;
-      font-size: 24px; /* デフォルトサイズ */
+      font-size: 24px;
+      /* デフォルトサイズ */
       font-family: 'Material Symbols Outlined';
       font-weight: normal;
       font-style: normal;
@@ -143,16 +145,19 @@
       transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       opacity: 1;
     }
+
     #splash-screen.fade-out {
       opacity: 0;
       pointer-events: none;
     }
+
     .splash-content {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 16px;
     }
+
     .splash-text {
       font-family: 'Outfit', 'Noto Sans JP', sans-serif;
       font-size: 16px;
@@ -1180,86 +1185,7 @@
       }
     }
 
-    @media (max-width: 600px) {
-      .main-content {
-        padding: 0 16px;
-        margin-top: 80px;
-      }
 
-      .material-card {
-        padding: 20px;
-        border-radius: 20px;
-      }
-
-      .status-card {
-        padding: 16px;
-      }
-
-      /* テーブルをカード風に変更 */
-      #menuTable,
-      #menuTable thead,
-      #menuTable tbody,
-      #menuTable th,
-      #menuTable td,
-      #menuTable tr {
-        display: block;
-      }
-
-      #menuTable thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-      }
-
-      #menuTable tr {
-        border: 1px solid var(--md-sys-color-outline-variant);
-        border-radius: 16px;
-        margin-bottom: 16px;
-        padding: 16px;
-        background-color: var(--md-sys-color-surface);
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-      }
-
-      #menuTable td {
-        border: none;
-        border-bottom: 1px solid var(--md-sys-color-surface-variant);
-        position: relative;
-        padding: 12px 16px 12px 40%;
-        text-align: right !important;
-        font-size: 14px;
-      }
-
-      #menuTable td:last-child {
-        border-bottom: none;
-      }
-
-      #menuTable td::before {
-        position: absolute;
-        left: 16px;
-        width: 35%;
-        white-space: nowrap;
-        text-align: left;
-        font-weight: 600;
-        color: var(--md-sys-color-on-surface-variant);
-        content: attr(data-label);
-      }
-
-      .price-text {
-        font-size: 15px;
-      }
-
-      .timetable-btn-group {
-        width: 100%;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .timetable-btn-group .btn {
-        width: 100%;
-        justify-content: center;
-        box-sizing: border-box;
-      }
-    }
 
     /* ==========================================
        簡易時間割 (Timetable) スタイル
@@ -2324,6 +2250,147 @@
 
     .btn-danger:hover {
       background-color: #900a0a;
+    }
+
+    /* ==========================================
+       レスポンシブスタイル (モバイル用)
+       ========================================== */
+    @media (max-width: 600px) {
+      .main-content {
+        padding: 0 16px;
+        margin-top: 80px;
+      }
+
+      .material-card {
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      .status-card {
+        padding: 16px;
+      }
+
+      /* テーブルをカード風に変更 */
+      #menuTable,
+      #menuTable thead,
+      #menuTable tbody,
+      #menuTable th,
+      #menuTable td,
+      #menuTable tr {
+        display: block;
+      }
+
+      #menuTable thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+
+      #menuTable tr {
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: 16px;
+        margin-bottom: 16px;
+        padding: 16px;
+        background-color: var(--md-sys-color-surface);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      }
+
+      #menuTable td {
+        border: none;
+        border-bottom: 1px solid var(--md-sys-color-surface-variant);
+        position: relative;
+        padding: 12px 16px 12px 40%;
+        text-align: right !important;
+        font-size: 14px;
+      }
+
+      #menuTable td:last-child {
+        border-bottom: none;
+      }
+
+      #menuTable td::before {
+        position: absolute;
+        left: 16px;
+        width: 35%;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: 600;
+        color: var(--md-sys-color-on-surface-variant);
+        content: attr(data-label);
+      }
+
+      .price-text {
+        font-size: 15px;
+      }
+
+      /* 簡易時間割の縮小設定 */
+      .timetable-container {
+        padding: 8px;
+        border-radius: 16px;
+      }
+
+      .timetable-table {
+        min-width: 580px;
+        border-spacing: 6px;
+      }
+
+      .timetable-table th {
+        height: 36px;
+        font-size: 13px;
+        border-radius: 8px;
+      }
+
+      .timetable-table td {
+        height: 72px;
+        border-radius: 10px;
+      }
+
+      .timetable-time-col {
+        font-size: 11px;
+        padding: 4px !important;
+      }
+
+      .timetable-time-col span:last-child {
+        font-size: 8px !important;
+      }
+
+      .first-period-header {
+        font-size: 8px;
+        padding: 1px 4px;
+        margin-top: 2px;
+      }
+
+      .timetable-subject {
+        font-size: 11px;
+        margin-bottom: 2px;
+      }
+
+      .timetable-info {
+        font-size: 9px;
+      }
+
+      .timetable-info .material-symbols-outlined {
+        font-size: 10px;
+      }
+
+      /* 簡易時間割ボタンのスマホ用縦並び設定 */
+      .timetable-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .timetable-btn-group {
+        width: 100%;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .timetable-btn-group .btn {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+      }
     }
   </style>
 </head>
@@ -4476,7 +4543,7 @@
     const SHOP_OVERVIEWS = {
       "SC 学生食堂": {
         // ここからSC 学生食堂の宣伝文
-        description: "世田谷キャンパスの9号館(SAKURA CENTER)にある、1000席以上を誇るメイン食堂です。実は、「CANTEEN RARA」という名前があります。リーズナブルでボリューム満点な定番メニューや日替わりメニュー、そして100円朝食を提供しており、多くの学生に親しまれています。",
+        description: "世田谷キャンパスの9号館(SAKURA CENTER)にある、1000席以上を誇るメイン食堂です。「CANTEEN RARA」という名前があります。リーズナブルでボリューム満点な定番メニューや日替わりメニュー、そして100円朝食を提供しており、多くの学生に親しまれています。",
         // ここまでSC 学生食堂の宣伝文
         image: "images/sc_shokudo.png"
       },
