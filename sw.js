@@ -1,6 +1,5 @@
-const CACHE_NAME = 'opentcu-cache-v7';
+const CACHE_NAME = 'opentcu-cache-v8';
 const ASSETS_TO_CACHE = [
-  './',
   './index.html',
   './config.js',
   './manifest.json',

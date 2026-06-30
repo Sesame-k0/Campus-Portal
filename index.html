@@ -175,12 +175,20 @@
       /* デフォルトサイズ */
     }
 
+    html {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
+    }
+
     body {
       font-family: 'Outfit', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       margin: 0;
       background-color: var(--md-sys-color-background);
       color: var(--md-sys-color-on-background);
       overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
       line-height: 1.5;
       transition: background-color var(--md-transition-duration) var(--md-transition-easing);
     }
@@ -380,6 +388,9 @@
       margin-top: 88px;
       padding: 0 24px;
       max-width: 1200px;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
       margin-left: auto;
       margin-right: auto;
       margin-bottom: 40px;
@@ -389,6 +400,9 @@
     /* 各画面の切り替え */
     .view-section {
       display: none;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
       animation: fadeIn var(--md-transition-duration) var(--md-transition-easing);
     }
 
