@@ -1462,7 +1462,7 @@
     .timetable-cell-registered {
       border-style: solid;
       border-width: 1px;
-      padding: 10px;
+      padding: 10px 12px;
       box-sizing: border-box;
       text-align: left;
     }
@@ -1484,6 +1484,7 @@
       align-items: center;
       gap: 4px;
       margin-top: 2px;
+      padding: 0 2px;
       opacity: 0.85;
       white-space: nowrap;
       overflow: hidden;
@@ -3189,6 +3190,9 @@
           <button class="btn btn-outline" onclick="triggerImportJSON()">
             <span class="material-symbols-outlined">file_upload</span>時間割を取込 (JSON)
           </button>
+          <button class="btn btn-outline" style="color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);" onclick="resetTimetableData()">
+            <span class="material-symbols-outlined">delete_forever</span>時間割をリセット
+          </button>
           <input type="file" id="importFileInput" accept=".json" style="display: none;"
             onchange="importTimetableJSON(event)" />
         </div>
@@ -3345,7 +3349,7 @@
 
     <!-- 簡易メモ帳書き方モーダル -->
     <div class="modal-overlay" id="memoHelpModalOverlay" onclick="closeMemoHelpModal()">
-      <div class="modal-card" onclick="event.stopPropagation()" style="max-width: 500px;">
+      <div class="modal-dialog" onclick="event.stopPropagation()" style="max-width: 500px;">
         <div class="modal-header">
           <h3 class="modal-title">簡易メモ帳の書き方</h3>
           <button class="icon-button close-modal-btn" onclick="closeMemoHelpModal()">
@@ -3404,12 +3408,12 @@
 
           <div class="settings-row">
             <label for="settings-username">ユーザー名（ニックネーム / 30文字以内）</label>
-            <input type="text" id="settings-username" class="form-input" placeholder="例: 都市大太郎" maxlength="30" />
+            <input type="text" id="settings-username" class="form-input" placeholder="例: 都市大太郎" maxlength="30" oninput="autoSaveProfile()" />
           </div>
 
           <div class="settings-row">
             <label for="settings-campus">所属キャンパス</label>
-            <select id="settings-campus" class="form-select">
+            <select id="settings-campus" class="form-select" onchange="autoSaveProfile()">
               <option value="S">世田谷キャンパス</option>
               <option value="Y">横浜キャンパス</option>
             </select>
@@ -3417,12 +3421,12 @@
 
           <div class="settings-row">
             <label for="settings-faculty">学部・学科（30文字以内）</label>
-            <input type="text" id="settings-faculty" class="form-input" placeholder="例: デザイン・データ科学部" maxlength="30" />
+            <input type="text" id="settings-faculty" class="form-input" placeholder="例: デザイン・データ科学部" maxlength="30" oninput="autoSaveProfile()" />
           </div>
 
           <div class="settings-row">
             <label for="settings-grade">学年</label>
-            <select id="settings-grade" class="form-select">
+            <select id="settings-grade" class="form-select" onchange="autoSaveProfile()">
               <option value="1">学部1年</option>
               <option value="2">学部2年</option>
               <option value="3">学部3年</option>
@@ -3435,18 +3439,18 @@
 
           <div class="settings-row">
             <label for="settings-student-id">学籍番号</label>
-            <input type="text" id="settings-student-id" class="form-input" placeholder="例: G23xxxxx" />
+            <input type="text" id="settings-student-id" class="form-input" placeholder="例: G23xxxxx" oninput="autoSaveProfile()" />
           </div>
 
           <div class="settings-row">
             <label for="settings-email">メールアドレス</label>
-            <input type="email" id="settings-email" class="form-input" placeholder="例: g23xxxxx@tcu.ac.jp" />
+            <input type="email" id="settings-email" class="form-input" placeholder="例: g23xxxxx@tcu.ac.jp" oninput="autoSaveProfile()" />
           </div>
 
           <div class="settings-row">
             <label for="settings-bio">自己紹介（部活・団体名など / 200文字以内）</label>
             <textarea id="settings-bio" class="form-input" style="height: 80px; resize: vertical; font-family: inherit;"
-              placeholder="例: 世田谷キャンパスの吹奏楽団に所属しています！" maxlength="200"></textarea>
+              placeholder="例: 世田谷キャンパスの吹奏楽団に所属しています！" maxlength="200" oninput="autoSaveProfile()"></textarea>
           </div>
         </div>
 
@@ -3460,15 +3464,53 @@
             </select>
           </div>
         </div>
+      </div>
 
-        <div style="margin-top: 12px; display: flex; gap: 12px; flex-wrap: wrap;">
-          <button class="btn-action" onclick="saveSettingsProfile()">
-            <span class="material-symbols-outlined">save</span>設定を保存する
-          </button>
-          <button class="btn-action btn-danger" onclick="resetTimetableData()">
-            <span class="material-symbols-outlined">delete_forever</span>時間割リセット
-          </button>
+      <hr style="margin: 24px 0; border: none; border-top: 1px dashed var(--md-sys-color-outline-variant);" />
+
+      <div class="settings-group-title" style="margin-bottom: 12px;">データのエクスポートと初期化</div>
+      <p style="font-size: 12px; color: var(--md-sys-color-on-surface-variant); margin-bottom: 16px; line-height: 1.5;">
+        時間割データや、openTCUに登録されているすべての情報（プロフィールやメモ等）を出力・インポートすることができます。<br>別の端末へのデータ移行時などにご活用ください。
+      </p>
+
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
+        <button class="btn btn-outline" onclick="exportTimetableJSON()" style="height: 40px; border-radius: 20px;">
+          <span class="material-symbols-outlined">download</span>時間割データを出力 (JSON)
+        </button>
+        <button class="btn btn-outline" onclick="exportAllDataJSON()" style="height: 40px; border-radius: 20px;">
+          <span class="material-symbols-outlined">file_download</span>すべてのデータを出力 (JSON)
+        </button>
+        <button class="btn btn-outline" onclick="triggerImportAllJSON()" style="height: 40px; border-radius: 20px;">
+          <span class="material-symbols-outlined">publish</span>データをインポート (JSON)
+        </button>
+        <input type="file" id="importAllFileInput" accept=".json" style="display: none;" onchange="importAllDataJSON(event)" />
+      </div>
+
+      <!-- 共有用アドバイス -->
+      <div class="share-helper-box" id="settingsShareHelperBox" style="display: none; margin-bottom: 24px; max-width: 600px;">
+        <h4 class="share-helper-title">
+          <span class="material-symbols-outlined">ios_share</span>他の端末や友人とデータを共有しよう
+        </h4>
+        <p class="share-helper-desc">
+          データの出力が完了しました！<br>ダウンロードされたファイルを以下の共有サービスにアップロードすることで、簡単に他の端末や友達にデータを送ることができます。
+        </p>
+        <div class="share-links-group">
+          <a href="https://drive.google.com" target="_blank" class="share-link-item">
+            <span class="material-symbols-outlined">cloud_queue</span>Google ドライブ
+          </a>
+          <a href="https://gigafile.nu" target="_blank" class="share-link-item">
+            <span class="material-symbols-outlined">attachment</span>ギガファイル便
+          </a>
         </div>
+      </div>
+
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <button class="btn btn-outline" style="height: 40px; border-radius: 20px; color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);" onclick="resetTimetableData()">
+          <span class="material-symbols-outlined">delete_forever</span>時間割のみリセット
+        </button>
+        <button class="btn btn-outline" style="height: 40px; border-radius: 20px; color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);" onclick="resetAllData()">
+          <span class="material-symbols-outlined">delete_forever</span>すべてのデータをリセット
+        </button>
       </div>
     </section>
 
@@ -3532,7 +3574,7 @@
         <div class="switch-group">
           <span style="font-size: 14px; font-weight: 600; color: var(--md-sys-color-on-surface);">空きコマとして設定する</span>
           <label class="switch">
-            <input type="checkbox" id="modal-empty-slot" />
+            <input type="checkbox" id="modal-empty-slot" onchange="toggleModalFieldsForEmptySlot()" />
             <span class="slider"></span>
           </label>
         </div>
@@ -4799,6 +4841,9 @@
         periodSelect.value = "1";
         title.textContent = "授業を追加";
       }
+
+      // 空きコマ状態に連動してフィールドの有効・無効化を適用
+      toggleModalFieldsForEmptySlot();
 
       modal.classList.add('show');
     }
@@ -6773,7 +6818,7 @@
       }
     }
 
-    function saveSettingsProfile() {
+    function autoSaveProfile() {
       const nameInput = document.getElementById('settings-username');
       const campusSelect = document.getElementById('settings-campus');
       const facultyInput = document.getElementById('settings-faculty');
@@ -6790,27 +6835,109 @@
       const email = emailInput ? emailInput.value.trim() : '';
       const bio = bioInput ? bioInput.value.trim() : '';
 
-      if (username.length > 30) {
-        alert('ユーザー名は30文字以内で入力してください。');
-        return;
-      }
-      if (faculty.length > 30) {
-        alert('学部・学科は30文字以内で入力してください。');
-        return;
-      }
-      if (bio.length > 200) {
-        alert('自己紹介は200文字以内で入力してください。');
-        return;
-      }
-
       const profile = { username, campus, faculty, grade, studentId, email, bio };
       try {
         localStorage.setItem('opentcu_userProfile', JSON.stringify(profile));
-        alert('設定を保存しました。');
         updateHomeView();
-      } catch (e) {
-        alert('設定の保存に失敗しました。');
+      } catch (e) { }
+    }
+
+    function exportAllDataJSON() {
+      const allData = {
+        timetablesList: localStorage.getItem('opentcu_timetablesList'),
+        activeTimetableId: localStorage.getItem('opentcu_activeTimetableId'),
+        userProfile: localStorage.getItem('opentcu_userProfile'),
+        memosList: localStorage.getItem('opentcu_memosList'),
+        activeMemoId: localStorage.getItem('opentcu_activeMemoId'),
+        theme: localStorage.getItem('theme'),
+        myLinks: localStorage.getItem('opentcu_myLinks'),
+        dayStartTimes: localStorage.getItem('opentcu_timetableDayStartTimes')
+      };
+
+      const jsonStr = JSON.stringify({ type: "opentcu_all_backup", payload: allData }, null, 2);
+      const blob = new Blob([jsonStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `opentcu_all_backup_${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const helper = document.getElementById('settingsShareHelperBox');
+      if (helper) helper.style.display = 'block';
+    }
+
+    function triggerImportAllJSON() {
+      document.getElementById('importAllFileInput').click();
+    }
+
+    function importAllDataJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed && parsed.type === "opentcu_all_backup") {
+            const payload = parsed.payload;
+            if (payload.timetablesList) localStorage.setItem('opentcu_timetablesList', payload.timetablesList);
+            if (payload.activeTimetableId) localStorage.setItem('opentcu_activeTimetableId', payload.activeTimetableId);
+            if (payload.userProfile) localStorage.setItem('opentcu_userProfile', payload.userProfile);
+            if (payload.memosList) localStorage.setItem('opentcu_memosList', payload.memosList);
+            if (payload.activeMemoId) localStorage.setItem('opentcu_activeMemoId', payload.activeMemoId);
+            if (payload.theme) localStorage.setItem('theme', payload.theme);
+            if (payload.myLinks) localStorage.setItem('opentcu_myLinks', payload.myLinks);
+            if (payload.dayStartTimes) localStorage.setItem('opentcu_timetableDayStartTimes', payload.dayStartTimes);
+
+            alert("すべてのデータを正常にインポートしました。アプリを再読み込みします。");
+            window.location.reload();
+          } else {
+            alert("無効なバックアップファイルです。");
+          }
+        } catch (err) {
+          alert("インポートに失敗しました。ファイル形式をご確認ください。");
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = "";
+    }
+
+    function resetAllData() {
+      if (confirm("【警告】すべてのデータ（時間割、プロフィール、メモ、設定など）を完全に消去し、初期状態に戻します。よろしいですか？")) {
+        if (confirm("本当に消去しますか？\n消去されたデータは復元できません。最終確認として『OK』を押すと実行されます。")) {
+          try {
+            localStorage.clear();
+            alert("すべてのデータを初期化しました。アプリを再読み込みします。");
+            window.location.reload();
+          } catch (e) {
+            alert("初期化に失敗しました。");
+          }
+        }
       }
+    }
+
+    function toggleModalFieldsForEmptySlot() {
+      const emptyCheck = document.getElementById('modal-empty-slot');
+      const subjectInput = document.getElementById('modal-subject');
+      const teacherInput = document.getElementById('modal-teacher');
+      const roomInput = document.getElementById('modal-room');
+      const notesInput = document.getElementById('modal-notes');
+
+      if (!emptyCheck || !subjectInput || !teacherInput || !roomInput || !notesInput) return;
+
+      const isOptionEmpty = emptyCheck.checked;
+
+      [subjectInput, teacherInput, roomInput, notesInput].forEach(el => {
+        el.disabled = isOptionEmpty;
+        if (isOptionEmpty) {
+          el.style.opacity = "0.5";
+          el.style.backgroundColor = "var(--md-sys-color-surface-container-high)";
+        } else {
+          el.style.opacity = "1";
+          el.style.backgroundColor = "";
+        }
+      });
     }
 
     function handleSettingsThemeChange(themeValue) {
