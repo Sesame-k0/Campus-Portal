@@ -1105,6 +1105,7 @@
       font-size: 14px !important;
       font-family: 'Outfit', monospace !important;
     }
+
     #memoTextArea {
       line-height: 1.5 !important;
       font-size: 14px !important;
@@ -1115,7 +1116,10 @@
     .markdown-body {
       font-size: 14px;
     }
-    .markdown-body h1, .markdown-body h2, .markdown-body h3 {
+
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3 {
       border-bottom: 1px solid var(--md-sys-color-outline-variant);
       padding-bottom: 4px;
       margin-top: 24px;
@@ -1123,11 +1127,29 @@
       font-weight: 600;
       color: var(--md-sys-color-on-surface);
     }
-    .markdown-body h1 { font-size: 1.6em; }
-    .markdown-body h2 { font-size: 1.4em; }
-    .markdown-body h3 { font-size: 1.2em; }
-    .markdown-body p { margin-bottom: 12px; }
-    .markdown-body ul, .markdown-body ol { padding-left: 20px; margin-bottom: 12px; }
+
+    .markdown-body h1 {
+      font-size: 1.6em;
+    }
+
+    .markdown-body h2 {
+      font-size: 1.4em;
+    }
+
+    .markdown-body h3 {
+      font-size: 1.2em;
+    }
+
+    .markdown-body p {
+      margin-bottom: 12px;
+    }
+
+    .markdown-body ul,
+    .markdown-body ol {
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+
     .markdown-body code {
       background-color: var(--md-sys-color-surface-container-high);
       padding: 2px 4px;
@@ -1135,6 +1157,7 @@
       font-family: monospace;
       font-size: 0.9em;
     }
+
     .markdown-body pre {
       background-color: var(--md-sys-color-surface-container-high);
       padding: 12px;
@@ -1142,10 +1165,12 @@
       overflow-x: auto;
       margin-bottom: 12px;
     }
+
     .markdown-body pre code {
       background-color: transparent;
       padding: 0;
     }
+
     .markdown-body blockquote {
       border-left: 4px solid var(--md-sys-color-primary);
       padding-left: 12px;
@@ -2454,13 +2479,16 @@
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
-        overflow-x: hidden; /* 横スクロールを完全に封印 */
+        overflow-x: hidden;
+        /* 横スクロールを完全に封印 */
       }
 
       .timetable-table {
-        min-width: 0 !important; /* 横スクロール幅の制限を無効化 */
+        min-width: 0 !important;
+        /* 横スクロール幅の制限を無効化 */
         width: 100% !important;
-        border-spacing: 2px !important; /* セルの隙間を極限まで縮める */
+        border-spacing: 2px !important;
+        /* セルの隙間を極限まで縮める */
       }
 
       /* 一番左の時限列の横幅をスリム化 */
@@ -2480,7 +2508,8 @@
       }
 
       .timetable-table td {
-        height: 56px !important; /* 縦方向もコンパクトに */
+        height: 56px !important;
+        /* 縦方向もコンパクトに */
         border-radius: 8px !important;
       }
 
@@ -2492,7 +2521,8 @@
       }
 
       .timetable-time-col span:not(:first-child) {
-        display: none !important; /* サブテキストを非表示 */
+        display: none !important;
+        /* サブテキストを非表示 */
       }
 
       /* 曜日ヘッダー内の時間表示（1限 09:20など）を非表示にする */
@@ -2509,7 +2539,8 @@
         font-size: 9px !important;
         margin-bottom: 2px !important;
         line-height: 1.2 !important;
-        -webkit-line-clamp: 3 !important; /* 3行まで許可 */
+        -webkit-line-clamp: 3 !important;
+        /* 3行まで許可 */
       }
 
       /* 教員名や教室名（サブ情報）はスペース不足のためアイコン含めて非表示 */
@@ -2547,6 +2578,7 @@
         font-size: 11px !important;
         border-radius: 6px !important;
       }
+
       .timetable-tab-rename-icon {
         font-size: 12px !important;
       }
@@ -2703,11 +2735,13 @@
           <span style="display: flex; align-items: center; gap: 8px;">
             <span class="material-symbols-outlined">edit_note</span>簡易メモ帳
           </span>
-          <button onclick="switchView('memo')" style="font-size: 12px; cursor: pointer; background: none; border: none; color: var(--md-sys-color-primary); font-weight: 600; display: flex; align-items: center; gap: 2px; font-family: inherit;">
+          <button onclick="switchView('memo')"
+            style="font-size: 12px; cursor: pointer; background: none; border: none; color: var(--md-sys-color-primary); font-weight: 600; display: flex; align-items: center; gap: 2px; font-family: inherit;">
             一覧へ移動 <span class="material-symbols-outlined" style="font-size: 14px;">arrow_forward</span>
           </button>
         </div>
-        <div id="homeMemosContent" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; width: 100%;">
+        <div id="homeMemosContent"
+          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; width: 100%;">
           <p style="color: var(--md-sys-color-outline); margin: 0; font-size: 13px;">読み込み中...</p>
         </div>
       </div>
@@ -2757,14 +2791,19 @@
             </div>
           </div>
           <!-- 支払い方法と利用方法（特定店舗選択時のみ表示） -->
-          <div id="shopUsagePanel" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--md-sys-color-outline-variant);">
+          <div id="shopUsagePanel"
+            style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--md-sys-color-outline-variant);">
             <div style="margin-bottom: 10px;">
-              <span style="font-size: 11px; font-weight: 700; color: var(--md-sys-color-primary); display: block; margin-bottom: 2px;">使用可能な支払い方法</span>
-              <div id="shopPaymentText" style="font-size: 13px; font-weight: 600; color: var(--md-sys-color-on-surface);"></div>
+              <span
+                style="font-size: 11px; font-weight: 700; color: var(--md-sys-color-primary); display: block; margin-bottom: 2px;">使用可能な支払い方法</span>
+              <div id="shopPaymentText"
+                style="font-size: 13px; font-weight: 600; color: var(--md-sys-color-on-surface);"></div>
             </div>
             <div>
-              <span style="font-size: 11px; font-weight: 700; color: var(--md-sys-color-primary); display: block; margin-bottom: 2px;">利用方法</span>
-              <div id="shopUsageText" style="font-size: 12px; line-height: 1.4; color: var(--md-sys-color-on-surface-variant);"></div>
+              <span
+                style="font-size: 11px; font-weight: 700; color: var(--md-sys-color-primary); display: block; margin-bottom: 2px;">利用方法</span>
+              <div id="shopUsageText"
+                style="font-size: 12px; line-height: 1.4; color: var(--md-sys-color-on-surface-variant);"></div>
             </div>
           </div>
         </div>
@@ -2971,15 +3010,19 @@
       </div>
 
       <!-- 時間割シート切り替えタブバー -->
-      <div class="timetable-tabs-container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+      <div class="timetable-tabs-container"
+        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
         <div class="timetable-tabs" id="timetableTabs" style="display: flex; gap: 6px; flex-wrap: wrap;">
           <!-- JSで動的に追加されます -->
         </div>
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-radius: 8px; height: 32px;" onclick="createNewTimetableSheet()">
+          <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-radius: 8px; height: 32px;"
+            onclick="createNewTimetableSheet()">
             <span class="material-symbols-outlined" style="font-size: 16px;">add</span>新規シート
           </button>
-          <button class="btn btn-outline" id="btnDeleteCurrentSheet" style="padding: 6px 12px; font-size: 12px; border-radius: 8px; height: 32px; background-color: transparent; color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);" onclick="deleteCurrentTimetableSheet()">
+          <button class="btn btn-outline" id="btnDeleteCurrentSheet"
+            style="padding: 6px 12px; font-size: 12px; border-radius: 8px; height: 32px; background-color: transparent; color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);"
+            onclick="deleteCurrentTimetableSheet()">
             <span class="material-symbols-outlined" style="font-size: 16px;">delete</span>シート削除
           </button>
         </div>
@@ -3235,21 +3278,30 @@
     <!-- 簡易メモ帳画面 -->
     <section id="view-memo" class="view-section">
       <div class="timetable-actions" style="margin-bottom: 16px;">
-        <h2 style="margin: 0; font-weight: 600; font-size: 20px; color: var(--md-sys-color-on-background); display: flex; align-items: center; gap: 8px;">
+        <h2
+          style="margin: 0; font-weight: 600; font-size: 20px; color: var(--md-sys-color-on-background); display: flex; align-items: center; gap: 8px;">
           <span class="material-symbols-outlined" style="font-size: 24px;">edit_note</span>簡易メモ帳
         </h2>
       </div>
 
       <!-- メモ帳シート切り替えタブバー -->
-      <div class="timetable-tabs-container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+      <div class="timetable-tabs-container"
+        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
         <div class="timetable-tabs" id="memoTabs" style="display: flex; gap: 6px; flex-wrap: wrap;">
           <!-- JSで動的に追加されます -->
         </div>
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-radius: 8px; height: 32px;" onclick="createNewMemoSheet()">
+          <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-radius: 8px; height: 32px;"
+            onclick="createNewMemoSheet()">
             <span class="material-symbols-outlined" style="font-size: 16px;">add</span>新規メモ
           </button>
-          <button class="btn btn-outline" id="btnDeleteCurrentMemo" style="padding: 6px 12px; font-size: 12px; border-radius: 8px; height: 32px; background-color: transparent; color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);" onclick="deleteCurrentMemoSheet()">
+          <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-radius: 8px; height: 32px;"
+            onclick="openMemoHelpModal()">
+            <span class="material-symbols-outlined" style="font-size: 16px;">help</span>書き方
+          </button>
+          <button class="btn btn-outline" id="btnDeleteCurrentMemo"
+            style="padding: 6px 12px; font-size: 12px; border-radius: 8px; height: 32px; background-color: transparent; color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);"
+            onclick="deleteCurrentMemoSheet()">
             <span class="material-symbols-outlined" style="font-size: 16px;">delete</span>メモ削除
           </button>
         </div>
@@ -3257,32 +3309,87 @@
 
       <!-- 編集・プレビュー切り替えタブ -->
       <div class="memo-modes" style="display: flex; gap: 8px; margin-bottom: 12px;">
-        <button class="btn btn-primary" id="btnMemoEditMode" onclick="switchMemoMode('edit')" style="padding: 6px 16px; font-size: 13px; border-radius: 8px; font-family: inherit;">
+        <button class="btn btn-primary" id="btnMemoEditMode" onclick="switchMemoMode('edit')"
+          style="padding: 6px 16px; font-size: 13px; border-radius: 8px; font-family: inherit;">
           <span class="material-symbols-outlined" style="font-size: 18px;">edit</span>編集
         </button>
-        <button class="btn btn-tonal" id="btnMemoPreviewMode" onclick="switchMemoMode('preview')" style="padding: 6px 16px; font-size: 13px; border-radius: 8px; font-family: inherit;">
+        <button class="btn btn-tonal" id="btnMemoPreviewMode" onclick="switchMemoMode('preview')"
+          style="padding: 6px 16px; font-size: 13px; border-radius: 8px; font-family: inherit;">
           <span class="material-symbols-outlined" style="font-size: 18px;">visibility</span>プレビュー (Markdown)
         </button>
       </div>
 
       <!-- メモ帳本体 -->
-      <div class="material-card" style="padding: 0; overflow: hidden; border-radius: 16px; min-height: 400px; display: flex; flex-direction: column;">
+      <div class="material-card"
+        style="padding: 0; overflow: hidden; border-radius: 16px; min-height: 400px; display: flex; flex-direction: column;">
         <!-- エディタ表示領域 -->
         <div id="memoEditorContainer" style="display: flex; flex: 1; min-height: 400px; position: relative;">
           <!-- 行番号列 -->
-          <div id="memoLineNumbers" style="padding: 16px 8px; width: 40px; text-align: right; font-family: monospace; font-size: 14px; line-height: 1.5; color: var(--md-sys-color-outline); background-color: var(--md-sys-color-surface-container-low); border-right: 1px solid var(--md-sys-color-outline-variant); user-select: none; overflow: hidden; box-sizing: border-box;">
+          <div id="memoLineNumbers"
+            style="padding: 16px 8px; width: 40px; text-align: right; font-family: monospace; font-size: 14px; line-height: 1.5; color: var(--md-sys-color-outline); background-color: var(--md-sys-color-surface-container-low); border-right: 1px solid var(--md-sys-color-outline-variant); user-select: none; overflow: hidden; box-sizing: border-box;">
             <div>1</div>
           </div>
           <!-- テキストボックス -->
-          <textarea id="memoTextArea" oninput="handleMemoInput()" onscroll="syncMemoScroll()" placeholder="ここにメモを入力してください (Markdown対応)..." style="flex: 1; padding: 16px; border: none; outline: none; font-family: 'Outfit', monospace; font-size: 14px; line-height: 1.5; background-color: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface); resize: none; box-sizing: border-box; overflow-y: auto; white-space: pre-wrap; word-wrap: break-word;"></textarea>
+          <textarea id="memoTextArea" oninput="handleMemoInput()" onscroll="syncMemoScroll()"
+            placeholder="ここにメモを入力してください (Markdown対応)..."
+            style="flex: 1; padding: 16px; border: none; outline: none; font-family: 'Outfit', monospace; font-size: 14px; line-height: 1.5; background-color: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface); resize: none; box-sizing: border-box; overflow-y: auto; white-space: pre-wrap; word-wrap: break-word;"></textarea>
         </div>
 
         <!-- プレビュー表示領域 -->
-        <div id="memoPreviewContainer" class="markdown-body" style="display: none; flex: 1; padding: 24px; min-height: 400px; overflow-y: auto; background-color: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface); box-sizing: border-box; line-height: 1.6;">
+        <div id="memoPreviewContainer" class="markdown-body"
+          style="display: none; flex: 1; padding: 24px; min-height: 400px; overflow-y: auto; background-color: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface); box-sizing: border-box; line-height: 1.6;">
           <!-- Markdownパース結果が挿入されます -->
         </div>
       </div>
     </section>
+
+    <!-- 簡易メモ帳書き方モーダル -->
+    <div class="modal-overlay" id="memoHelpModalOverlay" onclick="closeMemoHelpModal()">
+      <div class="modal-card" onclick="event.stopPropagation()" style="max-width: 500px;">
+        <div class="modal-header">
+          <h3 class="modal-title">簡易メモ帳の書き方</h3>
+          <button class="icon-button close-modal-btn" onclick="closeMemoHelpModal()">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div class="modal-body" style="font-size: 13px; line-height: 1.6; max-height: 70vh; overflow-y: auto;">
+          <div style="background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; font-weight: 600; display: flex; align-items: flex-start; gap: 8px;">
+            <span class="material-symbols-outlined" style="font-size: 20px; flex-shrink: 0; margin-top: 2px;">info</span>
+            <div>このメモ帳は、Markdown（マークダウン）記法を使用しなくても、普通のテキストエディタとしてそのまま自由に使用できます。</div>
+          </div>
+
+          <p style="margin-bottom: 12px; font-weight: 600; border-bottom: 1px solid var(--md-sys-color-outline-variant); padding-bottom: 4px; color: var(--md-sys-color-on-surface);">Markdown（マークダウン）の書き方</p>
+          <p style="color: var(--md-sys-color-on-surface-variant); margin-bottom: 12px;">プレビューモードに切り替えた際、以下の簡単なルールに従って記述された部分が美しく整形されます。</p>
+
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <strong style="color: var(--md-sys-color-primary);">■ 見出し (H1 〜 H3)</strong>
+              <pre style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;"># 大見出し&#10;## 中見出し&#10;### 小見出し</pre>
+            </div>
+            <div>
+              <strong style="color: var(--md-sys-color-primary);">■ 太字と斜体</strong>
+              <pre style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">**太字のテキスト**&#10;*斜体のテキスト*</pre>
+            </div>
+            <div>
+              <strong style="color: var(--md-sys-color-primary);">■ 箇条書きリスト</strong>
+              <pre style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">- 項目 1&#10;- 項目 2&#10;  - ネストした項目</pre>
+            </div>
+            <div>
+              <strong style="color: var(--md-sys-color-primary);">■ 番号付きリスト</strong>
+              <pre style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">1. 第一ステップ&#10;2. 第二ステップ</pre>
+            </div>
+            <div>
+              <strong style="color: var(--md-sys-color-primary);">■ 引用</strong>
+              <pre style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">&gt; ここは引用文です。</pre>
+            </div>
+            <div>
+              <strong style="color: var(--md-sys-color-primary);">■ コードの表示</strong>
+              <pre style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">`inline code` のように囲むか、&#10;```&#10;複数行のブロックコード&#10;```&#10;のように記述します。</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- 設定画面 -->
     <section id="view-settings" class="view-section">
@@ -3936,7 +4043,7 @@
           <!-- ここまでワンロマ車の説明文 -->`,
           `<!-- ここからワンロマ車の説明文 -->
           <p>H1280号車とH1281号車は、かつて横浜市青葉区の青葉台営業所で活躍しており、2023年頃に東山田営業所に転属しました。</p>
-          <p>いっぽう、H1284号車とH1285号車は、2012年の導入以来ずっと東京都市大学のシャトルバスに充当されています。運賃箱やモニターの設置こそ行われているものの、一般路線への投入実績は数えるほどしかありません。</p>
+          <p>いっぽう、H1284号車とH1285号車は、2012年の導入以来ずっと東京都市大学のシャトルバスに充当されています。運賃箱やモニターの設置こそ行われているものの、通勤高速バスが廃止された現在では一般路線への投入実績は多くありません。</p>
           <!-- ここまでワンロマ車の説明文 -->`
         ];
         const randomIndex = Math.floor(Math.random() * patterns.length);
@@ -4176,7 +4283,7 @@
       try {
         const savedTimetables = localStorage.getItem('opentcu_timetablesList');
         const savedActiveId = localStorage.getItem('opentcu_activeTimetableId');
-        
+
         if (savedTimetables) {
           timetables = JSON.parse(savedTimetables);
           activeTimetableId = savedActiveId || (timetables[0] ? timetables[0].id : "");
@@ -4187,7 +4294,7 @@
           if (oldData) {
             try {
               initialData = JSON.parse(oldData);
-            } catch(e) {}
+            } catch (e) { }
           }
           timetables = [
             { id: "sheet-1", name: "時間割 1", isExamMode: false, data: initialData }
@@ -4206,7 +4313,7 @@
         activeTimetableId = timetables[0].id;
         activeSheet = timetables[0];
       }
-      
+
       timetableData = activeSheet ? activeSheet.data : {};
     }
 
@@ -4227,7 +4334,7 @@
 
       timetables.forEach(sheet => {
         const isActive = sheet.id === activeTimetableId;
-        
+
         const tab = document.createElement('div');
         tab.className = `timetable-tab${isActive ? ' active' : ''}`;
         tab.onclick = () => switchTimetableSheet(sheet.id);
@@ -4276,7 +4383,7 @@
 
     function switchTimetableSheet(id) {
       if (id === activeTimetableId) return;
-      
+
       if (isTimetableEditMode) {
         toggleTimetableEditMode();
       }
@@ -4284,7 +4391,7 @@
       activeTimetableId = id;
       const activeSheet = timetables.find(t => t.id === activeTimetableId);
       timetableData = activeSheet ? activeSheet.data : {};
-      
+
       saveTimetablesToStorage();
 
       // 定期試験モードUIの更新
@@ -4303,14 +4410,14 @@
     function createNewTimetableSheet() {
       const newSheetId = "sheet-" + Date.now();
       const newSheetName = `時間割 ${timetables.length + 1}`;
-      
+
       const newSheet = {
         id: newSheetId,
         name: newSheetName,
         isExamMode: false,
         data: {}
       };
-      
+
       timetables.push(newSheet);
       activeTimetableId = newSheetId;
       timetableData = newSheet.data;
@@ -4327,7 +4434,7 @@
 
       renderTimetableTabs();
       renderTimetable();
-      
+
       renameTimetableSheet(newSheetId);
     }
 
@@ -4343,7 +4450,7 @@
       if (confirm(`時間割「${sheetName}」を完全に削除しますか？\n（この操作は取り消せません）`)) {
         const index = timetables.findIndex(t => t.id === activeTimetableId);
         timetables.splice(index, 1);
-        
+
         activeTimetableId = timetables[Math.max(0, index - 1)].id;
         const nextSheet = timetables.find(t => t.id === activeTimetableId);
         timetableData = nextSheet ? nextSheet.data : {};
@@ -4382,7 +4489,7 @@
       if (!activeSheet) return;
 
       activeSheet.isExamMode = !activeSheet.isExamMode;
-      
+
       updateExamModeBtnUI();
 
       const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -4399,7 +4506,7 @@
     function updateExamModeBtnUI() {
       const activeSheet = timetables.find(t => t.id === activeTimetableId);
       const isExam = activeSheet && !!activeSheet.isExamMode;
-      
+
       const btn = document.getElementById('btnToggleExamMode');
       const icon = document.getElementById('iconToggleExamMode');
       const text = document.getElementById('textToggleExamMode');
@@ -4858,13 +4965,13 @@
             const newSheetId = "sheet-" + Date.now();
             const newSheet = {
               id: newSheetId,
-              name: `インポート (${new Date().toLocaleDateString('ja-JP', {month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'})})`,
+              name: `インポート (${new Date().toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })})`,
               data: importedData
             };
             timetables.push(newSheet);
             activeTimetableId = newSheetId;
             timetableData = newSheet.data;
-            
+
             saveTimetablesToStorage();
             renderTimetableTabs();
             renderTimetable();
@@ -4901,7 +5008,7 @@
         usage: "カウンターで注文・会計後に番号札を受け取ります。モニターに番号が表示されたら料理を受け取り、食後は使い捨て容器をゴミ箱に、トレイは返却場所へ戻してください。"
       },
       "cafe sora": {
-        description: "開放的な窓から光が差し込む、明るい雰囲気 of カフェ空間です。学生に大人気の焼きたてパンは、1個130円から。軽食にぴったりなパスタやカレーも提供しています。",
+        description: "開放的な窓から光が差し込む、明るい雰囲気のカフェです。学生に大人気の焼きたてパンは、1個130円から。軽食にぴったりなパスタやカレーも提供しています。",
         image: "images/cafe_sora.png",
         payment: "現金、交通系IC",
         usage: "パンはトレイに乗せてレジへ、パスタ類はカウンターで直接注文してその場で会計します。食後の使い捨て容器はゴミ箱へ、トレイは所定の返却場所へ戻してください。"
@@ -6718,7 +6825,7 @@
           localStorage.removeItem('opentcu_timetablesList');
           localStorage.removeItem('opentcu_activeTimetableId');
           localStorage.removeItem('opentcu_timetableData');
-          
+
           timetables = [{ id: "sheet-1", name: "時間割 1", data: {} }];
           activeTimetableId = "sheet-1";
           timetableData = timetables[0].data;
@@ -7513,7 +7620,7 @@
         const isActive = memo.id === activeMemoId;
 
         const tabDiv = document.createElement('div');
-        tabDiv.className = `timetable-tab-chip ${isActive ? 'active' : ''}`;
+        tabDiv.className = `timetable-tab${isActive ? ' active' : ''}`;
         tabDiv.onclick = () => switchMemoSheet(memo.id);
 
         const nameSpan = document.createElement('span');
@@ -7528,7 +7635,7 @@
 
         // 鉛筆アイコン（モバイル対応）
         const editIcon = document.createElement('span');
-        editIcon.className = 'material-symbols-outlined tab-edit-btn';
+        editIcon.className = 'material-symbols-outlined timetable-tab-rename-icon';
         editIcon.textContent = 'edit';
         editIcon.onclick = (e) => {
           e.stopPropagation();
@@ -7754,6 +7861,16 @@
       activeMemoId = id;
       saveMemosToStorage();
       switchView('memo');
+    }
+
+    function openMemoHelpModal() {
+      const modal = document.getElementById('memoHelpModalOverlay');
+      if (modal) modal.classList.add('show');
+    }
+
+    function closeMemoHelpModal() {
+      const modal = document.getElementById('memoHelpModalOverlay');
+      if (modal) modal.classList.remove('show');
     }
   </script>
 
