@@ -2600,9 +2600,10 @@
     <button class="icon-button" onclick="toggleSidebar()">
       <span class="material-symbols-outlined">menu</span>
     </button>
-    <div class="app-title" onclick="switchView('home', document.getElementById('nav-home'))" style="cursor: pointer;">
+    <div class="app-title" onclick="switchView('home', document.getElementById('nav-home'))" style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
       <span class="material-symbols-outlined" style="font-size: 28px; color: var(--md-sys-color-primary);">school</span>
       openTCU
+      <span style="font-size: 10px; font-weight: 700; background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); padding: 2px 8px; border-radius: 20px; line-height: 1; margin-left: 2px; border: 1px solid var(--md-sys-color-outline-variant);">Beta</span>
     </div>
     <button class="icon-button" onclick="openContactModal()" aria-label="Contact" style="margin-left: auto;">
       <span class="material-symbols-outlined">mail</span>
@@ -3638,7 +3639,78 @@
       </div>
     </section>
 
+    <!-- ページ下部フッター -->
+    <footer style="margin-top: 40px; padding: 24px 16px; border-top: 1px solid var(--md-sys-color-outline-variant); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <button onclick="switchView('home', document.getElementById('nav-home'))" style="background: none; border: none; font-size: 12px; font-weight: 600; color: var(--md-sys-color-primary); cursor: pointer; text-decoration: none;">ホーム</button>
+        <span style="color: var(--md-sys-color-outline-variant);">|</span>
+        <button onclick="switchView('settings', document.getElementById('nav-settings'))" style="background: none; border: none; font-size: 12px; font-weight: 600; color: var(--md-sys-color-primary); cursor: pointer; text-decoration: none;">設定</button>
+        <span style="color: var(--md-sys-color-outline-variant);">|</span>
+        <button onclick="switchView('about', document.getElementById('nav-about'))" style="background: none; border: none; font-size: 12px; font-weight: 600; color: var(--md-sys-color-primary); cursor: pointer; text-decoration: none;">openTCUとは</button>
+      </div>
+      
+      <div style="font-size: 11px; color: var(--md-sys-color-on-surface-variant); line-height: 1.5; max-width: 500px;">
+        当サイトは東京都市大学の非公式ファンサイトです。掲載されている情報は正確性を保証するものではありません。公式なスケジュール等は大学公式の案内をご確認ください。
+      </div>
+
+      <button class="btn btn-outline" id="btnPwaInstall" onclick="handlePwaInstallClick()" style="height: 32px; padding: 4px 14px; font-size: 11px; border-radius: 16px; display: inline-flex; align-items: center; gap: 6px; border-color: var(--md-sys-color-outline);">
+        <span class="material-symbols-outlined" style="font-size: 16px;">install_mobile</span>ホーム画面に追加する
+      </button>
+      
+      <div style="font-size: 10px; color: var(--md-sys-color-outline); margin-top: 4px; font-family: 'Outfit', sans-serif;">
+        &copy; 2026 openTCU. Built with Antigravity AI.
+      </div>
+    </footer>
+
   </main>
+
+  <!-- ホーム画面に追加ガイドモーダル -->
+  <div class="modal-overlay" id="pwaInstallModalOverlay" onclick="closePwaInstallModal()">
+    <div class="modal-dialog" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <span class="material-symbols-outlined" style="color: var(--md-sys-color-primary); font-size: 20px;">install_mobile</span>ホーム画面に追加
+        </h3>
+        <button class="icon-button" onclick="closePwaInstallModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="modal-body" style="font-size: 13px; line-height: 1.6; max-height: 60vh; overflow-y: auto;">
+        <p style="margin-top: 0; margin-bottom: 12px; font-weight: 600; color: var(--md-sys-color-on-surface);">
+          openTCUをスマホやPCのホーム画面に追加して、アプリのように快適に利用できます。
+        </p>
+        
+        <div style="background-color: var(--md-sys-color-surface-container-high); padding: 12px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--md-sys-color-outline-variant);">
+          <strong style="color: var(--md-sys-color-primary); display: block; margin-bottom: 4px;">■ iPhone / iPad (Safari) の場合</strong>
+          <ol style="margin: 0; padding-left: 18px; color: var(--md-sys-color-on-surface-variant);">
+            <li>画面下部の共有ボタン（四角から上矢印が出ているアイコン <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">ios_share</span>）をタップします。</li>
+            <li>メニューを下にスクロールし、<strong>「ホーム画面に追加」</strong>を選択します。</li>
+            <li>右上の「追加」をタップすれば完了です。</li>
+          </ol>
+        </div>
+
+        <div style="background-color: var(--md-sys-color-surface-container-high); padding: 12px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--md-sys-color-outline-variant);">
+          <strong style="color: var(--md-sys-color-primary); display: block; margin-bottom: 4px;">■ Android (Chrome) の場合</strong>
+          <ol style="margin: 0; padding-left: 18px; color: var(--md-sys-color-on-surface-variant);">
+            <li>画面右上のメニューボタン（縦の3点リーダー <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">more_vert</span>）をタップします。</li>
+            <li><strong>「アプリをインストール」</strong>または<strong>「ホーム画面に追加」</strong>を選択します。</li>
+            <li>画面の指示に従ってインストールを完了します。</li>
+          </ol>
+        </div>
+
+        <div style="background-color: var(--md-sys-color-surface-container-high); padding: 12px; border-radius: 12px; border: 1px solid var(--md-sys-color-outline-variant);">
+          <strong style="color: var(--md-sys-color-primary); display: block; margin-bottom: 4px;">■ PC (Chrome / Edge) の場合</strong>
+          <ol style="margin: 0; padding-left: 18px; color: var(--md-sys-color-on-surface-variant);">
+            <li>ブラウザのアドレスバー右側に表示されるインストールアイコン（または設定メニュー）をクリックします。</li>
+            <li><strong>「インストール」</strong>を選択すれば、デスクトップアプリとして利用できます。</li>
+          </ol>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top: 16px; display: flex; justify-content: flex-end;">
+        <button class="btn btn-outline" onclick="closePwaInstallModal()" style="height: 36px; border-radius: 18px;">閉じる</button>
+      </div>
+    </div>
+  </div>
 
   <!-- 授業コマ追加・編集モーダル -->
   <div class="modal-overlay" id="timetableModalOverlay">
@@ -6481,32 +6553,38 @@
         const cardStyle = isDeprecated ? 'opacity: 0.5; filter: grayscale(1);' : '';
 
         return `
-          <div class="link-card" onclick="handleLinkCardClick(${originalIndex})" style="${cardStyle}">
-            <div class="link-card-reorder" style="display: flex; flex-direction: column; justify-content: center; gap: 4px; padding-right: 8px; border-right: 1px solid var(--md-sys-color-outline-variant); margin-right: 4px; flex-shrink: 0;" onclick="event.stopPropagation();">
-              <button onclick="moveFavoriteUp(event, '${link.name}')" style="background: none; border: none; padding: 2px; cursor: pointer; color: var(--md-sys-color-outline); display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; transition: all 0.2s;" title="上に移動" ${idx === 0 ? 'disabled style="opacity: 0.3; cursor: not-allowed;"' : ''}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="1em" height="1em" fill="currentColor" class="material-symbols-outlined" style="width: 18px; height: 18px; font-size: 18px;"><path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"/></svg>
-              </button>
-              <button onclick="moveFavoriteDown(event, '${link.name}')" style="background: none; border: none; padding: 2px; cursor: pointer; color: var(--md-sys-color-outline); display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; transition: all 0.2s;" title="下に移動" ${idx === favLinks.length - 1 ? 'disabled style="opacity: 0.3; cursor: not-allowed;"' : ''}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="1em" height="1em" fill="currentColor" class="material-symbols-outlined" style="width: 18px; height: 18px; font-size: 18px;"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg>
-              </button>
-            </div>
-            <div class="link-card-content">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; width: 100%;">
-                <span class="link-card-category ${catClass}">${link.category || 'その他'}</span>
-                <div style="display: flex; gap: 4px; align-items: center;">
-                  ${tagsHtml}
+          <div class="link-card" onclick="handleLinkCardClick(${originalIndex})" style="flex-direction: column; align-items: stretch; gap: 8px; ${cardStyle}">
+            <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; gap: 12px; min-width: 0; width: 100%;">
+              <div class="link-card-content" style="flex-grow: 1; min-width: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; width: 100%;">
+                  <span class="link-card-category ${catClass}">${link.category || 'その他'}</span>
+                  <div style="display: flex; gap: 4px; align-items: center;">
+                    ${tagsHtml}
+                  </div>
+                </div>
+                <h3 class="link-card-name" title="${link.name}" style="margin: 4px 0 0 0;">${link.name}</h3>
+                ${campusBadge}
+              </div>
+              <div class="link-card-actions" style="flex-shrink: 0;">
+                <button class="favorite-btn is-active" onclick="toggleFavorite(event, '${link.name}')" title="お気に入り解除">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="1em" height="1em" fill="currentColor" class="material-symbols-outlined" style="width: 20px; height: 20px; font-size: 20px;"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
+                </button>
+                <div class="link-card-arrow" style="padding-left: 6px; border-left: 1px solid var(--md-sys-color-outline-variant);">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="1em" height="1em" fill="currentColor" class="material-symbols-outlined" style="width: 20px; height: 20px; font-size: 20px;"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
                 </div>
               </div>
-              <h3 class="link-card-name" title="${link.name}" style="margin: 4px 0 0 0;">${link.name}</h3>
-              ${campusBadge}
             </div>
-            <div class="link-card-actions">
-              <button class="favorite-btn is-active" onclick="toggleFavorite(event, '${link.name}')" title="お気に入り解除">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="1em" height="1em" fill="currentColor" class="material-symbols-outlined" style="width: 20px; height: 20px; font-size: 20px;"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
+            
+            <div class="link-card-reorder-bar" style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center; gap: 8px; border-top: 1px dashed var(--md-sys-color-outline-variant); padding-top: 8px; width: 100%;" onclick="event.stopPropagation();">
+              <span style="font-size: 11px; color: var(--md-sys-color-on-surface-variant); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                <span class="material-symbols-outlined" style="font-size: 14px;">swap_vert</span>並び替え:
+              </span>
+              <button onclick="moveFavoriteUp(event, '${link.name}')" style="background: var(--md-sys-color-surface-container-high); border: 1px solid var(--md-sys-color-outline-variant); padding: 4px 10px; cursor: pointer; color: var(--md-sys-color-on-surface); display: inline-flex; align-items: center; gap: 2px; border-radius: 20px; font-size: 11px; transition: all 0.2s;" title="前に移動" ${idx === 0 ? 'disabled style="opacity: 0.4; cursor: not-allowed;"' : ''}>
+                <span class="material-symbols-outlined" style="font-size: 14px; margin-top: -1px;">arrow_back</span>前へ
               </button>
-              <div class="link-card-arrow" style="padding-left: 6px; border-left: 1px solid var(--md-sys-color-outline-variant);">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="1em" height="1em" fill="currentColor" class="material-symbols-outlined" style="width: 20px; height: 20px; font-size: 20px;"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
-              </div>
+              <button onclick="moveFavoriteDown(event, '${link.name}')" style="background: var(--md-sys-color-surface-container-high); border: 1px solid var(--md-sys-color-outline-variant); padding: 4px 10px; cursor: pointer; color: var(--md-sys-color-on-surface); display: inline-flex; align-items: center; gap: 2px; border-radius: 20px; font-size: 11px; transition: all 0.2s;" title="後ろに移動" ${idx === favLinks.length - 1 ? 'disabled style="opacity: 0.4; cursor: not-allowed;"' : ''}>
+                次へ<span class="material-symbols-outlined" style="font-size: 14px; margin-top: -1px;">arrow_forward</span>
+              </button>
             </div>
           </div>
         `;
@@ -7364,62 +7442,32 @@
     }
 
     function getHomeFavoritesHtml() {
-      const fixedNames = ["WebClass", "学内ポータル・Webシラバス", "出席確認システム"];
-
-      let fixedCardsHtml = '';
-      fixedNames.forEach(name => {
+      let cardsHtml = '';
+      favorites.forEach(name => {
         const originalIdx = externalLinksData.findIndex(item => item.name === name);
         if (originalIdx !== -1) {
           const link = externalLinksData[originalIdx];
-          fixedCardsHtml += renderHomeLinkCard(link, originalIdx, true);
-        }
-      });
-
-      let otherCardsHtml = '';
-      favorites.forEach(name => {
-        if (!fixedNames.includes(name)) {
-          const originalIdx = externalLinksData.findIndex(item => item.name === name);
-          if (originalIdx !== -1) {
-            const link = externalLinksData[originalIdx];
-            otherCardsHtml += renderHomeLinkCard(link, originalIdx, false);
-          }
+          cardsHtml += renderHomeLinkCard(link, originalIdx);
         }
       });
 
       let html = '';
-      if (fixedCardsHtml) {
+      if (cardsHtml) {
         html += `
           <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-            <div style="font-size: 11px; font-weight: 700; color: var(--md-sys-color-primary); margin-bottom: 2px;">固定リンク</div>
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; width: 100%;">
-              ${fixedCardsHtml}
+              ${cardsHtml}
             </div>
           </div>
         `;
-      }
-
-      if (otherCardsHtml) {
-        if (html) {
-          html += `<div style="margin: 4px 0; width: 100%; border-top: 1px dashed var(--md-sys-color-outline-variant);"></div>`;
-        }
-        html += `
-          <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-            <div style="font-size: 11px; font-weight: 700; color: var(--md-sys-color-secondary); margin-bottom: 2px;">お気に入り</div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; width: 100%;">
-              ${otherCardsHtml}
-            </div>
-          </div>
-        `;
-      }
-
-      if (!fixedCardsHtml && !otherCardsHtml) {
+      } else {
         html = `<p style="color: var(--md-sys-color-outline); margin: 0; font-size: 13px;">お気に入り登録されたリンクがありません。</p>`;
       }
 
       return html;
     }
 
-    function renderHomeLinkCard(link, originalIndex, isFixed) {
+    function renderHomeLinkCard(link, originalIndex) {
       const catClass = getCategoryClass(link.category);
       const campusIcon = link.onCampusOnly ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="1em" height="1em" fill="currentColor" class="material-symbols-outlined" style="width: 13px; height: 13px; font-size: 13px; color: #B45309;" title="学内専用"><path d="M508.5-331.5Q520-343 520-360t-11.5-28.5Q497-400 480-400t-28.5 11.5Q440-377 440-360t11.5 28.5Q463-320 480-320t28.5-11.5ZM440-480h80v-200h-80v200Zm40 400q-139-35-229.5-159.5T160-516v-244l320-120 320 120v244q0 152-90.5 276.5T480-80Zm0-84q104-33 172-132t68-220v-189l-240-90-240 90v189q0 121 68 220t172 132Zm0-316Z"/></svg>` : '';
 
@@ -7429,7 +7477,7 @@
             <span class="link-card-category ${catClass}" style="font-size: 8px; padding: 1px 4px; border-radius: 4px; line-height: 1.2; margin: 0;">${link.category || 'その他'}</span>
             <div style="display: flex; gap: 4px; align-items: center;">
               ${campusIcon}
-              ${getIconSvg(isFixed ? 'push_pin' : 'star', `style="font-size: 16px; color: ${isFixed ? 'var(--md-sys-color-primary)' : '#F59E0B'};"`)}
+              ${getIconSvg('star', `style="font-size: 16px; color: #F59E0B;"`)}
             </div>
           </div>
           <div style="font-size: 11px; font-weight: 600; color: var(--md-sys-color-on-surface); line-height: 1.3; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; min-height: 2.6em; word-break: normal; overflow-wrap: break-word;" title="${link.name}">
@@ -8278,6 +8326,49 @@
           .then(reg => console.log('Service Worker registered successfully with scope:', reg.scope))
           .catch(err => console.error('Service Worker registration failed:', err));
       });
+    }
+  </script>
+
+  <!-- PWA Install Prompt Handler -->
+  <script>
+    let deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      const btn = document.getElementById('btnPwaInstall');
+      if (btn) {
+        btn.style.borderColor = 'var(--md-sys-color-primary)';
+        btn.style.color = 'var(--md-sys-color-primary)';
+      }
+    });
+
+    window.addEventListener('appinstalled', (evt) => {
+      console.log('openTCU has been installed successfully!');
+      deferredPrompt = null;
+    });
+
+    function handlePwaInstallClick() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+          } else {
+            console.log('User dismissed the install prompt');
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        const modal = document.getElementById('pwaInstallModalOverlay');
+        if (modal) modal.classList.add('show');
+      }
+    }
+
+    function closePwaInstallModal() {
+      const modal = document.getElementById('pwaInstallModalOverlay');
+      if (modal) modal.classList.remove('show');
     }
   </script>
 
