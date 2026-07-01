@@ -2610,6 +2610,9 @@
     <button class="icon-button theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
       <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
     </button>
+    <button class="icon-button" onclick="switchView('settings', document.getElementById('nav-settings'))" aria-label="Settings">
+      <span class="material-symbols-outlined">settings</span>
+    </button>
   </header>
 
   <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
@@ -3193,7 +3196,9 @@
           <button class="btn btn-outline" onclick="triggerImportJSON()">
             <span class="material-symbols-outlined">file_upload</span>時間割を取込 (JSON)
           </button>
-          <button class="btn btn-outline" style="color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);" onclick="resetTimetableData()">
+          <button class="btn btn-outline"
+            style="color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);"
+            onclick="resetTimetableData()">
             <span class="material-symbols-outlined">delete_forever</span>時間割をリセット
           </button>
           <input type="file" id="importFileInput" accept=".json" style="display: none;"
@@ -3360,38 +3365,49 @@
           </button>
         </div>
         <div class="modal-body" style="font-size: 13px; line-height: 1.6; max-height: 70vh; overflow-y: auto;">
-          <div style="background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; font-weight: 600; display: flex; align-items: flex-start; gap: 8px;">
-            <span class="material-symbols-outlined" style="font-size: 20px; flex-shrink: 0; margin-top: 2px;">info</span>
+          <div
+            style="background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; font-weight: 600; display: flex; align-items: flex-start; gap: 8px;">
+            <span class="material-symbols-outlined"
+              style="font-size: 20px; flex-shrink: 0; margin-top: 2px;">info</span>
             <div>このメモ帳は、Markdown（マークダウン）記法を使用しなくても、普通のテキストエディタとしてそのまま自由に使用できます。</div>
           </div>
 
-          <p style="margin-bottom: 12px; font-weight: 600; border-bottom: 1px solid var(--md-sys-color-outline-variant); padding-bottom: 4px; color: var(--md-sys-color-on-surface);">Markdown（マークダウン）の書き方</p>
-          <p style="color: var(--md-sys-color-on-surface-variant); margin-bottom: 12px;">プレビューモードに切り替えた際、以下の簡単なルールに従って記述された部分が美しく整形されます。</p>
+          <p
+            style="margin-bottom: 12px; font-weight: 600; border-bottom: 1px solid var(--md-sys-color-outline-variant); padding-bottom: 4px; color: var(--md-sys-color-on-surface);">
+            Markdown（マークダウン）の書き方</p>
+          <p style="color: var(--md-sys-color-on-surface-variant); margin-bottom: 12px;">
+            プレビューモードに切り替えた際、以下の簡単なルールに従って記述された部分が美しく整形されます。</p>
 
           <div style="display: flex; flex-direction: column; gap: 12px;">
             <div>
               <strong style="color: var(--md-sys-color-primary);">■ 見出し (H1 〜 H3)</strong>
-              <pre style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;"># 大見出し&#10;## 中見出し&#10;### 小見出し</pre>
+              <pre
+                style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;"># 大見出し&#10;## 中見出し&#10;### 小見出し</pre>
             </div>
             <div>
               <strong style="color: var(--md-sys-color-primary);">■ 太字と斜体</strong>
-              <pre style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">**太字のテキスト**&#10;*斜体のテキスト*</pre>
+              <pre
+                style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">**太字のテキスト**&#10;*斜体のテキスト*</pre>
             </div>
             <div>
               <strong style="color: var(--md-sys-color-primary);">■ 箇条書きリスト</strong>
-              <pre style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">- 項目 1&#10;- 項目 2&#10;  - ネストした項目</pre>
+              <pre
+                style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">- 項目 1&#10;- 項目 2&#10;  - ネストした項目</pre>
             </div>
             <div>
               <strong style="color: var(--md-sys-color-primary);">■ 番号付きリスト</strong>
-              <pre style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">1. 第一ステップ&#10;2. 第二ステップ</pre>
+              <pre
+                style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">1. 第一ステップ&#10;2. 第二ステップ</pre>
             </div>
             <div>
               <strong style="color: var(--md-sys-color-primary);">■ 引用</strong>
-              <pre style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">&gt; ここは引用文です。</pre>
+              <pre
+                style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">&gt; ここは引用文です。</pre>
             </div>
             <div>
               <strong style="color: var(--md-sys-color-primary);">■ コードの表示</strong>
-              <pre style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">`inline code` のように囲むか、&#10;```&#10;複数行のブロックコード&#10;```&#10;のように記述します。</pre>
+              <pre
+                style="background: var(--md-sys-color-surface-container-high); padding: 6px 10px; border-radius: 6px; font-family: monospace; margin: 4px 0 0 0; white-space: pre-wrap;">`inline code` のように囲むか、&#10;```&#10;複数行のブロックコード&#10;```&#10;のように記述します。</pre>
             </div>
           </div>
         </div>
@@ -3410,8 +3426,9 @@
           <div class="settings-group-title">プロフィール設定</div>
 
           <div class="settings-row">
-            <label for="settings-username">ユーザー名（ニックネーム / 30文字以内）</label>
-            <input type="text" id="settings-username" class="form-input" placeholder="例: 都市大太郎" maxlength="30" oninput="autoSaveProfile()" />
+            <label for="settings-username">ユーザー名（ニックネーム / 30文字以内推奨）</label>
+            <input type="text" id="settings-username" class="form-input" placeholder="例: 都市大太郎" maxlength="30"
+              oninput="autoSaveProfile()" />
           </div>
 
           <div class="settings-row">
@@ -3423,8 +3440,9 @@
           </div>
 
           <div class="settings-row">
-            <label for="settings-faculty">学部・学科（30文字以内）</label>
-            <input type="text" id="settings-faculty" class="form-input" placeholder="例: デザイン・データ科学部" maxlength="30" oninput="autoSaveProfile()" />
+            <label for="settings-faculty">学部・学科（30文字以内推奨）</label>
+            <input type="text" id="settings-faculty" class="form-input" placeholder="例: デザイン・データ科学部" maxlength="30"
+              oninput="autoSaveProfile()" />
           </div>
 
           <div class="settings-row">
@@ -3442,18 +3460,20 @@
 
           <div class="settings-row">
             <label for="settings-student-id">学籍番号</label>
-            <input type="text" id="settings-student-id" class="form-input" placeholder="例: G23xxxxx" oninput="autoSaveProfile()" />
+            <input type="text" id="settings-student-id" class="form-input" placeholder="例: 23xxxxx"
+              oninput="autoSaveProfile()" />
           </div>
 
           <div class="settings-row">
             <label for="settings-email">メールアドレス</label>
-            <input type="email" id="settings-email" class="form-input" placeholder="例: g23xxxxx@tcu.ac.jp" oninput="autoSaveProfile()" />
+            <input type="email" id="settings-email" class="form-input" placeholder="例: g20xxxxx@tcu.ac.jp"
+              oninput="autoSaveProfile()" />
           </div>
 
           <div class="settings-row">
-            <label for="settings-bio">自己紹介（部活・団体名など / 200文字以内）</label>
+            <label for="settings-bio">自己紹介（部活・団体名など / 200文字以内推奨）</label>
             <textarea id="settings-bio" class="form-input" style="height: 80px; resize: vertical; font-family: inherit;"
-              placeholder="例: 世田谷キャンパスの吹奏楽団に所属しています！" maxlength="200" oninput="autoSaveProfile()"></textarea>
+              placeholder="例: ◯◯キャンパスの◯◯◯に所属しています！" maxlength="200" oninput="autoSaveProfile()"></textarea>
           </div>
         </div>
 
@@ -3486,11 +3506,13 @@
         <button class="btn btn-outline" onclick="triggerImportAllJSON()" style="height: 40px; border-radius: 20px;">
           <span class="material-symbols-outlined">publish</span>データをインポート (JSON)
         </button>
-        <input type="file" id="importAllFileInput" accept=".json" style="display: none;" onchange="importAllDataJSON(event)" />
+        <input type="file" id="importAllFileInput" accept=".json" style="display: none;"
+          onchange="importAllDataJSON(event)" />
       </div>
 
       <!-- 共有用アドバイス -->
-      <div class="share-helper-box" id="settingsShareHelperBox" style="display: none; margin-bottom: 24px; max-width: 600px;">
+      <div class="share-helper-box" id="settingsShareHelperBox"
+        style="display: none; margin-bottom: 24px; max-width: 600px;">
         <h4 class="share-helper-title">
           <span class="material-symbols-outlined">ios_share</span>他の端末や友人とデータを共有しよう
         </h4>
@@ -3508,10 +3530,14 @@
       </div>
 
       <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-        <button class="btn btn-outline" style="height: 40px; border-radius: 20px; color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);" onclick="resetTimetableData()">
+        <button class="btn btn-outline"
+          style="height: 40px; border-radius: 20px; color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);"
+          onclick="resetTimetableData()">
           <span class="material-symbols-outlined">delete_forever</span>時間割のみリセット
         </button>
-        <button class="btn btn-outline" style="height: 40px; border-radius: 20px; color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);" onclick="resetAllData()">
+        <button class="btn btn-outline"
+          style="height: 40px; border-radius: 20px; color: var(--md-sys-color-error); border-color: var(--md-sys-color-error);"
+          onclick="resetAllData()">
           <span class="material-symbols-outlined">delete_forever</span>すべてのデータをリセット
         </button>
       </div>
@@ -3524,49 +3550,90 @@
         <span class="material-symbols-outlined" style="font-size: 24px;">info</span>openTCUとは
       </h2>
 
-      <div class="material-card" style="padding: 24px; display: flex; flex-direction: column; gap: 20px; border-radius: 16px; margin-bottom: 24px;">
-        <div>
-          <h3 style="margin-top: 0; margin-bottom: 8px; font-size: 16px; font-weight: 600; color: var(--md-sys-color-primary);">完全オフライン構造</h3>
-          <p style="margin: 0; font-size: 13px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant);">
-            openTCUは、一切のサーバー通信を行わず、データを取得・蓄積しない**完全オフライン構造**です。
-            あなたが登録した時間割やプロフィール、メモ帳などのあらゆる個人データは、すべてあなたの端末のブラウザ（LocalStorage）にのみ安全に保存されます。<br>
-            運営側は、皆さんの入力データ、利用履歴などを一切保持・取得していません。
-          </p>
+      <!-- 2x2グリッドで4つの説明を表示 -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 24px;">
+        
+        <!-- 完全オフライン構造 -->
+        <div class="material-card" style="padding: 20px; display: flex; flex-direction: column; gap: 12px; border-radius: 16px; box-sizing: border-box;">
+          <!-- 挿絵用プレースホルダー -->
+          <div class="about-illustration-box" style="width: 100%; height: 130px; border-radius: 12px; background-color: var(--md-sys-color-surface-container-high); border: 2px dashed var(--md-sys-color-outline-variant); display: flex; align-items: center; justify-content: center; color: var(--md-sys-color-outline); font-size: 12px; font-weight: 500;">
+            [ ここに挿絵を追加予定 ]
+          </div>
+          <div>
+            <h3 style="margin-top: 0; margin-bottom: 8px; font-size: 15px; font-weight: 600; color: var(--md-sys-color-primary);">完全オフライン構造</h3>
+            <p style="margin: 0; font-size: 12px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant);">
+              openTCUは、一切のサーバー通信を行わず、データを取得・蓄積しない **完全オフライン構造** です。
+              あなたが登録した時間割やプロフィール、メモ帳などのあらゆる個人データは、すべてあなたの端末のブラウザ（LocalStorage）にのみ安全に保存されます。<br>
+              openTCU運営は、あなたの入力データ、利用履歴などを一切保持・取得していません。そもそも取得する方法を設けていませんしね。
+            </p>
+          </div>
         </div>
 
-        <div>
-          <h3 style="margin-top: 0; margin-bottom: 8px; font-size: 16px; font-weight: 600; color: var(--md-sys-color-primary);">データの自己管理のお願い</h3>
-          <p style="margin: 0; font-size: 13px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant);">
-            データがサーバーではなくローカルにしか存在しないため、ブラウザのキャッシュ消去や履歴の初期化を行うと、登録されたデータも同時に消去されます。
-            大切なデータは、定期的に「設定」画面下部から**「すべてのデータを出力 (JSON)」**してご自身でバックアップを取るようお願いいたします。
-          </p>
+        <!-- データの自己管理のお願い -->
+        <div class="material-card" style="padding: 20px; display: flex; flex-direction: column; gap: 12px; border-radius: 16px; box-sizing: border-box;">
+          <!-- 挿絵用プレースホルダー -->
+          <div class="about-illustration-box" style="width: 100%; height: 130px; border-radius: 12px; background-color: var(--md-sys-color-surface-container-high); border: 2px dashed var(--md-sys-color-outline-variant); display: flex; align-items: center; justify-content: center; color: var(--md-sys-color-outline); font-size: 12px; font-weight: 500;">
+            [ ここに挿絵を追加予定 ]
+          </div>
+          <div>
+            <h3 style="margin-top: 0; margin-bottom: 8px; font-size: 15px; font-weight: 600; color: var(--md-sys-color-primary);">データの自己管理のお願い</h3>
+            <p style="margin: 0; font-size: 12px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant);">
+              データがサーバーではなくローカルにしか存在しないため、ブラウザのキャッシュ消去や履歴の初期化を行うと、登録されたデータも同時に消去されます。
+              大切なデータは、定期的に「設定」画面下部から「すべてのデータを出力 (JSON)」してご自身でバックアップを取るようお願いいたします。
+              泣きついても、こちらにはデータがないので何もできません...。
+            </p>
+          </div>
         </div>
 
-        <div>
-          <h3 style="margin-top: 0; margin-bottom: 8px; font-size: 16px; font-weight: 600; color: var(--md-sys-color-primary);">情報の正確性について</h3>
-          <p style="margin: 0; font-size: 13px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant);">
-            学食メニューやバスの時刻表、外部リンクなど、openTCUに掲載されている情報はあくまで「参考情報」としてご利用ください。
-            変更されている場合や誤りがある可能性もありますので、重要なスケジュールや公式な手続き等は、必ず大学公式の「Webシステム」や案内掲示板をご確認ください。
-          </p>
+        <!-- 情報の正確性について -->
+        <div class="material-card" style="padding: 20px; display: flex; flex-direction: column; gap: 12px; border-radius: 16px; box-sizing: border-box;">
+          <!-- 挿絵用プレースホルダー -->
+          <div class="about-illustration-box" style="width: 100%; height: 130px; border-radius: 12px; background-color: var(--md-sys-color-surface-container-high); border: 2px dashed var(--md-sys-color-outline-variant); display: flex; align-items: center; justify-content: center; color: var(--md-sys-color-outline); font-size: 12px; font-weight: 500;">
+            [ ここに挿絵を追加予定 ]
+          </div>
+          <div>
+            <h3 style="margin-top: 0; margin-bottom: 8px; font-size: 15px; font-weight: 600; color: var(--md-sys-color-primary);">情報の正確性について</h3>
+            <p style="margin: 0; font-size: 12px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant);">
+              学食メニューやバスの時刻表、外部リンクなど、openTCUに掲載されている情報はあくまで「参考情報」としてご利用ください。
+              変更されている場合や誤りがある可能性もありますので、重要なスケジュールや公式な手続き等は、必ず大学の公式システムや案内掲示板をご確認ください。
+            </p>
+          </div>
         </div>
 
-        <div>
-          <h3 style="margin-top: 0; margin-bottom: 8px; font-size: 16px; font-weight: 600; color: var(--md-sys-color-primary);">開発と運営体制</h3>
-          <p style="margin: 0; font-size: 13px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant);">
-            このサイトは大学非公認の有志ファンサイトです。使用に伴ういかなる損害・不利益についても、運営は一切の責任を負いかねます。自己責任でご使用ください。<br>
-            なお、本アプリのコードはすべて最先端の**生成AI（Google DeepMind Antigravity）**を用いて自動生成されています。AIが苦手な方や拒絶感のある方はご利用をお控えいただくのが良いかもしれません。
-          </p>
+        <!-- 開発と運営体制 -->
+        <div class="material-card" style="padding: 20px; display: flex; flex-direction: column; gap: 12px; border-radius: 16px; box-sizing: border-box;">
+          <!-- 挿絵用プレースホルダー -->
+          <div class="about-illustration-box" style="width: 100%; height: 130px; border-radius: 12px; background-color: var(--md-sys-color-surface-container-high); border: 2px dashed var(--md-sys-color-outline-variant); display: flex; align-items: center; justify-content: center; color: var(--md-sys-color-outline); font-size: 12px; font-weight: 500;">
+            [ ここに挿絵を追加予定 ]
+          </div>
+          <div>
+            <h3 style="margin-top: 0; margin-bottom: 8px; font-size: 15px; font-weight: 600; color: var(--md-sys-color-primary);">開発と運営体制</h3>
+            <p style="margin: 0; font-size: 12px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant);">
+              このサイトは大学非公認の有志運営のサイトです。使用に伴ういかなる損害・不利益についても、運営は一切の責任を負いかねます。自己責任でご使用ください。<br>
+              なお、本アプリのコードはすべて生成AI（Google DeepMind Antigravity）を用いて自動生成されています。AIが苦手な方や拒絶感のある方はご利用をお控えいただくのが良いかもしれません。
+            </p>
+          </div>
         </div>
+
       </div>
 
       <div class="material-card" style="padding: 24px; border-radius: 16px;">
-        <h3 style="margin-top: 0; margin-bottom: 12px; font-size: 15px; font-weight: 600; color: var(--md-sys-color-error); display: flex; align-items: center; gap: 6px;">
+        <h3
+          style="margin-top: 0; margin-bottom: 12px; font-size: 15px; font-weight: 600; color: var(--md-sys-color-error); display: flex; align-items: center; gap: 6px;">
           <span class="material-symbols-outlined">gavel</span>簡易利用規約 & プライバシーポリシー
         </h3>
-        <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant); display: flex; flex-direction: column; gap: 8px;">
-          <li><strong>違法行為の禁止:</strong> 本サイトの運営を妨げる行為や、不正なスクリプトを用いたサーバーやホスティングへのハッキング（DDOS攻撃等）は行わないでください（※サイトは静的ファイルホスティング上で動作しています）。</li>
-          <li><strong>自己責任の原則:</strong> 本サイトからダウンロードしたJSONや画像等のデータの取り扱い、および本サイト内の機能（外部への時間割ファイル受け渡しなど）は、利用者の自己の責任において行ってください。</li>
-          <li><strong>個人情報の不保持:</strong> 運営は一切の個人情報・履歴情報を取得・収集しません。</li>
+        <p
+          style="margin: 0 0 12px 0; font-size: 13px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant);">
+          昨今の利用規約は長すぎます。読みたくないでしょう？ということで、最低限とします。
+        </p>
+        <ul
+          style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant); display: flex; flex-direction: column; gap: 8px;">
+          <li><strong>違法行為の禁止:</strong>
+            本サイトの運営を妨げる行為や、不正なスクリプトを用いたサーバーやホスティングへのハッキング（DDOS攻撃等）は行わないでください（あなたがGitHubに怒られてしまいます）。</li>
+          <li><strong>自己責任の原則:</strong>
+            本サイトからダウンロードしたJSONや画像等のデータの取り扱い、および本サイト内の機能（外部への時間割ファイル受け渡しなど）は、利用者自身の責任において行ってください。</li>
+          <li><strong>個人情報の不保持:</strong>
+            openTCU運営は一切の個人情報・履歴情報を取得・収集しません。アクセス履歴くらいならGitHub運営が持ってる可能性はありますけどね。</li>
         </ul>
       </div>
     </section>
@@ -3608,9 +3675,11 @@
         </div>
 
         <!-- 対開講スロットコンテナ -->
-        <div id="linkedSlotsContainer" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;"></div>
-        
-        <button type="button" class="btn btn-outline" onclick="addLinkedSlotRow()" style="height: 32px; padding: 4px 12px; font-size: 11px; margin-bottom: 16px; border-radius: 16px; display: inline-flex; align-items: center; gap: 4px; border-color: var(--md-sys-color-outline);">
+        <div id="linkedSlotsContainer" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+        </div>
+
+        <button type="button" class="btn btn-outline" onclick="addLinkedSlotRow()"
+          style="height: 32px; padding: 4px 12px; font-size: 11px; margin-bottom: 16px; border-radius: 16px; display: inline-flex; align-items: center; gap: 4px; border-color: var(--md-sys-color-outline);">
           <span class="material-symbols-outlined" style="font-size: 14px;">add</span>対開講（別曜日・時限）を追加
         </button>
 
@@ -4503,6 +4572,15 @@
       const daySel = document.createElement('select');
       daySel.className = 'form-control linked-day';
       daySel.style.flex = '1';
+
+      // デフォルトの未選択オプション
+      const optDefaultDay = document.createElement('option');
+      optDefaultDay.value = "";
+      optDefaultDay.textContent = "曜日を選択";
+      optDefaultDay.disabled = true;
+      optDefaultDay.selected = !dayVal;
+      daySel.appendChild(optDefaultDay);
+
       const days = [
         { v: 'mon', n: '月曜日' },
         { v: 'tue', n: '火曜日' },
@@ -4523,7 +4601,15 @@
       const periodSel = document.createElement('select');
       periodSel.className = 'form-control linked-period';
       periodSel.style.flex = '1';
-      
+
+      // デフォルトの未選択オプション
+      const optDefaultPeriod = document.createElement('option');
+      optDefaultPeriod.value = "";
+      optDefaultPeriod.textContent = "時限を選択";
+      optDefaultPeriod.disabled = true;
+      optDefaultPeriod.selected = !periodVal;
+      periodSel.appendChild(optDefaultPeriod);
+
       const activeSheet = timetables.find(t => t.id === activeTimetableId);
       const isExam = activeSheet && !!activeSheet.isExamMode;
       const maxPeriod = isExam ? 6 : 5;
@@ -4664,7 +4750,10 @@
 
       linkedRows.forEach(row => {
         const d = row.querySelector('.linked-day').value;
-        const p = parseInt(row.querySelector('.linked-period').value, 10);
+        const pVal = row.querySelector('.linked-period').value;
+        if (!d || !pVal) return; // 未選択のスロットはスキップ
+        
+        const p = parseInt(pVal, 10);
         // 重複チェック
         if (!slots.some(s => s.day === d && s.period === p)) {
           slots.push({ day: d, period: p });
@@ -5106,134 +5195,6 @@
       }
 
       openTimetableAddModal(day, period);
-    }
-
-    // モーダルを開く
-    function openTimetableAddModal(day, period) {
-      const modal = document.getElementById('timetableModalOverlay');
-      const title = document.getElementById('timetableModalTitle');
-      const daySelect = document.getElementById('modal-day');
-      const periodSelect = document.getElementById('modal-period');
-
-      const subjectInput = document.getElementById('modal-subject');
-      const teacherInput = document.getElementById('modal-teacher');
-      const roomInput = document.getElementById('modal-room');
-      const notesInput = document.getElementById('modal-notes');
-      const emptyCheck = document.getElementById('modal-empty-slot');
-
-      // 6限のoption要素を制御（定期試験モードなら6限を追加）
-      let opt6 = periodSelect.querySelector('option[value="6"]');
-      const activeSheet = timetables.find(t => t.id === activeTimetableId);
-      const isExam = activeSheet && !!activeSheet.isExamMode;
-
-      if (isExam) {
-        if (!opt6) {
-          opt6 = document.createElement('option');
-          opt6.value = "6";
-          opt6.textContent = "6限";
-          periodSelect.appendChild(opt6);
-        }
-      } else {
-        if (opt6) {
-          opt6.remove();
-        }
-      }
-
-      // リセット
-      subjectInput.value = "";
-      teacherInput.value = "";
-      roomInput.value = "";
-      notesInput.value = "";
-      emptyCheck.checked = false;
-
-      // 曜日・時限のセレクトボックスは常に編集可能にしておく（ユーザー選択可能仕様）
-      daySelect.disabled = false;
-      periodSelect.disabled = false;
-
-      if (day && period) {
-        // 特定コマクリック時
-        daySelect.value = day;
-        periodSelect.value = period;
-
-        const entry = timetableData[`${day}-${period}`];
-        if (entry) {
-          title.textContent = "授業を編集";
-          subjectInput.value = entry.subject || "";
-          teacherInput.value = entry.teacher || "";
-          roomInput.value = entry.room || "";
-          notesInput.value = entry.notes || "";
-          emptyCheck.checked = !!entry.isEmptySlot;
-        } else {
-          title.textContent = "授業を追加";
-        }
-      } else {
-        // 右上「授業を追加」ボタンクリック時
-        daySelect.value = "mon";
-        periodSelect.value = "1";
-        title.textContent = "授業を追加";
-      }
-
-      // 空きコマ状態に連動してフィールドの有効・無効化を適用
-      toggleModalFieldsForEmptySlot();
-
-      modal.classList.add('show');
-    }
-
-    // モーダルを閉じる
-    function closeTimetableModal() {
-      const modal = document.getElementById('timetableModalOverlay');
-      modal.classList.remove('show');
-    }
-
-    // 保存する
-    function saveTimetableEntry() {
-      const day = document.getElementById('modal-day').value;
-      const period = parseInt(document.getElementById('modal-period').value, 10);
-
-      const subject = document.getElementById('modal-subject').value.trim();
-      const teacher = document.getElementById('modal-teacher').value.trim();
-      const room = document.getElementById('modal-room').value.trim();
-      const notes = document.getElementById('modal-notes').value.trim();
-      const isEmptySlot = document.getElementById('modal-empty-slot').checked;
-
-      if (!isEmptySlot && !subject) {
-        alert("授業名を入力してください（または空きコマとして設定してください）。");
-        return;
-      }
-
-      const key = `${day}-${period}`;
-      timetableData[key] = {
-        subject: isEmptySlot ? "" : subject,
-        teacher: isEmptySlot ? "" : teacher,
-        room: isEmptySlot ? "" : room,
-        notes: isEmptySlot ? "" : notes,
-        isEmptySlot: isEmptySlot
-      };
-
-      try {
-        saveTimetablesToStorage();
-      } catch (e) {
-        console.error("Failed to save timetable to localStorage:", e);
-      }
-
-      renderTimetable();
-      closeTimetableModal();
-    }
-
-    // 削除する
-    function deleteTimetableEntry(day, period) {
-      const key = `${day}-${period}`;
-      const entry = timetableData[key];
-      if (!entry) return;
-
-      const displayName = entry.isEmptySlot ? "空きコマ" : (entry.subject || "この授業");
-      if (confirm(`「${displayName}」を時間割から削除しますか？`)) {
-        delete timetableData[key];
-        try {
-          saveTimetablesToStorage();
-        } catch (e) { }
-        renderTimetable();
-      }
     }
 
     // 画像エクスポート (html2canvas)
