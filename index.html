@@ -312,7 +312,19 @@
       flex-direction: column;
       gap: 4px;
       flex: 1;
-      overflow: hidden;
+      overflow-y: auto;
+      min-height: 0;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+
+    .nav-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .nav-list::-webkit-scrollbar-thumb {
+      background-color: var(--md-sys-color-outline-variant);
+      border-radius: 4px;
     }
 
     .nav-item {
@@ -1664,6 +1676,22 @@
       border-radius: 12px;
       letter-spacing: 6px;
       border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    /* Q&A アコーディオン */
+    .qa-item {
+      background-color: var(--md-sys-color-surface-container);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      transition: all 0.2s;
+    }
+    .qa-item:hover {
+      background-color: var(--md-sys-color-surface-container-high);
+    }
+    details summary::-webkit-details-marker {
+      display: none;
+    }
+    details[open] .qa-chevron {
+      transform: rotate(180deg);
     }
 
     /* === レスポンシブ対応 === */
@@ -4007,10 +4035,15 @@
 
     <!-- openTCUとは（説明書・利用規約） -->
     <section id="view-about" class="view-section">
-      <h2
-        style="margin-top:0; font-weight:600; font-size:20px; color: var(--md-sys-color-on-background); display: flex; align-items: center; gap: 8px;">
-        <span class="material-symbols-outlined" style="font-size: 24px;">info</span>openTCUとは
-      </h2>
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; width: 100%;">
+        <h2
+          style="margin: 0; font-weight: 600; font-size: 20px; color: var(--md-sys-color-on-background); display: flex; align-items: center; gap: 8px;">
+          <span class="material-symbols-outlined" style="font-size: 24px;">info</span>openTCUとは
+        </h2>
+        <button class="btn btn-tonal" onclick="switchView('qa')" style="padding: 6px 16px; font-size: 13px; border-radius: 8px; height: 36px;">
+          <span class="material-symbols-outlined" style="font-size: 18px;">help</span>よくある質問 (Q&A) はこちら
+        </button>
+      </div>
 
       <!-- 2x2グリッドで4つの説明を表示 -->
       <div
@@ -4401,6 +4434,18 @@
       </div>
     </section>
 
+    <!-- Q&A 画面 -->
+    <section id="view-qa" class="view-section">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; width: 100%;">
+        <h2 style="margin: 0; font-weight: 600; font-size: 20px; color: var(--md-sys-color-on-background); display: flex; align-items: center; gap: 8px;">
+          <span class="material-symbols-outlined" style="font-size: 24px;">help</span>よくある質問 (Q&A)
+        </h2>
+      </div>
+
+      <!-- アコーディオン式質問リスト -->
+      <div id="qa-list-container" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+        <p style="color: var(--md-sys-color-outline);">質問データを読み込み中...</p>
+      </div>
     </section>
 
     <!-- ページ下部フッター -->
@@ -4415,16 +4460,25 @@
         <span style="color: var(--md-sys-color-outline-variant);">|</span>
         <button onclick="switchView('about', document.getElementById('nav-about'))"
           style="background: none; border: none; font-size: 12px; font-weight: 600; color: var(--md-sys-color-primary); cursor: pointer; text-decoration: none;">openTCUとは</button>
+        <span style="color: var(--md-sys-color-outline-variant);">|</span>
+        <button onclick="switchView('qa')"
+          style="background: none; border: none; font-size: 12px; font-weight: 600; color: var(--md-sys-color-primary); cursor: pointer; text-decoration: none;">Q&A</button>
       </div>
 
       <div style="font-size: 11px; color: var(--md-sys-color-on-surface-variant); line-height: 1.5; max-width: 500px;">
         当サイトは東京都市大学の非公式ポータルサイトです。掲載されている情報は正確性を保証するものではありません。公式なスケジュール等は大学公式の案内をご確認ください。
       </div>
 
-      <button class="btn btn-outline" id="btnPwaInstall" onclick="handlePwaInstallClick()"
-        style="height: 32px; padding: 4px 14px; font-size: 11px; border-radius: 16px; display: inline-flex; align-items: center; gap: 6px; border-color: var(--md-sys-color-outline);">
-        <span class="material-symbols-outlined" style="font-size: 16px;">install_mobile</span>ホーム画面に追加する
-      </button>
+      <div style="display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap;">
+        <button class="btn btn-outline" id="btnPwaInstall" onclick="handlePwaInstallClick()"
+          style="height: 32px; padding: 4px 14px; font-size: 11px; border-radius: 16px; display: inline-flex; align-items: center; gap: 6px; border-color: var(--md-sys-color-outline);">
+          <span class="material-symbols-outlined" style="font-size: 16px;">install_mobile</span>ホーム画面に追加する
+        </button>
+        <a class="btn btn-outline" href="https://github.com/Sesame-k0/openTCU" target="_blank" rel="noopener noreferrer"
+          style="height: 32px; padding: 4px 14px; font-size: 11px; border-radius: 16px; display: inline-flex; align-items: center; gap: 6px; border-color: var(--md-sys-color-outline); text-decoration: none; color: inherit;">
+          <span class="material-symbols-outlined" style="font-size: 16px;">code</span>GitHub (オープンソース)
+        </a>
+      </div>
 
       <div
         style="font-size: 10px; color: var(--md-sys-color-outline); margin-top: 4px; font-family: 'Outfit', sans-serif;">
@@ -6338,6 +6392,8 @@
         try { updateTimerGiantUI(); } catch (e) { console.error("Error updating timer giant:", e); }
       } else if (viewId === 'toolbox-clock') {
         try { updateClockGiantUI(); } catch (e) { console.error("Error updating clock giant:", e); }
+      } else if (viewId === 'qa') {
+        try { loadAndRenderQA(); } catch (e) { console.error("Error loading QA:", e); }
       }
 
       if (window.innerWidth < 1024) {
@@ -9824,6 +9880,42 @@
       updateTimerUI();
       updateSystemClock();
       updateCounterUI();
+    }
+
+    async function loadAndRenderQA() {
+      const container = document.getElementById('qa-list-container');
+      if (!container) return;
+
+      try {
+        const response = await fetch('qa.json');
+        if (!response.ok) throw new Error('Failed to fetch QA data');
+        const data = await response.json();
+
+        let html = "";
+        data.forEach(item => {
+          html += `
+            <details class="material-card qa-item" style="padding: 0; border-radius: 16px; overflow: hidden; box-sizing: border-box; cursor: pointer;">
+              <summary style="padding: 16px 20px; font-weight: 600; font-size: 14.5px; color: var(--md-sys-color-on-surface); display: flex; align-items: center; justify-content: space-between; outline: none; list-style: none; user-select: none;">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                  <span style="color: var(--md-sys-color-primary); font-weight: bold; font-size: 16px;">Q.</span>
+                  <span>${escapeHtml(item.q)}</span>
+                </span>
+                <span class="material-symbols-outlined qa-chevron" style="font-size: 20px; transition: transform 0.2s; color: var(--md-sys-color-outline);">expand_more</span>
+              </summary>
+              <div style="padding: 0 20px 16px 20px; font-size: 13px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant); cursor: default; border-top: 1px solid var(--md-sys-color-outline-variant); padding-top: 12px;">
+                <div style="display: flex; gap: 8px;">
+                  <span style="color: var(--md-sys-color-tertiary); font-weight: bold; font-size: 16px; flex-shrink: 0;">A.</span>
+                  <div>${item.a.replace(/\n/g, '<br>')}</div>
+                </div>
+              </div>
+            </details>
+          `;
+        });
+        container.innerHTML = html;
+      } catch (e) {
+        console.error("Error loading QA list:", e);
+        container.innerHTML = `<p style="color: var(--md-sys-color-error);">よくある質問の読み込みに失敗しました。</p>`;
+      }
     }
 
     function closeMemoHelpModal() {
